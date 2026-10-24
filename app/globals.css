@@ -1,26 +1,137 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-charcoal: #171717;
+  --color-ivory: #F8F5EF;
+  --color-red: #C62828;
+  --color-gold: #C7A56B;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #F8F5EF;
+  color: #171717;
+  font-family: var(--font-geist-sans), Georgia, serif;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Utility classes for brand colors */
+.bg-charcoal { background-color: #171717; }
+.bg-ivory { background-color: #F8F5EF; }
+.bg-brand-red { background-color: #C62828; }
+.bg-brand-gold { background-color: #C7A56B; }
+.text-charcoal { color: #171717; }
+.text-ivory { color: #F8F5EF; }
+.text-brand-red { color: #C62828; }
+.text-brand-gold { color: #C7A56B; }
+.border-brand-gold { border-color: #C7A56B; }
+.border-brand-red { border-color: #C62828; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #171717; }
+::-webkit-scrollbar-thumb { background: #C7A56B; border-radius: 3px; }
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.7s ease forwards; }
+.animate-fade-in { animation: fadeIn 0.6s ease forwards; }
+.animate-slide-in-left { animation: slideInLeft 0.7s ease forwards; }
+.animate-slide-in-right { animation: slideInRight 0.7s ease forwards; }
+.animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+
+/* Hero gradient overlay */
+.hero-overlay {
+  background: linear-gradient(135deg, rgba(23,23,23,0.90) 0%, rgba(198,40,40,0.25) 60%, rgba(23,23,23,0.60) 100%);
+}
+
+/* Gold shimmer text */
+.text-gold-shimmer {
+  background: linear-gradient(90deg, #C7A56B 0%, #F0D090 50%, #C7A56B 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Section separator */
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #C62828, #C7A56B);
+  border-radius: 2px;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Product image placeholder */
+.product-img-placeholder {
+  background: linear-gradient(135deg, #2C2C2C 0%, #171717 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Number ticker */
+.ticker-item {
+  font-variant-numeric: tabular-nums;
+}
+
