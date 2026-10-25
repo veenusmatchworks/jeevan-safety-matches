@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Gold Gradient for Match Flame & Accent -->
+    <linearGradient id="goldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D97706" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#FDE68A" />
+    </linearGradient>
+
+    <!-- Industrial Blue Gradient for Stems -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="60%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+
+    <!-- Deep Metallic Shield Gradient -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Subtle Glow Filter -->
+    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- LOGO ICON (Emblem on the Left) -->
+  <g transform="translate(15, 10)">
+    <!-- Outer Shield/Hexagon with soft border -->
+    <rect x="0" y="0" width="100" height="100" rx="24" fill="url(#shieldGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" />
+    <rect x="4" y="4" width="92" height="92" rx="20" fill="none" stroke="url(#goldGrad)" stroke-width="1" stroke-opacity="0.4" />
+
+    <!-- Left Wing of the 'V' (Industrial Pillar representing Manufacturing & Trust) -->
+    <path d="M 24 24 L 41 24 L 50 74 L 37 74 Z" fill="url(#blueGrad)" />
+
+    <!-- Right Wing of the 'V' (Dynamic Arrow / Road / Fleet Vector representing Transport) -->
+    <path d="M 76 24 L 59 24 L 50 74 L 63 74 Z" fill="url(#goldGrad)" />
+
+    <!-- Overlapping Center Apex / Matchbox Spark Flame (Golden Flame Spark) -->
+    <path d="M 50 20 C 44 32, 45 42, 50 50 C 55 42, 56 32, 50 20 Z" fill="#FFFFFF" filter="url(#subtleGlow)" />
+    <path d="M 50 24 C 46 33, 47 41, 50 48 C 53 41, 54 33, 50 24 Z" fill="url(#goldGrad)" />
+
+    <!-- Base Highway/Chevron Anchor (Fleet Connection) -->
+    <polygon points="35,82 50,71 65,82 50,77" fill="url(#goldGrad)" />
+  </g>
+
+  <!-- TYPOGRAPHY (Company Name & Subtitle) -->
+  <g transform="translate(135, 15)">
+    <!-- Brand Name: VEENUS -->
+    <text x="0" y="45" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="38" font-weight="900" letter-spacing="4" fill="#FFFFFF">
+      VEENUS
+    </text>
+
+    <!-- GROUP in Warm Amber Gold -->
+    <text x="195" y="45" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="38" font-weight="900" letter-spacing="4" fill="url(#goldGrad)">
+      GROUP
+    </text>
+
+    <!-- Est. Badge Line -->
+    <line x1="0" y1="58" x2="330" y2="58" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+    <circle cx="165" cy="58" r="3" fill="#F59E0B" />
+
+    <!-- Subtitle: MATCH WORKS &bull; TRANSPORTS &bull; LOGISTICS -->
+    <text x="0" y="78" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="11.5" font-weight="700" letter-spacing="3" fill="#94A3B8">
+      SAFETY MATCHES <tspan fill="#F59E0B">•</tspan> FREIGHT <tspan fill="#F59E0B">•</tspan> FLEET TRAVEL
+    </text>
+
+    <!-- Legacy Micro Tag -->
+    <text x="0" y="93" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" letter-spacing="2" fill="#64748B">
+      ESTABLISHED 1979 • SRIVILLIPUTHUR
+    </text>
+  </g>
+</svg>

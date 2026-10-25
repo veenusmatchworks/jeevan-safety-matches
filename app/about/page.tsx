@@ -66,8 +66,8 @@ export default function AboutPage() {
               <div>
                 <div className="relative h-56 w-full bg-slate-900 border-b border-white/10">
                   <Image
-                    src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
-                    alt="Veenus Matchbox Manufacturing Plant"
+                    src="/products/jeevan-veneer-matches.jpg"
+                    alt="JEEVAN Safety Matches by Veenus Match Works"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />

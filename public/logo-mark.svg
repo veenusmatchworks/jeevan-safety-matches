@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="markGold" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D97706" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#FDE68A" />
+    </linearGradient>
+
+    <linearGradient id="markBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="60%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+
+    <linearGradient id="markShield" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#090D16" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Shield Frame -->
+  <rect x="5" y="5" width="110" height="110" rx="28" fill="url(#markShield)" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+  <rect x="10" y="10" width="100" height="100" rx="24" fill="none" stroke="url(#markGold)" stroke-width="1.5" stroke-opacity="0.5" />
+
+  <!-- The Bold Geometric 'V' Monogram -->
+  <!-- Left Pillar (Manufacturing / Solidity) -->
+  <path d="M 32 30 L 51 30 L 60 88 L 46 88 Z" fill="url(#markBlue)" />
+
+  <!-- Right Wing / Chevron (Fleet Velocity / Momentum) -->
+  <path d="M 88 30 L 69 30 L 60 88 L 74 88 Z" fill="url(#markGold)" />
+
+  <!-- Center Matchbox Spark / Sacred Flame Apex -->
+  <path d="M 60 22 C 53 36, 54 48, 60 58 C 66 48, 67 36, 60 22 Z" fill="#FFFFFF" opacity="0.9" />
+  <path d="M 60 27 C 55 38, 56 46, 60 54 C 64 46, 65 38, 60 27 Z" fill="url(#markGold)" />
+
+  <!-- Lower Highway Anchor -->
+  <polygon points="44,98 60,86 76,98 60,92" fill="url(#markGold)" />
+</svg>

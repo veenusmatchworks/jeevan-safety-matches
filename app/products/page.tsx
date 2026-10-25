@@ -9,7 +9,8 @@ import {
   CheckCircle2,
   Filter,
   ShieldCheck,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
 import { VEENUS_MATCH_PRODUCTS, COMPANY_CONTACT, MatchProduct } from '@/lib/data';
 
@@ -21,7 +22,7 @@ export default function ProductsPage() {
     'Veneer Safety Matches',
     'Cardboard Safety Matches',
     'Wax Matches',
-    'Wholesale & Export Cartons'
+    'Match Splints & Sticks'
   ];
 
   const filtered = VEENUS_MATCH_PRODUCTS.filter((item) => {
@@ -43,13 +44,13 @@ export default function ProductsPage() {
           <div className="max-w-3xl space-y-3">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400">
               <Flame className="w-4 h-4" />
-              <span>Veenus Match Works &bull; Established 1979 &bull; Srivilliputhur</span>
+              <span>Veenus Match Works &bull; Makers of JEEVAN Safety Matches &bull; Est. 1979</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-              Safety Matchbox Catalogue
+              Safety Matchbox Products Catalogue
             </h1>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Precision-manufactured safety matchboxes designed with moisture-proof veneers, carbonized wooden splints, and safe friction strike coatings. Available for wholesalers, commercial distributors, and export shipping.
+              Featuring our flagship <strong>JEEVAN</strong> safety matches. Outer shells made of sturdy wood veneers that are moisture proof and stay rigid in wet fields without collapsing, alongside high-grade carbonized cardboard matches and weatherproof wax matches.
             </p>
           </div>
 
@@ -125,7 +126,7 @@ export default function ProductsPage() {
 
                   <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
                     <div>
-                      <span className="text-slate-400">Standard Pack:</span>{' '}
+                      <span className="text-slate-400">Packaging:</span>{' '}
                       <strong className="text-slate-200">{prod.unit}</strong>
                     </div>
                     <div className="text-emerald-400 font-bold">
@@ -144,7 +145,7 @@ export default function ProductsPage() {
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-semibold text-xs transition-colors hover:scale-101"
                 >
                   <MessageCircle className="w-4 h-4 fill-current" />
-                  <span>Order / Inquire on WhatsApp</span>
+                  <span>Inquire / Order on WhatsApp</span>
                 </a>
               </div>
             </div>
@@ -154,9 +155,9 @@ export default function ProductsPage() {
         {/* Wholesale Inquiries Note */}
         <div className="glass-panel p-6 sm:p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10">
           <div className="space-y-1 text-center md:text-left">
-            <h4 className="text-base font-bold text-white">Need Custom Matchbox Branding or Bulk Export Inquiries?</h4>
+            <h4 className="text-base font-bold text-white">Looking for Bulk JEEVAN Matchbox Cartons or Bales?</h4>
             <p className="text-xs text-slate-400">
-              We supply custom private-label matches and container-load consignments worldwide.
+              We supply direct factory consignments to distributors, retail super stockists, and export freight carriers.
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">

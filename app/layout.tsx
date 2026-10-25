@@ -22,6 +22,11 @@ export const metadata: Metadata = {
     "Veenus Match Works & Transports — Premier safety matchbox manufacturing and commercial fleet logistics based in Srivilliputhur, Tamil Nadu. Veneer matches, cardboard matches, heavy freight lorries, mini delivery vans, and passenger tourist coaches.",
   keywords:
     "veenus match works, veenus group, safety matches srivilliputhur, veneer matches, cardboard matches, freight lorries tamil nadu, omni van transport, tourist bus booking",
+  icons: {
+    icon: '/logo-mark.svg',
+    shortcut: '/logo-mark.svg',
+    apple: '/logo-mark.svg',
+  },
 };
 
 export default function RootLayout({

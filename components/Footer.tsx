@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Phone, MessageCircle, Mail, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
 import { COMPANY_CONTACT } from '@/lib/data';
+import { VeenusLogo } from '@/components/VeenusLogo';
 
 export const Footer = () => {
   const whatsappUrl = `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
@@ -50,19 +51,9 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: Company Profile */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-300 text-slate-950 flex items-center justify-center font-black text-xl shadow-lg shadow-amber-500/20">
-                V
-              </div>
-              <div>
-                <span className="font-extrabold text-white text-lg block leading-none tracking-tight">
-                  VEENUS GROUP
-                </span>
-                <span className="text-[11px] text-amber-400 font-medium tracking-wide">
-                  Established 1979 &bull; Srivilliputhur
-                </span>
-              </div>
-            </div>
+            <Link href="/" className="inline-block">
+              <VeenusLogo variant="full" size="sm" />
+            </Link>
 
             <p className="text-xs text-slate-400 leading-relaxed">
               Prominent safety matchbox manufacturer and trusted transport logistics fleet operator. Serving wholesalers, commercial distributors, and travelers across South India with over four decades of proven quality.

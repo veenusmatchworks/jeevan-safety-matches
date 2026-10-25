@@ -16,6 +16,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { COMPANY_CONTACT } from '@/lib/data';
+import { VeenusLogo } from '@/components/VeenusLogo';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -75,23 +76,8 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3.5 group">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-300 text-slate-950 flex items-center justify-center font-black text-xl shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
-              V
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-white group-hover:text-amber-300 transition-colors">
-                  VEENUS GROUP
-                </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                  EST. 1979
-                </span>
-              </div>
-              <span className="text-[11px] font-medium text-slate-400 tracking-wider uppercase">
-                Safety Matches &bull; Fleet Transports &bull; Logistics
-              </span>
-            </div>
+          <Link href="/" className="flex items-center">
+            <VeenusLogo variant="full" size="md" />
           </Link>
 
           {/* Desktop Nav Links */}

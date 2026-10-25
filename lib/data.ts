@@ -2,7 +2,7 @@ export interface MatchProduct {
   id: string;
   name: string;
   code: string;
-  category: 'Veneer Safety Matches' | 'Cardboard Safety Matches' | 'Wax Matches' | 'Wholesale & Export Cartons';
+  category: 'Veneer Safety Matches' | 'Cardboard Safety Matches' | 'Wax Matches' | 'Match Splints & Sticks' | 'Wholesale & Export Cartons';
   unit: string;
   priceEstimate: string;
   sticksPerBox: number;
@@ -25,75 +25,75 @@ export interface TransportVehicle {
 export const VEENUS_MATCH_PRODUCTS: MatchProduct[] = [
   {
     id: 'vm-01',
-    name: 'Veneer Safety Matches',
-    code: 'VMW-VEN-01',
+    name: 'Jeevan Veneer Safety Matches',
+    code: 'VMW-JEV-01',
     category: 'Veneer Safety Matches',
-    unit: '100 Boxes / Pack',
-    priceEstimate: 'Wholesale Tier Rate',
+    unit: '100 Boxes / Pack (Wholesale Bales Available)',
+    priceEstimate: 'Ask For Wholesale Price',
     sticksPerBox: 45,
-    description: 'Rigid natural wood veneer outer shell built to resist high humidity, damp fields, and tough transit without collapsing. Smooth single-strike ignition.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
-    highlight: 'Damp Proof Veneer • Single Strike Glow'
+    description: 'Matches specially manufactured for wet fields and humid conditions. The outer shell is made of sturdy wood veneers that are moisture proof and stay rigid without collapsing. Smooth single-strike ignition.',
+    image: '/products/jeevan-veneer-matches.jpg',
+    highlight: 'Moisture Proof Outer Shell • Built for Wet Fields'
   },
   {
     id: 'vm-02',
-    name: 'Cardboard Safety Matches',
-    code: 'VMW-CRD-02',
+    name: 'Jeevan Cardboard Safety Matches',
+    code: 'VMW-JEV-02',
     category: 'Cardboard Safety Matches',
     unit: '100 Boxes / Pack',
-    priceEstimate: 'Factory Direct Price',
+    priceEstimate: 'Ask For Wholesale Price',
     sticksPerBox: 45,
-    description: 'High-grade duplex board box with carbonized splints and safe chemical friction coating. Smooth spark-free ignition with zero afterglow.',
-    image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800',
-    highlight: 'Carbonized Splints • Zero Afterglow'
+    description: 'Manufactured with high-grade duplex board and premium carbonized wooden splints. Sealed tightly to prevent dampness, with smooth friction side coating for reliable spark-free ignition.',
+    image: '/products/jeevan-cardboard-matches.jpg',
+    highlight: 'High Grade Duplex Board • Zero Afterglow Splints'
   },
   {
     id: 'vm-03',
-    name: 'Moisture-Proof Wax Matches',
-    code: 'VMW-WAX-03',
+    name: 'Jeevan Wax Safety Matches (10s Pack)',
+    code: 'VMW-JEV-03',
     category: 'Wax Matches',
-    unit: '100 Boxes / Pack',
-    priceEstimate: 'Commercial Bulk Rate',
+    unit: 'Contains 10 Boxes Retail Bundle',
+    priceEstimate: 'MRP Rs. 2.00 / Wholesale Rate Available',
     sticksPerBox: 40,
-    description: 'Weatherproof wax coated matchsticks specifically formulated for windy coastal weather, agricultural fields, and outdoor conditions.',
-    image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800',
-    highlight: 'Weatherproof Wax • Extended Burn Time'
+    description: 'Retail bundled pack containing 10 wax matchboxes. Weatherproof paraffin and wax coated matchsticks specifically formulated to light smoothly even in damp coastal and outdoor weather.',
+    image: '/products/jeevan-wax-matches-pack.jpg',
+    highlight: 'Weatherproof Wax Formula • 10 Boxes Consumer Bundle'
   },
   {
     id: 'vm-04',
-    name: 'Jumbo Kitchen & Catering Box',
-    code: 'VMW-JMB-04',
-    category: 'Cardboard Safety Matches',
-    unit: '20 Jumbo Boxes / Bundle',
-    priceEstimate: 'Commercial Pack Rate',
-    sticksPerBox: 250,
-    description: 'Large commercial format matchbox holding 250 sturdy wooden matchsticks, ideal for commercial kitchens, catering, and industrial operations.',
-    image: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800',
-    highlight: '250 Extra Long Sticks • Heavy Duty Box'
+    name: 'Jeevan Veneer Safety Matches (Open Tray)',
+    code: 'VMW-JEV-04',
+    category: 'Veneer Safety Matches',
+    unit: 'Full Inner Tray View',
+    priceEstimate: 'Ask For Wholesale Price',
+    sticksPerBox: 45,
+    description: 'Shows the sturdy inner wooden tray packed with uniform carbonized matchsticks with dark ignition heads. Built for durability, reliable friction, and smooth handling.',
+    image: '/products/jeevan-veneer-open.jpg',
+    highlight: 'Uniform Machine Packed • Rigid Inner Tray'
   },
   {
     id: 'vm-05',
-    name: 'Retail Ready Display Carton',
-    code: 'VMW-RTL-05',
-    category: 'Wholesale & Export Cartons',
-    unit: '500 Boxes / Inner Carton',
-    priceEstimate: 'Super Stockist Tier',
-    sticksPerBox: 45,
-    description: 'Pre-bundled and shrink-wrapped inner master cartons ready for immediate display in convenience stores, grocers, and supermarkets.',
-    image: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=800',
-    highlight: 'Counter Ready • Safe Transit Wrap'
+    name: 'Cardboard Match Sticks & Splints',
+    code: 'VMW-SPL-05',
+    category: 'Match Splints & Sticks',
+    unit: 'Bulk Pack for Matches',
+    priceEstimate: 'Bulk Splints Rate',
+    sticksPerBox: 50,
+    description: 'High-grade carbonized wooden match splints manufactured with uniform length and thickness. Chemically treated to ensure single-strike ignition and instant cessation after flame out.',
+    image: '/products/cardboard-match-sticks.jpg',
+    highlight: 'Carbonized Splints • Single-Strike Chemistry'
   },
   {
     id: 'vm-06',
-    name: 'Distributor Master Export Bale',
-    code: 'VMW-EXP-06',
-    category: 'Wholesale & Export Cartons',
-    unit: '1,000 Boxes / Heavy Corrugated Bale',
-    priceEstimate: 'High Volume Bulk Rate',
-    sticksPerBox: 48,
-    description: '7-ply corrugated export-grade bales protected with moisture-seal lining for interstate freight trucks and international export shipping.',
-    image: 'https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?w=800',
-    highlight: '7-Ply Corrugated • Export Moisture Barrier'
+    name: 'Weatherproof Wax Match Sticks',
+    code: 'VMW-WAX-06',
+    category: 'Match Splints & Sticks',
+    unit: 'Bulk Wax Splints Supply',
+    priceEstimate: 'Commercial Supply Price',
+    sticksPerBox: 40,
+    description: 'Precision-extruded wax and paraffin matchsticks engineered with strong moisture barriers for outdoor, temple, kitchen, and agricultural ignition requirements.',
+    image: '/products/wax-match-sticks.jpg',
+    highlight: 'Damp Proof Wax Coated • Extended Burn Flame'
   }
 ];
 
@@ -143,15 +143,19 @@ export const VEENUS_TRANSPORT_FLEET: TransportVehicle[] = [
 export const COMPANY_CONTACT = {
   name: 'VEENUS GROUP',
   brandName: 'Veenus Match Works & Transports',
+  flagshipBrand: 'JEEVAN Safety Matches',
   matchDivision: 'Veenus Match Works',
   transportDivision: 'Veenus Transports & Logistics',
   establishedYear: '1979',
-  tagline: 'Matchbox Manufacturing & Transport Fleet Logistics',
+  founder: 'Late Mr. M. Subburam',
+  managingDirector: 'Mr. S. Hariharan',
+  management: 'Mr. S. Murali & Mr. S. Hariharan',
+  tagline: 'Makers of JEEVAN Safety Matches & Commercial Fleet Logistics',
   phoneDisplay: '+91 98421 56789',
   phoneCall: '+919842156789',
   whatsappNumber: '919842156789',
   whatsappDisplay: '+91 98421 56789',
   email: 'veenusmatchworks@gmail.com',
-  address: 'Kollam - Thirumangalam Road, Srivilliputhur, Virudhunagar District, Tamil Nadu - 626125, India',
+  address: 'Srivilliputhur, Virudhunagar District, Tamil Nadu - 626125, India',
   hours: 'Monday to Saturday: 8:00 AM - 8:30 PM (Fleet Transport 24/7 Available)'
 };
