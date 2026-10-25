@@ -1,223 +1,221 @@
 import React from 'react';
 import Link from 'next/link';
-import { Flame, Mail, Phone, MapPin, Shield, ArrowUpRight, Award, Truck } from 'lucide-react';
+import { Phone, MessageCircle, Mail, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
+import { COMPANY_CONTACT } from '@/lib/data';
 
 export const Footer = () => {
+  const whatsappUrl = `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
+    'Hello Veenus Group, I would like to inquire about Veenus Safety Matches / Vehicle & Transport Booking.'
+  )}`;
+
   return (
-    <footer className="bg-[#171717] text-neutral-300 border-t border-neutral-800">
-      {/* Top Banner: Industrial Commitments */}
-      <div className="border-b border-neutral-800/80 bg-neutral-900/60 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#C62828]/10 flex items-center justify-center shrink-0 border border-[#C62828]/30">
-                <Flame className="w-5 h-5 text-[#C62828]" />
-              </div>
-              <div>
-                <div className="text-white text-xs sm:text-sm font-bold">100% Carbonized Splints</div>
-                <div className="text-[11px] text-neutral-400">Zero afterglow ignition safety</div>
-              </div>
+    <footer className="relative bg-slate-950 text-slate-300 border-t border-white/10 mt-16">
+      {/* Quick Action Band */}
+      <div className="bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-transparent border-b border-white/10 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
+                Direct Inquiries
+              </span>
+              <span className="text-xs text-slate-400">Response within minutes</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#C7A56B]/10 flex items-center justify-center shrink-0 border border-[#C7A56B]/30">
-                <Award className="w-5 h-5 text-[#C7A56B]" />
-              </div>
-              <div>
-                <div className="text-white text-xs sm:text-sm font-bold">IS 2653 Compliant</div>
-                <div className="text-[11px] text-neutral-400">National standard manufacturing</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#C62828]/10 flex items-center justify-center shrink-0 border border-[#C62828]/30">
-                <Truck className="w-5 h-5 text-[#C62828]" />
-              </div>
-              <div>
-                <div className="text-white text-xs sm:text-sm font-bold">Pan-India Freight</div>
-                <div className="text-[11px] text-neutral-400">Palletized bulk container dispatch</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#C7A56B]/10 flex items-center justify-center shrink-0 border border-[#C7A56B]/30">
-                <Shield className="w-5 h-5 text-[#C7A56B]" />
-              </div>
-              <div>
-                <div className="text-white text-xs sm:text-sm font-bold">B2B Wholesale Portal</div>
-                <div className="text-[11px] text-neutral-400">Direct factory pricing & supply</div>
-              </div>
-            </div>
+            <h4 className="text-lg font-bold text-white">Need Wholesale Safety Matches or Fleet Transport Booking?</h4>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Contact Veenus Group directly for immediate stock supply, customized carton batches, or commercial freight trips.
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <a
+              href={`tel:${COMPANY_CONTACT.phoneCall}`}
+              className="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-5 py-2.5 rounded-xl text-xs font-semibold transition-all hover:scale-105 shadow-sm"
+            >
+              Call: {COMPANY_CONTACT.phoneDisplay}
+            </a>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] hover:bg-[#20bd5a] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all hover:scale-105 shadow-md flex items-center gap-1.5"
+            >
+              <MessageCircle className="w-4 h-4 fill-current" />
+              <span>WhatsApp Inquiry</span>
+            </a>
           </div>
         </div>
       </div>
 
       {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Column 1: Brand Info */}
-          <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-3 group inline-block">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#C62828] to-[#8B0000] p-0.5 flex items-center justify-center shadow-lg">
-                <Flame className="w-6 h-6 text-white" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          {/* Column 1: Company Profile */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-300 text-slate-950 flex items-center justify-center font-black text-xl shadow-lg shadow-amber-500/20">
+                V
               </div>
               <div>
-                <span className="font-extrabold tracking-wider text-white text-xl">
-                  PRIME MATCH
+                <span className="font-extrabold text-white text-lg block leading-none tracking-tight">
+                  VEENUS GROUP
                 </span>
-                <span className="block text-[10px] font-semibold tracking-[0.28em] text-[#C7A56B] uppercase">
-                  INDUSTRIES
+                <span className="text-[11px] text-amber-400 font-medium tracking-wide">
+                  Established 1979 &bull; Srivilliputhur
                 </span>
               </div>
-            </Link>
+            </div>
 
-            <p className="text-neutral-400 text-sm leading-relaxed max-w-sm">
-              Crafted with precision. Built on trust. Leading manufacturer of commercial, household, premium Aspen, and custom-branded safety matchboxes for global distributors and hospitality brands.
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Prominent safety matchbox manufacturer and trusted transport logistics fleet operator. Serving wholesalers, commercial distributors, and travelers across South India with over four decades of proven quality.
             </p>
 
-            <div className="pt-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-neutral-900 border border-neutral-800 text-xs text-[#C7A56B]">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Demo Client Presentation Model</span>
-              </div>
+            <div className="pt-2 text-xs text-slate-400">
+              <span className="font-semibold text-slate-200 block mb-1.5">Business Divisions:</span>
+              <ul className="space-y-1 text-[11px] text-slate-400">
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  <span>Veenus Match Works (Safety Matches)</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                  <span>Veenus Freight Logistics (Lorries & Mini Trucks)</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>Veenus Travel Fleet (Mini Vans & Tourist Buses)</span>
+                </li>
+              </ul>
             </div>
           </div>
 
-          {/* Column 2: Navigation */}
+          {/* Column 2: Match Products */}
           <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4 border-l-2 border-[#C62828] pl-2">
-              Navigation
+            <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4 pb-2 border-b border-white/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span>Matchbox Products</span>
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
-                <Link href="/" className="hover:text-[#C7A56B] transition-colors flex items-center justify-between">
-                  <span>Home</span>
+                <Link href="/products" className="hover:text-white transition-colors">
+                  Veneer Safety Matches (Moisture Proof)
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-[#C7A56B] transition-colors flex items-center justify-between">
-                  <span>About Our Factory</span>
+                <Link href="/products" className="hover:text-white transition-colors">
+                  Cardboard Safety Matches (Carbonized)
                 </Link>
               </li>
               <li>
-                <Link href="/products" className="hover:text-[#C7A56B] transition-colors flex items-center justify-between">
-                  <span>Product Catalogue</span>
+                <Link href="/products" className="hover:text-white transition-colors">
+                  Weatherproof Wax Matches
                 </Link>
               </li>
               <li>
-                <Link href="/manufacturing" className="hover:text-[#C7A56B] transition-colors flex items-center justify-between">
-                  <span>Manufacturing Flow</span>
+                <Link href="/products" className="hover:text-white transition-colors">
+                  Jumbo Household Kitchen Boxes (250s)
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="hover:text-[#C7A56B] transition-colors flex items-center justify-between">
-                  <span>Industrial Gallery</span>
+                <Link href="/products" className="hover:text-white transition-colors">
+                  Retail Corrugated Cartons (500s)
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-[#C7A56B] transition-colors flex items-center justify-between">
-                  <span>Contact & Enquiries</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="text-[#C7A56B] hover:underline flex items-center gap-1">
-                  <span>Admin Dashboard</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                <Link href="/products" className="hover:text-white transition-colors">
+                  Export Heavy Bales (1000s)
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Product Lines */}
+          {/* Column 3: Transport & Fleet */}
           <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4 border-l-2 border-[#C7A56B] pl-2">
-              Product Lines
+            <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4 pb-2 border-b border-white/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Fleet & Transports</span>
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
-                <Link href="/products?category=Regular" className="hover:text-white transition-colors">
-                  Regular Safety Matchboxes
+                <Link href="/transport" className="hover:text-white transition-colors">
+                  Maruti Omni & Eeco Mini Vans
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=Premium" className="hover:text-white transition-colors">
-                  Premium Aspen Series
+                <Link href="/transport" className="hover:text-white transition-colors">
+                  Tata Ace & Dost Mini Lorries
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=Custom+Printed" className="hover:text-white transition-colors">
-                  Custom Printed Hospitality
+                <Link href="/transport" className="hover:text-white transition-colors">
+                  6-Wheeler & 10-Wheeler Freight Trucks
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=Wholesale+Packs" className="hover:text-white transition-colors">
-                  Wholesale Master Cartons
+                <Link href="/transport" className="hover:text-white transition-colors">
+                  Tourist Passenger Buses & Coaches
                 </Link>
               </li>
               <li>
-                <Link href="/products?q=Jumbo" className="hover:text-white transition-colors">
-                  Jumbo Hearth Matches
+                <Link href="/transport" className="hover:text-white transition-colors">
+                  All-India National Permit Freight
                 </Link>
               </li>
               <li>
-                <Link href="/products?q=Cigar" className="hover:text-white transition-colors">
-                  Cigar Lounge Series
+                <Link href="/transport" className="hover:text-white transition-colors">
+                  Family Tour & Temple Pilgrimage Trips
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Contact Placeholders */}
+          {/* Column 4: Contact & Office */}
           <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4 border-l-2 border-[#C62828] pl-2">
-              Factory & Office
+            <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4 pb-2 border-b border-white/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>Factory & Fleet Office</span>
             </h4>
-            <ul className="space-y-3 text-sm text-neutral-400">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#C62828] shrink-0 mt-0.5" />
-                <span className="text-xs">
-                  [PLACEHOLDER: Industrial Zone, Sector 4, Match Manufacturing Belt, Tamil Nadu / Gujarat, India]
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#C7A56B] shrink-0" />
-                <span className="text-xs font-mono">
-                  [PLACEHOLDER: +91 98000 00000]
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#C62828] shrink-0" />
-                <span className="text-xs font-mono">
-                  [PLACEHOLDER: sales@primematch-demo.in]
-                </span>
-              </li>
-            </ul>
-
-            <div className="mt-5 pt-4 border-t border-neutral-800">
-              <Link
-                href="/contact"
-                className="w-full inline-flex items-center justify-center gap-1.5 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-semibold py-2 px-3 rounded transition-colors"
-              >
-                <span>Request Distributor Kit</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </Link>
+            <div className="space-y-3 text-xs text-slate-400">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <span className="leading-relaxed">{COMPANY_CONTACT.address}</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Phone className="w-4 h-4 text-blue-400 shrink-0" />
+                <a href={`tel:${COMPANY_CONTACT.phoneCall}`} className="hover:text-white font-semibold transition-colors">
+                  {COMPANY_CONTACT.phoneDisplay}
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white font-semibold transition-colors">
+                  WhatsApp: {COMPANY_CONTACT.whatsappDisplay}
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Mail className="w-4 h-4 text-amber-400 shrink-0" />
+                <a href={`mailto:${COMPANY_CONTACT.email}`} className="hover:text-white transition-colors">
+                  {COMPANY_CONTACT.email}
+                </a>
+              </div>
+              <div className="text-[11px] text-slate-500 pt-2 border-t border-white/5">
+                {COMPANY_CONTACT.hours}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Disclaimer Banner */}
-      <div className="border-t border-neutral-800 bg-black/60 py-5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
+      {/* Bottom Bar */}
+      <div className="border-t border-white/5 py-5 text-xs text-slate-400 bg-slate-950/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
-            © 2026 PRIME MATCH INDUSTRIES (Demonstration Brand). All rights reserved.
+            &copy; 2026 VEENUS GROUP (Veenus Match Works & Transports). All rights reserved.
           </div>
-          <div className="flex items-center space-x-6 text-[11px]">
-            <span className="text-neutral-400">Client Presentation Prototype</span>
-            <span className="text-neutral-600">•</span>
-            <span>Sample Data Only</span>
-            <span className="text-neutral-600">•</span>
-            <span>No Real Transactions</span>
+          <div className="text-slate-400 text-[11px] flex items-center gap-2">
+            <span>Srivilliputhur</span>
+            <span>&bull;</span>
+            <span>Safety Matches</span>
+            <span>&bull;</span>
+            <span>Commercial Transports</span>
           </div>
         </div>
       </div>

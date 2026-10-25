@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --color-charcoal: #171717;
-  --color-ivory: #F8F5EF;
-  --color-red: #C62828;
-  --color-gold: #C7A56B;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 50%, #090d16 100%);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(59, 130, 246, 0.35);
+  --glass-highlight: rgba(255, 255, 255, 0.12);
 }
 
 * {
@@ -16,122 +17,84 @@ html {
 }
 
 body {
-  background: #F8F5EF;
-  color: #171717;
-  font-family: var(--font-geist-sans), Georgia, serif;
+  background: #0b1120;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.25) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(220, 38, 38, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.8) 0px, transparent 100%),
+    radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.12) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: #f1f5f9;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
 
-/* Utility classes for brand colors */
-.bg-charcoal { background-color: #171717; }
-.bg-ivory { background-color: #F8F5EF; }
-.bg-brand-red { background-color: #C62828; }
-.bg-brand-gold { background-color: #C7A56B; }
-.text-charcoal { color: #171717; }
-.text-ivory { color: #F8F5EF; }
-.text-brand-red { color: #C62828; }
-.text-brand-gold { color: #C7A56B; }
-.border-brand-gold { border-color: #C7A56B; }
-.border-brand-red { border-color: #C62828; }
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #171717; }
-::-webkit-scrollbar-thumb { background: #C7A56B; border-radius: 3px; }
-
-/* Animations */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-@keyframes pulse-slow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+/* Modern Glassmorphic Container */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.animate-fade-in-up { animation: fadeInUp 0.7s ease forwards; }
-.animate-fade-in { animation: fadeIn 0.6s ease forwards; }
-.animate-slide-in-left { animation: slideInLeft 0.7s ease forwards; }
-.animate-slide-in-right { animation: slideInRight 0.7s ease forwards; }
-.animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
-
-/* Hero gradient overlay */
-.hero-overlay {
-  background: linear-gradient(135deg, rgba(23,23,23,0.90) 0%, rgba(198,40,40,0.25) 60%, rgba(23,23,23,0.60) 100%);
+.glass-card {
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Gold shimmer text */
-.text-gold-shimmer {
-  background: linear-gradient(90deg, #C7A56B 0%, #F0D090 50%, #C7A56B 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s linear infinite;
+.glass-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.065);
+  border-color: rgba(96, 165, 250, 0.35);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.15);
 }
 
-/* Card hover effects */
-.card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Glass Buttons */
+.glass-btn-primary {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transition: all 0.2s ease;
 }
-.card-hover:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-}
-
-/* Line clamp utility */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.glass-btn-primary:hover {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.5);
+  transform: translateY(-1px);
 }
 
-/* Section separator */
-.section-divider {
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, #C62828, #C7A56B);
-  border-radius: 2px;
+.glass-btn-whatsapp {
+  background: linear-gradient(135deg, #25D366, #1fad51);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+.glass-btn-whatsapp:hover {
+  background: linear-gradient(135deg, #2ae771, #25D366);
+  box-shadow: 0 8px 20px -4px rgba(37, 211, 102, 0.5);
+  transform: translateY(-1px);
 }
 
-/* Lightbox */
-.lightbox-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.glass-btn-ghost {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  transition: all 0.2s ease;
+}
+.glass-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
 }
 
-/* Product image placeholder */
-.product-img-placeholder {
-  background: linear-gradient(135deg, #2C2C2C 0%, #171717 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* WhatsApp floating pulse */
+@keyframes subtle-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
 }
-
-/* Number ticker */
-.ticker-item {
-  font-variant-numeric: tabular-nums;
+.animate-whatsapp-float {
+  animation: subtle-pulse 3s infinite ease-in-out;
 }
-
