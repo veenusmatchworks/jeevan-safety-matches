@@ -53,8 +53,8 @@ export const VeenusLogo: React.FC<VeenusLogoProps> = ({
   }
 
   // Default 'full' variant: Dark-mode transparent logo (white text for dark backgrounds)
-  const h = size === 'sm' ? 48 : size === 'lg' ? 72 : 58;
-  const w = Math.round(h * 1.48);
+  const h = size === 'sm' ? 48 : size === 'lg' ? 76 : 60;
+  const w = Math.round(h * 1.28);
 
   return (
     <div className={`flex items-center gap-3 group select-none ${className}`}>
