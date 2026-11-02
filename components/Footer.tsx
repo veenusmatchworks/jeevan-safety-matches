@@ -12,7 +12,7 @@ export const Footer = () => {
   return (
     <footer className="relative bg-slate-950 text-slate-300 border-t border-white/10 mt-16">
       {/* Quick Action Band */}
-      <div className="bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-transparent border-b border-white/10 py-6">
+      <div className="bg-gradient-to-r from-red-950 via-slate-900 to-slate-950 border-b border-red-900/30 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -52,7 +52,7 @@ export const Footer = () => {
           {/* Column 1: Company Profile */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <VeenusLogo variant="full" size="sm" />
+              <VeenusLogo size="md" showText={true} lightText={true} />
             </Link>
 
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -82,37 +82,37 @@ export const Footer = () => {
           <div>
             <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4 pb-2 border-b border-white/10 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-              <span>Matchbox Products</span>
+              <span>Matchbox Brands</span>
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
                 <Link href="/products" className="hover:text-white transition-colors">
-                  Veneer Safety Matches (Moisture Proof)
+                  JEEVAN Safety Matches (₹1.00 - 27s)
                 </Link>
               </li>
               <li>
                 <Link href="/products" className="hover:text-white transition-colors">
-                  Cardboard Safety Matches (Carbonized)
+                  JEEVAN Safety Matches (₹2.00 - 50s)
                 </Link>
               </li>
               <li>
                 <Link href="/products" className="hover:text-white transition-colors">
-                  Weatherproof Wax Matches
+                  TEHLA Safety Matches (₹1.00 - 30s)
                 </Link>
               </li>
               <li>
                 <Link href="/products" className="hover:text-white transition-colors">
-                  Jumbo Household Kitchen Boxes (250s)
+                  100-Box Retail Bundles
                 </Link>
               </li>
               <li>
                 <Link href="/products" className="hover:text-white transition-colors">
-                  Retail Corrugated Cartons (500s)
+                  Master Export Bales (1000s)
                 </Link>
               </li>
               <li>
                 <Link href="/products" className="hover:text-white transition-colors">
-                  Export Heavy Bales (1000s)
+                  Factory Wholesale Supply
                 </Link>
               </li>
             </ul>
@@ -169,11 +169,16 @@ export const Footer = () => {
                 <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <span className="leading-relaxed">{COMPANY_CONTACT.address}</span>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-blue-400 shrink-0" />
-                <a href={`tel:${COMPANY_CONTACT.phoneCall}`} className="hover:text-white font-semibold transition-colors">
-                  {COMPANY_CONTACT.phoneDisplay}
-                </a>
+              <div className="flex items-start gap-2.5">
+                <Phone className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <div className="flex flex-col">
+                  <a href={`tel:${COMPANY_CONTACT.phoneCall}`} className="hover:text-white font-semibold transition-colors">
+                    {COMPANY_CONTACT.phoneDisplay} <span className="text-[10px] text-slate-400 font-normal">(Office)</span>
+                  </a>
+                  <a href={`tel:${COMPANY_CONTACT.mobileCall}`} className="hover:text-white text-slate-300 transition-colors">
+                    {COMPANY_CONTACT.mobileDisplay} <span className="text-[10px] text-slate-400 font-normal">(Mobile)</span>
+                  </a>
+                </div>
               </div>
               <div className="flex items-center gap-2.5">
                 <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -202,11 +207,13 @@ export const Footer = () => {
             &copy; 2026 VEENUS GROUP (Veenus Match Works & Transports). All rights reserved.
           </div>
           <div className="text-slate-400 text-[11px] flex items-center gap-2">
+            <Link href="/manufacturing" className="hover:text-white transition-colors">Manufacturing</Link>
+            <span>&bull;</span>
+            <Link href="/gallery" className="hover:text-white transition-colors">Gallery</Link>
+            <span>&bull;</span>
+            <Link href="/admin" className="text-amber-400 hover:text-amber-300 font-semibold transition-colors">Admin Portal</Link>
+            <span>&bull;</span>
             <span>Srivilliputhur</span>
-            <span>&bull;</span>
-            <span>Safety Matches</span>
-            <span>&bull;</span>
-            <span>Commercial Transports</span>
           </div>
         </div>
       </div>

@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   keywords:
     "veenus match works, veenus group, safety matches srivilliputhur, veneer matches, cardboard matches, freight lorries tamil nadu, omni van transport, tourist bus booking",
   icons: {
-    icon: '/logo-mark.svg',
-    shortcut: '/logo-mark.svg',
-    apple: '/logo-mark.svg',
+    icon: '/logo-official.png',
+    shortcut: '/logo-official.png',
+    apple: '/logo-official.png',
   },
 };
 
@@ -37,9 +37,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-slate-50 text-slate-800`}
       >
-        <Suspense fallback={<div className="h-20 bg-slate-950/80" />}>
+        <Suspense fallback={<div className="h-20 bg-white border-b border-slate-200" />}>
           <Navbar />
         </Suspense>
         
