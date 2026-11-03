@@ -60,19 +60,27 @@ export const Footer = () => {
             </p>
 
             <div className="pt-2 text-xs text-slate-400">
-              <span className="font-semibold text-slate-200 block mb-1.5">Business Divisions:</span>
+              <span className="font-semibold text-slate-200 block mb-1.5">Group & Sister Concerns:</span>
               <ul className="space-y-1 text-[11px] text-slate-400">
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                  <span>Veenus Match Works (Safety Matches)</span>
+                  <span>Veenus Match Works (3 Units)</span>
                 </li>
                 <li className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                  <span>Veenus Freight Logistics (Lorries & Mini Trucks)</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+                  <span>United Match Industries (Sister Concern)</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                  <span>The Cauveri Matches (Sister Concern)</span>
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>Veenus Travel Fleet (Mini Vans & Tourist Buses)</span>
+                  <span>Cavery Travels (30+ Luxury Buses)</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                  <span>Commercial Freight Fleet (Lorries & Vans)</span>
                 </li>
               </ul>
             </div>
@@ -207,13 +215,13 @@ export const Footer = () => {
             &copy; 2026 VEENUS GROUP (Veenus Match Works & Transports). All rights reserved.
           </div>
           <div className="text-slate-400 text-[11px] flex items-center gap-2">
-            <Link href="/manufacturing" className="hover:text-white transition-colors">Manufacturing</Link>
+            <Link href="/manufacturing" className="hover:text-amber-400 transition-colors font-medium">Manufacturing Units</Link>
             <span>&bull;</span>
-            <Link href="/gallery" className="hover:text-white transition-colors">Gallery</Link>
+            <span>Srivilliputhur, Tamil Nadu</span>
             <span>&bull;</span>
-            <Link href="/admin" className="text-amber-400 hover:text-amber-300 font-semibold transition-colors">Admin Portal</Link>
+            <span>Est. 1979</span>
             <span>&bull;</span>
-            <span>Srivilliputhur</span>
+            <span>Cavery Travels</span>
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default function ProductsPage() {
                 Safety Matchbox Products Catalogue
               </h1>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Featuring our flagship <strong>JEEVAN</strong> (Regd No. 3481060) and <strong>TEHLA</strong> (Regd No. 1395866) safety matches. Manufactured with moisture-resistant natural wood veneers, high-grade carbonized duplex boards, and single-strike ignition formula.
+                Featuring our flagship <strong>JEEVAN</strong> (Regd No. 3481060) and <strong>TEHLA</strong> (Regd No. 1395866) safety matches, produced across our manufacturing units and sister concerns (<strong>United Match Industries</strong> & <strong>The Cauveri Matches</strong>). Manufactured with moisture-resistant natural wood veneers, high-grade carbonized duplex boards, and single-strike ignition formula.
               </p>
             </div>
             <div className="hidden md:flex shrink-0 p-3 rounded-2xl bg-slate-50 border border-slate-200">

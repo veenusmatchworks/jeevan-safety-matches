@@ -55,7 +55,7 @@ export const VEENUS_MATCH_PRODUCTS: MatchProduct[] = [
     unit: '100 Boxes / Pack • Wholesale Cartons Available',
     priceEstimate: 'M.R.P. ₹ 1.00 (Wholesale Bales Available)',
     sticksPerBox: 30,
-    description: 'Trademark owned by Veenus Match Works (Regd No. 1395866). Renowned regional brand featuring the classic Handcart motif with 30 uniform carbonized matchsticks. Delivers instant single-strike flame and damp-proof performance across all climatic conditions.',
+    description: 'Trademark owned by Veenus Match Works (Regd No. 1395866) and manufactured in coordination with sister concern United Match Industries. Renowned regional brand featuring the classic Handcart motif with 30 uniform carbonized matchsticks. Delivers instant single-strike flame and damp-proof performance across all climatic conditions.',
     image: '/products/tehla-matches.jpg',
     highlight: 'Regd No. 1395866 • Avg. 30 Sticks • Classic Handcart Brand'
   }
@@ -109,6 +109,11 @@ export const COMPANY_CONTACT = {
   brandName: 'Veenus Match Works & Cavery Travels',
   flagshipBrand: 'JEEVAN Safety Matches & TEHLA Matches',
   matchDivision: 'Veenus Match Works (3 Manufacturing Units)',
+  sisterConcerns: [
+    'United Match Industries',
+    'The Cauveri Matches'
+  ],
+  sisterConcernsDisplay: 'United Match Industries & The Cauveri Matches',
   transportDivision: 'Cavery Travels & Commercial Freight Fleet (30+ Buses)',
   busFleetName: 'Cavery Travels',
   busFleetCount: '30+ Luxury Buses',
@@ -130,207 +135,3 @@ export const COMPANY_CONTACT = {
   shortAddress: 'Aladipatti, Srivilliputhur, Virudhunagar, Tamil Nadu - 626125',
   hours: 'Monday to Saturday: 8:00 AM - 8:30 PM (Cavery Travels & Fleet 24/7 Available)'
 };
-
-export interface AdminInquiry {
-  id: string;
-  customerName: string;
-  companyName: string;
-  phone: string;
-  location: string;
-  type: 'Match Wholesale' | 'Fleet Booking';
-  productOrVehicle: string;
-  quantity: string;
-  date: string;
-  status: 'Pending' | 'Quoted' | 'Dispatched' | 'Delivered';
-  notes: string;
-}
-
-export interface AdminInventoryItem {
-  id: string;
-  name: string;
-  code: string;
-  brand: 'JEEVAN' | 'TEHLA';
-  balesInStock: number;
-  boxesPerBale: number;
-  dailyProductionBales: number;
-  reorderLevel: number;
-  status: 'In Stock' | 'Low Stock' | 'High Demand';
-}
-
-export interface AdminFleetItem {
-  id: string;
-  vehicleNumber: string;
-  title: string;
-  driverName: string;
-  driverPhone: string;
-  currentLocation: string;
-  destination: string;
-  status: 'On Trip' | 'Available' | 'Loading' | 'Service';
-}
-
-export const INITIAL_ADMIN_INQUIRIES: AdminInquiry[] = [
-  {
-    id: 'INQ-1081',
-    customerName: 'K. Rajasekaran',
-    companyName: 'Sri Murugan Traders',
-    phone: '+91 98421 12345',
-    location: 'Madurai, TN',
-    type: 'Match Wholesale',
-    productOrVehicle: 'JEEVAN Safety Matches (₹1.00)',
-    quantity: '50 Master Bales (50,000 Boxes)',
-    date: '2026-11-02',
-    status: 'Pending',
-    notes: 'Urgent wholesale delivery required before Diwali season.'
-  },
-  {
-    id: 'INQ-1080',
-    customerName: 'P. Shanmugavel',
-    companyName: 'Shanmuga Wholesale Bazaars',
-    phone: '+91 94432 78901',
-    location: 'Tirunelveli, TN',
-    type: 'Match Wholesale',
-    productOrVehicle: 'JEEVAN Safety Matches (₹2.00)',
-    quantity: '25 Master Bales (25,000 Boxes)',
-    date: '2026-11-01',
-    status: 'Quoted',
-    notes: 'Quotation sent via WhatsApp. Awaiting purchase order.'
-  },
-  {
-    id: 'INQ-1079',
-    customerName: 'G. Ramanathan',
-    companyName: 'Sri Ramajayam Agencies',
-    phone: '+91 98943 45678',
-    location: 'Coimbatore, TN',
-    type: 'Match Wholesale',
-    productOrVehicle: 'TEHLA Safety Matches (₹1.00)',
-    quantity: '40 Master Bales (40,000 Boxes)',
-    date: '2026-10-31',
-    status: 'Dispatched',
-    notes: 'Dispatched via Veenus 10-Wheeler Lorry (TN 67 AB 2345).'
-  },
-  {
-    id: 'INQ-1078',
-    customerName: 'Dr. R. Jayakumar',
-    companyName: 'Annai Medical Foundation',
-    phone: '+91 94421 34567',
-    location: 'Srivilliputhur to Rameswaram',
-    type: 'Fleet Booking',
-    productOrVehicle: 'Tourist Passenger Coach (32 Seater AC)',
-    quantity: '3 Days Round Trip',
-    date: '2026-10-30',
-    status: 'Delivered',
-    notes: 'Trip completed safely with passenger praise for captain driver.'
-  },
-  {
-    id: 'INQ-1077',
-    customerName: 'M. Senthilkumar',
-    companyName: 'Vijaya Cargo Movers',
-    phone: '+91 97865 67890',
-    location: 'Rajapalayam to Chennai',
-    type: 'Fleet Booking',
-    productOrVehicle: 'Commercial Heavy Freight Lorry (10 Wheeler)',
-    quantity: '14 Tons Industrial Bulk Freight',
-    date: '2026-10-29',
-    status: 'Delivered',
-    notes: 'Factory-to-warehouse delivery verified with signed consignment note.'
-  }
-];
-
-export const INITIAL_ADMIN_INVENTORY: AdminInventoryItem[] = [
-  {
-    id: 'INV-01',
-    name: 'JEEVAN Safety Matches (₹1.00 - 27 Sticks)',
-    code: 'VMW-JEV-01',
-    brand: 'JEEVAN',
-    balesInStock: 340,
-    boxesPerBale: 1000,
-    dailyProductionBales: 45,
-    reorderLevel: 100,
-    status: 'In Stock'
-  },
-  {
-    id: 'INV-02',
-    name: 'JEEVAN Safety Matches (₹2.00 - 50 Sticks)',
-    code: 'VMW-JEV-02',
-    brand: 'JEEVAN',
-    balesInStock: 215,
-    boxesPerBale: 1000,
-    dailyProductionBales: 30,
-    reorderLevel: 80,
-    status: 'In Stock'
-  },
-  {
-    id: 'INV-03',
-    name: 'TEHLA Safety Matches (₹1.00 - 30 Sticks)',
-    code: 'VMW-THL-03',
-    brand: 'TEHLA',
-    balesInStock: 95,
-    boxesPerBale: 1000,
-    dailyProductionBales: 25,
-    reorderLevel: 90,
-    status: 'High Demand'
-  }
-];
-
-export const INITIAL_ADMIN_FLEET: AdminFleetItem[] = [
-  {
-    id: 'FLT-01',
-    vehicleNumber: 'TN 67 AB 2345',
-    title: '10-Wheeler Heavy Freight Lorry (16 Ton)',
-    driverName: 'S. Karuppasamy',
-    driverPhone: '+91 98421 98765',
-    currentLocation: 'Trichy Highway NH-45',
-    destination: 'Chennai Koyambedu Terminal',
-    status: 'On Trip'
-  },
-  {
-    id: 'FLT-02',
-    vehicleNumber: 'TN 67 BC 6789',
-    title: '6-Wheeler Freight Truck (8 Ton)',
-    driverName: 'M. Muniyandi',
-    driverPhone: '+91 98422 87654',
-    currentLocation: 'Srivilliputhur Plant Depot',
-    destination: 'Local Factory Standby',
-    status: 'Available'
-  },
-  {
-    id: 'FLT-03',
-    vehicleNumber: 'TN 67 CD 1122',
-    title: 'Tata Ace Mini Lorry (1.5 Ton)',
-    driverName: 'R. Ganesan',
-    driverPhone: '+91 98423 76543',
-    currentLocation: 'Aladipatti Loading Bay',
-    destination: 'Virudhunagar Wholesale Market',
-    status: 'Loading'
-  },
-  {
-    id: 'FLT-04',
-    vehicleNumber: 'TN 67 EF 4455',
-    title: 'Maruti Omni Mini Delivery Van',
-    driverName: 'P. Selvam',
-    driverPhone: '+91 98424 65432',
-    currentLocation: 'Srivilliputhur Town',
-    destination: 'Express Retail Parcels',
-    status: 'Available'
-  },
-  {
-    id: 'FLT-05',
-    vehicleNumber: 'TN 67 GH 9988',
-    title: 'Cavery Travels — 54-Seater AC Luxury Coach (30-Bus Fleet)',
-    driverName: 'V. Sundaram',
-    driverPhone: '+91 98425 54321',
-    currentLocation: 'Madurai Ring Road',
-    destination: 'Kodaikanal Tour Return',
-    status: 'On Trip'
-  },
-  {
-    id: 'FLT-06',
-    vehicleNumber: 'TN 67 JK 5544',
-    title: 'Cavery Travels — 32-Seater Pushback Tourist Coach',
-    driverName: 'K. Muthuraman',
-    driverPhone: '+91 98426 65432',
-    currentLocation: 'Srivilliputhur Cavery Travels Depot',
-    destination: 'Rameswaram Temple Pilgrimage',
-    status: 'Available'
-  }
-];

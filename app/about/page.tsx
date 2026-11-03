@@ -42,7 +42,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              <strong>Veenus Group</strong> brings together over 45 years of industrial heritage. Headquartered in <strong>Srivilliputhur</strong>, the business was established in <strong>1979</strong> starting with 1 manufacturing unit and has steadily grown into <strong>3 full-scale industrial manufacturing units</strong> producing <strong>JEEVAN and TEHLA</strong> safety matches, alongside operating <strong>Cavery Travels (fleet of 30+ luxury tourist buses)</strong> and commercial freight lorries under the leadership of Managing Director <strong>Mr. S. Hariharan</strong>.
+              <strong>Veenus Group</strong> brings together over 45 years of industrial heritage. Headquartered in <strong>Srivilliputhur</strong>, the business was established in <strong>1979</strong> starting with 1 manufacturing unit and has steadily grown into <strong>3 full-scale industrial manufacturing units</strong> producing <strong>JEEVAN and TEHLA</strong> safety matches, alongside sister concerns <strong>United Match Industries</strong> and <strong>The Cauveri Matches</strong>, while operating <strong>Cavery Travels (fleet of 30+ luxury tourist buses)</strong> and commercial freight lorries under the leadership of Managing Director <strong>Mr. S. Hariharan</strong>.
             </p>
           </div>
           <div className="hidden lg:flex shrink-0 p-4 rounded-3xl bg-slate-50 border border-slate-200">
@@ -249,6 +249,57 @@ export default function AboutPage() {
                 <div className="text-3xl font-black text-slate-800">24/7</div>
                 <div className="text-xs font-bold text-slate-900">Logistics & Fleet</div>
                 <p className="text-[11px] text-slate-500">Managed under the direction of Mr. S. Hariharan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Sister Concerns & Group Network */}
+        <div className="bg-slate-50 border border-slate-200/90 rounded-3xl p-8 sm:p-10 space-y-6">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-100/70 px-3 py-1 rounded-full border border-red-200">
+              Corporate Network
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+              Sister Concerns & Allied Enterprises
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">
+              Expanding manufacturing capacity and distributor networks through our dedicated sister concerns.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-red-50 text-red-800 border border-red-200">
+                  Sister Concern
+                </span>
+                <span className="text-xs text-slate-500 font-semibold">Koomapatti / Srivilliputhur</span>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">United Match Industries</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Key manufacturing sister concern of Veenus Group specializing in high-grade safety matchbox production, including the renowned <strong>TEHLA</strong> brand safety matches (Regd No. 1395866) and wholesale cartons.
+              </p>
+              <div className="pt-2 border-t border-slate-100 flex items-center gap-2 text-[11px] font-bold text-red-700">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Safety Match Manufacturing & Wholesale Supply</span>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                  Sister Concern
+                </span>
+                <span className="text-xs text-slate-500 font-semibold">Srivilliputhur Region</span>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">The Cauveri Matches</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Allied match manufacturing sister unit operating under the Veenus Group umbrella, dedicated to damp-resistant matchstick formulation, inner tray packing, and bulk regional trade distribution.
+              </p>
+              <div className="pt-2 border-t border-slate-100 flex items-center gap-2 text-[11px] font-bold text-amber-700">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Industrial Match Production & Regional Distribution</span>
               </div>
             </div>
           </div>

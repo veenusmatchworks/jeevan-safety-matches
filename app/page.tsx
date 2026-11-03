@@ -510,7 +510,7 @@ export default function HomePage() {
               </p>
 
               <p className="text-sm text-slate-600 leading-relaxed">
-                Under the visionary leadership of Managing Director <strong>Mr. S. Hariharan</strong>, the group also established <strong>Cavery Travels</strong>, operating a premier fleet of <strong>30+ luxury tourist buses</strong> alongside heavy freight haulage lorries, ensuring both manufactured goods and passengers are served with dependable quality.
+                Under the visionary leadership of Managing Director <strong>Mr. S. Hariharan</strong>, the group operates in synergy with sister concerns <strong>United Match Industries</strong> and <strong>The Cauveri Matches</strong>, alongside running <strong>Cavery Travels</strong> (a premier fleet of <strong>30+ luxury tourist buses</strong>) and commercial freight haulage lorries, ensuring both manufactured goods and passengers are served with dependable quality.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
@@ -526,6 +526,16 @@ export default function HomePage() {
                   <div className="text-amber-700 font-bold text-sm mb-1">Freight Haulage</div>
                   <p className="text-[11px] text-slate-500">Heavy trucks & mini vans for safe interstate transport.</p>
                 </div>
+              </div>
+
+              <div className="pt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600">
+                <span className="font-bold text-slate-800">Sister Concerns:</span>
+                <span className="px-3 py-1 rounded-full bg-red-50 text-red-800 border border-red-200 font-semibold text-[11px]">
+                  United Match Industries
+                </span>
+                <span className="px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-semibold text-[11px]">
+                  The Cauveri Matches
+                </span>
               </div>
 
               <div className="pt-2">

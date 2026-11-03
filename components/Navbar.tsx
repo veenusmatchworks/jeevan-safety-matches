@@ -25,9 +25,8 @@ export const Navbar = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Match Products', href: '/products' },
+    { name: 'Manufacturing Units', href: '/manufacturing' },
     { name: 'Transport & Fleet', href: '/transport' },
-    { name: 'Manufacturing', href: '/manufacturing' },
-    { name: 'Gallery', href: '/gallery' },
     { name: 'About Veenus', href: '/about' },
     { name: 'Contact Us', href: '/contact' },
   ];
@@ -66,14 +65,6 @@ export const Navbar = () => {
               <MessageCircle className="w-3.5 h-3.5 fill-current" />
               <span>WhatsApp</span>
             </a>
-            <span className="text-rose-300/40 hidden sm:inline">|</span>
-            <Link
-              href="/admin"
-              className="hidden sm:inline-flex items-center gap-1 text-amber-300 hover:text-white font-bold transition-colors bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-[11px] border border-amber-300/30"
-            >
-              <ShieldCheck className="w-3 h-3 text-amber-300" />
-              <span>Admin</span>
-            </Link>
           </div>
         </div>
       </div>
