@@ -5,40 +5,39 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   Flame,
-  Truck,
+  Building,
+  ShieldCheck,
+  CheckCircle2,
+  Award,
+  ArrowRight,
   Phone,
   MessageCircle,
   MapPin,
-  Clock,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Package,
-  Award,
+  Building2,
   Sparkles,
+  Factory,
+  Cog,
   Layers,
-  ChevronRight
+  Check
 } from 'lucide-react';
-import { VEENUS_MATCH_PRODUCTS, VEENUS_TRANSPORT_FLEET, COMPANY_CONTACT } from '@/lib/data';
+import {
+  VEENUS_MATCH_PRODUCTS,
+  COMPANY_CONTACT,
+  MANUFACTURING_15_PHOTOS
+} from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
 
 export default function HomePage() {
-  const getWhatsAppProductUrl = (productName: string) => {
+  const getWhatsAppProductUrl = (prodName: string) => {
     return `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
-      `Hello Veenus Group, I am interested in wholesale supply for: ${productName}. Please share quotation and delivery details.`
-    )}`;
-  };
-
-  const getWhatsAppVehicleUrl = (vehicleName: string) => {
-    return `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
-      `Hello Veenus Group, I want to book/inquire about your transport service: ${vehicleName}. Please share availability and rates.`
+      `Hello Veenus Match Works, I want to inquire about purchasing: ${prodName}. Please share wholesale price list and minimum order quantity.`
     )}`;
   };
 
   return (
     <div className="space-y-16 sm:space-y-24 pb-20">
       {/* ============================================================== */}
-      {/* 1. HERO SECTION (Prestigious Corporate Light & Royal Burgundy) */}
+      {/* 1. HERO SECTION (Industrial Safety Matches & Manufacturing)    */}
       {/* ============================================================== */}
       <section className="relative pt-10 sm:pt-16 pb-14 bg-gradient-to-b from-white via-slate-50 to-slate-100/60 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,13 +54,13 @@ export default function HomePage() {
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
                 Industrial Safety Matches & <br />
                 <span className="bg-gradient-to-r from-red-700 via-red-800 to-amber-700 bg-clip-text text-transparent">
-                  Dedicated Fleet Logistics.
+                  Manufacturing Excellence.
                 </span>
               </h1>
 
               {/* Subtitle */}
               <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
-                Manufacturer of India&apos;s trusted <strong>JEEVAN</strong> and <strong>TEHLA</strong> safety matches, alongside a comprehensive commercial road transport fleet. Moisture-resistant veneer boxes, carbonized splints, heavy freight trucks, and passenger coaches from Srivilliputhur.
+                Manufacturer of India&apos;s trusted <strong>JEEVAN</strong> and <strong>TEHLA</strong> safety matches across 3 modern manufacturing facilities in Srivilliputhur. Moisture-resistant veneer boxes, carbonized splints, single-strike reliability, and wholesale production of approximately <strong>45,000 bundles</strong>.
               </p>
 
               {/* CTAs */}
@@ -76,11 +75,11 @@ export default function HomePage() {
                 </Link>
 
                 <Link
-                  href="/transport"
+                  href="/manufacturing"
                   className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-sm shadow-xs transition-all hover:scale-102"
                 >
-                  <Truck className="w-4 h-4 text-red-700" />
-                  <span>Transport Fleet</span>
+                  <Building className="w-4 h-4 text-red-700" />
+                  <span>Manufacturing Units</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
@@ -106,8 +105,8 @@ export default function HomePage() {
                   <div className="text-xs text-slate-500 font-semibold">Moisture-Proof Matches</div>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black text-amber-700">24/7 Logistics</div>
-                  <div className="text-xs text-slate-500 font-semibold">All-India Permits</div>
+                  <div className="text-2xl sm:text-3xl font-black text-amber-700">45,000+</div>
+                  <div className="text-xs text-slate-500 font-semibold">Bundles Wholesale Scale</div>
                 </div>
               </div>
             </div>
@@ -144,14 +143,14 @@ export default function HomePage() {
 
                   <div className="relative h-40 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 group">
                     <Image
-                      src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=800"
-                      alt="Heavy Freight Logistics"
+                      src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800"
+                      alt="Industrial Manufacturing Facilities"
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent p-3 flex flex-col justify-end">
-                      <span className="text-xs font-bold text-white">Commercial Fleet</span>
-                      <span className="text-[10px] text-rose-200 font-semibold">Lorries & Mini Vans</span>
+                      <span className="text-xs font-bold text-white">3 Factory Units</span>
+                      <span className="text-[10px] text-rose-200 font-semibold">Srivilliputhur Plant</span>
                     </div>
                   </div>
                 </div>
@@ -162,7 +161,7 @@ export default function HomePage() {
                     <span className="text-emerald-700 font-bold text-[11px] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Verified Standard</span>
                   </div>
                   <p className="text-[11px] leading-relaxed text-slate-500">
-                    High carbonized wooden splints, instant single-strike ignition, zero afterglow, and secure all-weather freight delivery.
+                    High carbonized wooden splints, instant single-strike ignition, zero afterglow, and secure master wholesale packing.
                   </p>
                 </div>
 
@@ -180,23 +179,23 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================== */}
-      {/* 2. TWO PILLARS OVERVIEW (Matchbox Factory & Transport Fleet)   */}
+      {/* 2. CORE STRENGTHS (Brand Quality & 3 Manufacturing Sister Concerns)*/}
       {/* ============================================================== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-            Core Divisions
+            Core Infrastructure
           </span>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-3">
-            Two Strong Businesses, One Trusted Name
+            Two Pillars of Manufacturing Strength
           </h2>
           <p className="text-sm text-slate-600 mt-2">
-            Veenus Group combines safety match manufacturing with commercial freight and passenger transport fleets.
+            Decades of trusted brand reputation backed by modern multi-unit industrial infrastructure in Srivilliputhur.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Pillar 1: Match Works */}
+          {/* Pillar 1: Matchbox Brand Excellence */}
           <div className="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-red-200 transition-all flex flex-col justify-between group">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -204,27 +203,27 @@ export default function HomePage() {
                   <Flame className="w-6 h-6" />
                 </div>
                 <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                  Manufacturing Division
+                  Brand Division
                 </span>
               </div>
 
               <div>
                 <h3 className="text-xl font-bold text-slate-900 group-hover:text-red-700 transition-colors">
-                  Veenus Match Works
+                  JEEVAN & TEHLA Safety Matches
                 </h3>
                 <p className="text-xs text-red-700 font-bold mt-0.5">
-                  Established 1979 &bull; Srivilliputhur
+                  Regd. No. 3481060 &bull; Est. 1979 by Mr. M. Subburam
                 </p>
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                Manufacturer and exporter of premium veneer safety matches, carbonized cardboard matchboxes, and weatherproof wax matches. Known for smooth striking surfaces and single-strike ignition.
+                Manufacturer of premium veneer safety matches, carbonized cardboard matchboxes, and damp-proof matches. Known for smooth striking surfaces, instant single-strike ignition, and approximately 45,000 bundles wholesale sales volume.
               </p>
 
               <div className="space-y-2.5 pt-3 border-t border-slate-100 text-xs text-slate-700">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Moisture-proof natural veneer outer shells</span>
+                  <span>Moisture-proof duplex outer shells with friction edge</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -232,7 +231,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Wholesale cartons and distributor export bales</span>
+                  <span>Wholesale cartons and 1,000-box master export bales</span>
                 </div>
               </div>
             </div>
@@ -256,63 +255,61 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Pillar 2: Logistics & Transports */}
-          <div className="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-red-200 transition-all flex flex-col justify-between group">
+          {/* Pillar 2: 3 Manufacturing Units & Sister Concerns */}
+          <div className="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-amber-200 transition-all flex flex-col justify-between group">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center shadow-xs">
-                  <Truck className="w-6 h-6" />
+                  <Building className="w-6 h-6" />
                 </div>
                 <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                  Fleet & Logistics
+                  3 Sister Concerns
                 </span>
               </div>
 
               <div>
                 <h3 className="text-xl font-bold text-slate-900 group-hover:text-amber-700 transition-colors">
-                  Cauveri Travels & Freight Fleet
+                  Veenus Match Works & Sister Concerns
                 </h3>
                 <p className="text-xs text-amber-700 font-bold mt-0.5">
-                  10+ Omni Buses & 15+ Freight Lorries
+                  Veenus Match Works &bull; United Match Industries &bull; The Cauveri Matches
                 </p>
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                Entered transportation in 2015 under Mr. S. Hariharan (now 15+ lorries), and expanded into omni bus passenger travel in 2026 under Cauveri Travels with 10+ luxury omni buses.
+                Our manufacturing strength is anchored by three sister concerns in Srivilliputhur, with <strong>Veenus Match Works as our largest manufacturing unit</strong>. Equipped with 10 high-speed automated machinery lines.
               </p>
 
               <div className="space-y-2.5 pt-3 border-t border-slate-100 text-xs text-slate-700">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Cauveri Travels: Fleet of 10+ Luxury Omni Buses (Est. 2026)</span>
+                  <span>Veenus Match Works: Largest central manufacturing unit</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Commercial Freight: 15+ Heavy Lorries with All-India Permits (Est. 2015)</span>
+                  <span>United Match Industries & The Cauveri Matches sister concerns</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Wholesale Distribution: Achieving sales of approx. 45,000 bundles</span>
+                  <span>10 high-speed lines: splint-making, head dipping, box filling & packing</span>
                 </div>
               </div>
             </div>
 
             <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
               <Link
-                href="/transport"
+                href="/manufacturing"
                 className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1.5 transition-colors"
               >
-                <span>View Transport Fleet</span>
+                <span>View Manufacturing Units</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
-              <a
-                href={`https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent('Hello Veenus Transports, I would like to inquire about booking a vehicle.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/manufacturing"
                 className="px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition-colors"
               >
-                Book Vehicle
-              </a>
+                15 Factory Photos
+              </Link>
             </div>
           </div>
         </div>
@@ -331,7 +328,7 @@ export default function HomePage() {
               Featured Safety Matches
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Engineered with premium carbonized splints for smooth, damp-proof ignition.
+              Engineered with premium carbonized splints for smooth, damp-proof single-strike ignition.
             </p>
           </div>
           <Link
@@ -382,28 +379,35 @@ export default function HomePage() {
                     </p>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
                     {prod.description}
                   </p>
 
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                    <span>Packing: <strong className="text-slate-800">{prod.unit}</strong></span>
-                    <span className="text-emerald-700 font-bold">{prod.priceEstimate}</span>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
+                    <span className="text-slate-500">Packaging:</span>
+                    <span className="font-bold text-slate-800">{prod.unit}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Action */}
-              <div className="p-6 pt-0">
+              {/* Action Buttons */}
+              <div className="p-6 pt-0 flex items-center gap-3">
                 <a
                   href={getWhatsAppProductUrl(prod.name)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-xs transition-colors shadow-2xs"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition-all hover:scale-101"
                 >
-                  <MessageCircle className="w-3.5 h-3.5 fill-current" />
-                  <span>Order on WhatsApp</span>
+                  <MessageCircle className="w-4 h-4 fill-current" />
+                  <span>Wholesale Order</span>
                 </a>
+
+                <Link
+                  href={`/products/${prod.id}`}
+                  className="px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 text-xs font-bold transition-colors"
+                >
+                  Details
+                </Link>
               </div>
             </div>
           ))}
@@ -411,86 +415,100 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================== */}
-      {/* 4. TRANSPORT FLEET SECTION (Mini Vans, Lorries, Buses)         */}
+      {/* 4. THREE MANUFACTURING UNITS & 15 PHOTOS PREVIEW               */}
       {/* ============================================================== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-              Veenus Transports & Logistics
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
-              Commercial Fleet & Passenger Vehicles
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Heavy lorries for cargo freight, mini vans for rapid dispatch, and tourist buses for tours.
-            </p>
-          </div>
-          <Link
-            href="/transport"
-            className="inline-flex items-center gap-2 text-xs font-bold text-amber-700 hover:text-amber-800 transition-colors"
-          >
-            <span>View All Fleet</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        {/* Fleet Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {VEENUS_TRANSPORT_FLEET.map((vehicle) => (
-            <div
-              key={vehicle.id}
-              className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-red-200 transition-all flex flex-col justify-between group"
-            >
-              <div>
-                {/* Image */}
-                <div className="relative h-44 w-full overflow-hidden bg-slate-100 border-b border-slate-100">
-                  <Image
-                    src={vehicle.image}
-                    alt={vehicle.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 text-slate-800 border border-slate-200 shadow-2xs">
-                      {vehicle.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Details */}
-                <div className="p-4 space-y-2">
-                  <h3 className="font-bold text-slate-900 text-sm group-hover:text-red-700 transition-colors leading-snug">
-                    {vehicle.title}
-                  </h3>
-                  <div className="text-[11px] font-bold text-red-700">
-                    Capacity: {vehicle.capacity}
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
-                    {vehicle.idealFor}
-                  </p>
-                </div>
-              </div>
-
-              {/* Action */}
-              <div className="p-4 pt-0">
-                <a
-                  href={getWhatsAppVehicleUrl(vehicle.title)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs border border-slate-200 transition-colors"
-                >
-                  <MessageCircle className="w-3.5 h-3.5 fill-current text-emerald-600" />
-                  <span>Book on WhatsApp</span>
-                </a>
-              </div>
+        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+                Manufacturing Facilities
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+                Our 3 Sister Concerns & 15 Factory Photos
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 mt-1">
+                Started in 1979 with 1 unit, now grown to 3 dedicated industrial production plants in Srivilliputhur.
+              </p>
             </div>
-          ))}
+            <Link
+              href="/manufacturing"
+              className="inline-flex items-center gap-2 text-xs font-bold text-red-700 hover:text-red-800 transition-colors"
+            >
+              <span>Explore All 15 Photos</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Unit 1 */}
+            <div className="p-6 rounded-2xl bg-red-50/40 border-2 border-red-200 space-y-3 relative">
+              <div className="absolute top-4 right-4">
+                <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-700 text-white">
+                  Largest Unit
+                </span>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-red-700 text-white flex items-center justify-center font-black text-sm">
+                01
+              </div>
+              <h3 className="font-bold text-slate-900 text-base">Veenus Match Works</h3>
+              <p className="text-xs text-red-700 font-bold">Largest Unit &bull; Mother Plant</p>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Central plant hosting automated match-frame machines, chemical head dipping, continuous industrial drying, and master wholesale bundling.
+              </p>
+            </div>
+
+            {/* Unit 2 */}
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-black text-sm">
+                02
+              </div>
+              <h3 className="font-bold text-slate-900 text-base">United Match Industries</h3>
+              <p className="text-xs text-amber-700 font-bold">Sister Concern &bull; Box Making</p>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                High-capacity facility running precision duplex cardboard box folding, vibration splint-sorting, and automated box filling carousels.
+              </p>
+            </div>
+
+            {/* Unit 3 */}
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center font-black text-sm">
+                03
+              </div>
+              <h3 className="font-bold text-slate-900 text-base">The Cauveri Matches</h3>
+              <p className="text-xs text-slate-600 font-bold">Sister Concern &bull; Quality Assurance</p>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Finishing plant equipped with automated quality-inspection cameras, multi-color trademark label registration, and master carton packing lines.
+              </p>
+            </div>
+          </div>
+
+          {/* Photo Strip Preview */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+            {MANUFACTURING_15_PHOTOS.slice(0, 4).map((p) => (
+              <Link
+                key={p.id}
+                href="/manufacturing"
+                className="group relative h-36 rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs"
+              >
+                <Image
+                  src={p.image}
+                  alt={p.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent p-3 flex flex-col justify-end">
+                  <span className="text-[10px] font-bold text-amber-300">{p.unitTag}</span>
+                  <span className="text-xs font-bold text-white line-clamp-1">{p.title}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 5. ABOUT VEENUS GROUP (Authentic Srivilliputhur Story & Legacy)*/}
+      {/* 5. ABOUT JEEVAN SAFETY MATCHES (Story & Legacy)                */}
       {/* ============================================================== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm relative overflow-hidden">
@@ -510,7 +528,7 @@ export default function HomePage() {
               </p>
 
               <p className="text-sm text-slate-600 leading-relaxed">
-                Our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works (our largest manufacturing unit)</strong>, <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. In transportation, we entered the sector in 2015 under Mr. S. Hariharan with a single lorry and expanded to <strong>15+ lorries</strong>, followed by entering omni bus passenger transportation in 2026 under <strong>Cauveri Travels (10+ omni buses)</strong>.
+                At Jeevan Safety Matches, quality is our identity. We believe that the quality of even a single matchstick reflects the reputation of our brand. With decades of experience and a strong commitment to consistency, we strive to maintain the trust of our customers across every wholesale market and retail dealership.
               </p>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
@@ -525,14 +543,14 @@ export default function HomePage() {
                   <p className="text-[10px] text-slate-500">Wholesale presence</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-blue-700 font-black text-base sm:text-lg mb-0.5">15+ Lorries</div>
-                  <div className="text-[11px] font-bold text-slate-900">Commercial Freight</div>
-                  <p className="text-[10px] text-slate-500">Entered in 2015</p>
+                  <div className="text-slate-900 font-black text-base sm:text-lg mb-0.5">3 Units</div>
+                  <div className="text-[11px] font-bold text-slate-900">Manufacturing Base</div>
+                  <p className="text-[10px] text-slate-500">Srivilliputhur plants</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-emerald-700 font-black text-base sm:text-lg mb-0.5">10+ Buses</div>
-                  <div className="text-[11px] font-bold text-slate-900">Cauveri Travels</div>
-                  <p className="text-[10px] text-slate-500">Omni buses in 2026</p>
+                  <div className="text-emerald-700 font-black text-base sm:text-lg mb-0.5">100%</div>
+                  <div className="text-[11px] font-bold text-slate-900">Carbonized</div>
+                  <p className="text-[10px] text-slate-500">Damp-proof ignition</p>
                 </div>
               </div>
 
@@ -575,27 +593,27 @@ export default function HomePage() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="relative h-28 rounded-xl overflow-hidden border border-slate-200">
+                <div className="relative h-28 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
                   <Image
-                    src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800"
-                    alt="Veenus Mini Freight Lorries"
+                    src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800"
+                    alt="Industrial High-Speed Dipping Machinery"
                     fill
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-slate-900/50 p-2 flex items-end">
-                    <span className="text-[10px] font-bold text-white">Freight Lorries</span>
+                    <span className="text-[10px] font-bold text-white">Automated Machinery</span>
                   </div>
                 </div>
 
-                <div className="relative h-28 rounded-xl overflow-hidden border border-slate-200">
+                <div className="relative h-28 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
                   <Image
-                    src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800"
-                    alt="Veenus Tourist Passenger Coaches"
+                    src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800"
+                    alt="Master Export Packaging Line"
                     fill
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-slate-900/50 p-2 flex items-end">
-                    <span className="text-[10px] font-bold text-white">Passenger Buses</span>
+                    <span className="text-[10px] font-bold text-white">Wholesale Dispatch</span>
                   </div>
                 </div>
               </div>
@@ -611,10 +629,10 @@ export default function HomePage() {
         <div className="bg-gradient-to-r from-red-900 via-red-800 to-rose-950 p-8 sm:p-10 rounded-3xl text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center md:text-left">
             <h3 className="text-xl sm:text-2xl font-black">
-              Connect Directly with Veenus Group Management
+              Connect Directly with Factory Management
             </h3>
             <p className="text-xs sm:text-sm text-rose-100">
-              For factory matchbox orders, distributor partnerships, or immediate vehicle fleet hire.
+              For factory matchbox orders, distributor partnerships, or wholesale dealer pricing.
             </p>
           </div>
 

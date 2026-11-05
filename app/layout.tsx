@@ -17,11 +17,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Veenus Match Works & Transports | Veenus Group (Est. 1979)",
+  title: "Veenus Match Works | Jeevan Safety Matches (Est. 1979)",
   description:
-    "Veenus Match Works & Transports — Premier safety matchbox manufacturing and commercial fleet logistics based in Srivilliputhur, Tamil Nadu. Veneer matches, cardboard matches, heavy freight lorries, mini delivery vans, and passenger tourist coaches.",
+    "Veenus Match Works — Premier safety matchbox manufacturing based in Srivilliputhur, Tamil Nadu. Manufacturer of JEEVAN and TEHLA safety matches across 3 industrial manufacturing facilities.",
   keywords:
-    "veenus match works, veenus group, safety matches srivilliputhur, veneer matches, cardboard matches, freight lorries tamil nadu, omni van transport, tourist bus booking",
+    "veenus match works, jeevan safety matches, tehla matches, safety matches srivilliputhur, veneer matches, cardboard matches, matchbox manufacturer tamil nadu",
   icons: {
     icon: '/logo-official.png',
     shortcut: '/logo-official.png',

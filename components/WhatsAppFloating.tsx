@@ -6,7 +6,7 @@ import { COMPANY_CONTACT } from '@/lib/data';
 
 export const WhatsAppFloating = () => {
   const whatsappUrl = `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
-    'Hello Veenus Group, I would like to inquire about Veenus Safety Matches / Vehicle & Transport Booking.'
+    'Hello Veenus Group, I would like to inquire about Jeevan & Tehla Safety Matches wholesale supply.'
   )}`;
 
   return (

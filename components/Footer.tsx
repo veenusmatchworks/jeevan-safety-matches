@@ -6,7 +6,7 @@ import { VeenusLogo } from '@/components/VeenusLogo';
 
 export const Footer = () => {
   const whatsappUrl = `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
-    'Hello Veenus Group, I would like to inquire about Veenus Safety Matches / Vehicle & Transport Booking.'
+    'Hello Veenus Group, I would like to inquire about Jeevan & Tehla Safety Matches wholesale supply.'
   )}`;
 
   return (
@@ -21,9 +21,9 @@ export const Footer = () => {
               </span>
               <span className="text-xs text-slate-400">Response within minutes</span>
             </div>
-            <h4 className="text-lg font-bold text-white">Need Wholesale Safety Matches or Fleet Transport Booking?</h4>
+            <h4 className="text-lg font-bold text-white">Need Wholesale Safety Matches or Distributor Supply?</h4>
             <p className="text-xs text-slate-400 mt-0.5">
-              Contact Veenus Group directly for immediate stock supply, customized carton batches, or commercial freight trips.
+              Contact Veenus Group directly for immediate stock supply, wholesale dealer pricing, and customized carton batches.
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -56,7 +56,7 @@ export const Footer = () => {
             </Link>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              Prominent safety matchbox manufacturer and trusted transport logistics fleet operator. Serving wholesalers, commercial distributors, and travelers across South India with over four decades of proven quality.
+              Prominent safety matchbox manufacturer serving wholesalers, commercial distributors, and regional dealers across India with over four decades of proven single-strike reliability and damp-proof quality.
             </p>
 
             <div className="pt-2 text-xs text-slate-400">
@@ -76,11 +76,7 @@ export const Footer = () => {
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>Cauveri Travels (10+ Omni Buses)</span>
-                </li>
-                <li className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                  <span>Commercial Freight Fleet (15+ Lorries)</span>
+                  <span>Approx. 45,000 Bundles Wholesale Capacity</span>
                 </li>
               </ul>
             </div>
@@ -126,41 +122,41 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: Transport & Fleet */}
+          {/* Column 3: Manufacturing & Infrastructure */}
           <div>
             <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4 pb-2 border-b border-white/10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-              <span>Fleet & Transports</span>
+              <span className="w-2 h-2 rounded-full bg-red-400"></span>
+              <span>Manufacturing Units</span>
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
-                <Link href="/transport" className="hover:text-white transition-colors">
-                  Maruti Omni & Eeco Mini Vans
+                <Link href="/manufacturing" className="hover:text-white transition-colors">
+                  Veenus Match Works (Unit 1)
                 </Link>
               </li>
               <li>
-                <Link href="/transport" className="hover:text-white transition-colors">
-                  Tata Ace & Dost Mini Lorries
+                <Link href="/manufacturing" className="hover:text-white transition-colors">
+                  United Match Industries (Unit 2)
                 </Link>
               </li>
               <li>
-                <Link href="/transport" className="hover:text-white transition-colors">
-                  6-Wheeler & 10-Wheeler Freight Trucks
+                <Link href="/manufacturing" className="hover:text-white transition-colors">
+                  The Cauveri Matches (Unit 3)
                 </Link>
               </li>
               <li>
-                <Link href="/transport" className="hover:text-white transition-colors">
-                  Tourist Passenger Buses & Coaches
+                <Link href="/manufacturing" className="hover:text-white transition-colors">
+                  10 High-Speed Machinery Lines
                 </Link>
               </li>
               <li>
-                <Link href="/transport" className="hover:text-white transition-colors">
-                  All-India National Permit Freight
+                <Link href="/manufacturing" className="hover:text-white transition-colors">
+                  15 Factory Photo Gallery
                 </Link>
               </li>
               <li>
-                <Link href="/transport" className="hover:text-white transition-colors">
-                  Family Tour & Temple Pilgrimage Trips
+                <Link href="/about" className="hover:text-white transition-colors">
+                  About Jeevan Safety Matches
                 </Link>
               </li>
             </ul>
@@ -170,7 +166,7 @@ export const Footer = () => {
           <div>
             <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4 pb-2 border-b border-white/10 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span>Factory & Fleet Office</span>
+              <span>Factory & Office</span>
             </h4>
             <div className="space-y-3 text-xs text-slate-400">
               <div className="flex items-start gap-2.5">
@@ -212,16 +208,16 @@ export const Footer = () => {
       <div className="border-t border-white/5 py-5 text-xs text-slate-400 bg-slate-950/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
-            &copy; 2026 VEENUS GROUP (Veenus Match Works & Transports). All rights reserved.
+            &copy; 2026 VEENUS GROUP (Veenus Match Works). All rights reserved.
           </div>
           <div className="text-slate-400 text-[11px] flex items-center gap-2">
             <Link href="/manufacturing" className="hover:text-amber-400 transition-colors font-medium">Manufacturing Units</Link>
             <span>&bull;</span>
+            <Link href="/products" className="hover:text-amber-400 transition-colors font-medium">Match Products</Link>
+            <span>&bull;</span>
             <span>Srivilliputhur, Tamil Nadu</span>
             <span>&bull;</span>
             <span>Est. 1979</span>
-            <span>&bull;</span>
-            <span>Cauveri Travels</span>
           </div>
         </div>
       </div>

@@ -26,13 +26,12 @@ export const Navbar = () => {
     { name: 'Home', href: '/' },
     { name: 'Match Products', href: '/products' },
     { name: 'Manufacturing Units', href: '/manufacturing' },
-    { name: 'Transport & Fleet', href: '/transport' },
     { name: 'About Veenus', href: '/about' },
     { name: 'Contact Us', href: '/contact' },
   ];
 
   const whatsappUrl = `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
-    'Hello Veenus Group, I would like to inquire about Veenus Safety Matches / Vehicle & Transport Booking.'
+    'Hello Veenus Group, I would like to inquire about Jeevan & Tehla Safety Matches.'
   )}`;
 
   return (

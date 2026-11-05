@@ -52,7 +52,7 @@ export default function ContactPage() {
               Get in Touch with Our Team
             </h1>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Connect directly with our factory office in Srivilliputhur for safety match supplies, distributor pricing, or vehicle fleet hire across South India.
+              Connect directly with our factory office in Srivilliputhur for safety match supplies, distributor bulk pricing, and wholesale dealership inquiries.
             </p>
           </div>
         </div>
@@ -125,22 +125,20 @@ export default function ContactPage() {
                     <option value="TEHLA Matchbox Wholesale Order">TEHLA Matchbox Wholesale Order</option>
                     <option value="Veneer Safety Matches Bulk Supply">Veneer Safety Matches Bulk Supply</option>
                     <option value="Cardboard Safety Matches Dealership">Cardboard Safety Matches Dealership</option>
-                    <option value="Mini Van / Omni Hire">Mini Van / Omni Hire</option>
-                    <option value="Tata Ace / Mini Lorry Goods Transport">Tata Ace / Mini Lorry Goods Transport</option>
-                    <option value="Heavy Freight Lorry (6 / 10 Wheeler) Booking">Heavy Freight Lorry (6 / 10 Wheeler) Booking</option>
-                    <option value="Tourist Passenger Coach / Bus Booking">Tourist Passenger Coach / Bus Booking</option>
+                    <option value="Contract Manufacturing / Factory Supply">Contract Manufacturing / Factory Supply</option>
+                    <option value="Other Wholesale Inquiry">Other Wholesale Inquiry</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Message / Quantity / Destination
+                    Message / Quantity / Requirements
                   </label>
                   <textarea
                     rows={3}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Provide quantity of boxes, transport pickup/drop location, or tour dates..."
+                    placeholder="Provide quantity of boxes, bundles required, or dealership details..."
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-red-700 transition-colors"
                   />
                 </div>
@@ -159,7 +157,7 @@ export default function ContactPage() {
           {/* Right Column: Office & Factory Details */}
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
-              <h3 className="text-lg font-bold text-slate-900">Factory & Fleet Contact</h3>
+              <h3 className="text-lg font-bold text-slate-900">Factory Office Contact</h3>
 
               <div className="space-y-4 text-xs text-slate-600">
                 <div className="flex items-start gap-3">
@@ -248,7 +246,7 @@ export default function ContactPage() {
                 <span>DIRECT MANUFACTURER GUARANTEE</span>
               </div>
               <p className="text-xs text-red-950/80 leading-relaxed font-medium">
-                Deal directly with the factory management. We offer factory wholesale billing, customized box artwork, and doorstep vehicle freight delivery.
+                Deal directly with the factory management. We offer factory wholesale billing, customized box artwork, and scheduled wholesale bale dispatch.
               </p>
             </div>
           </div>
