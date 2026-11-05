@@ -38,7 +38,7 @@ export const Navbar = () => {
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs">
       {/* Top Utility Bar - Prestigious Royal Burgundy */}
       <div className="bg-[#7f1d1d] text-white text-xs py-2 px-4 shadow-inner">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 text-xs">
             <span className="flex items-center gap-1.5 text-rose-100 font-medium">
               <MapPin className="w-3.5 h-3.5 text-amber-300 shrink-0" />
@@ -69,7 +69,7 @@ export const Navbar = () => {
       </div>
 
       {/* Main Corporate Navbar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-18 sm:h-20">
           {/* Official Emblem Logo */}
           <Link href="/" className="flex items-center shrink-0" aria-label="Veenus Match Works Home">

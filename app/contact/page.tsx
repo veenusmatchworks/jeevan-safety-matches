@@ -40,7 +40,7 @@ export default function ContactPage() {
 
   return (
     <div className="py-10 space-y-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 space-y-12">
         {/* Header Banner */}
         <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/90 shadow-sm relative overflow-hidden">
           <div className="max-w-3xl space-y-3">

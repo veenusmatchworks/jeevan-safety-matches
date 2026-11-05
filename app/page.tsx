@@ -40,7 +40,7 @@ export default function HomePage() {
       {/* 1. HERO SECTION (Industrial Safety Matches & Manufacturing)    */}
       {/* ============================================================== */}
       <section className="relative pt-10 sm:pt-16 pb-14 bg-gradient-to-b from-white via-slate-50 to-slate-100/60 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
@@ -60,7 +60,7 @@ export default function HomePage() {
 
               {/* Subtitle */}
               <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
-                Manufacturer of India&apos;s trusted <strong>JEEVAN</strong> and <strong>TEHLA</strong> safety matches across 3 modern manufacturing facilities in Srivilliputhur. Moisture-resistant veneer boxes, carbonized splints, single-strike reliability, and wholesale production of approximately <strong>45,000 bundles</strong>.
+                Manufacturer of India&apos;s trusted <strong>JEEVAN</strong> and <strong>TEHLA</strong> safety matches across 3 modern manufacturing facilities in Srivilliputhur. Moisture-resistant veneer boxes, 100% carbonized wooden splints, and single-strike reliability for wholesale dealers nationwide.
               </p>
 
               {/* CTAs */}
@@ -105,8 +105,8 @@ export default function HomePage() {
                   <div className="text-xs text-slate-500 font-semibold">Moisture-Proof Matches</div>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black text-amber-700">45,000+</div>
-                  <div className="text-xs text-slate-500 font-semibold">Bundles Wholesale Scale</div>
+                  <div className="text-2xl sm:text-3xl font-black text-amber-700">3 Plants</div>
+                  <div className="text-xs text-slate-500 font-semibold">Industrial Facilities</div>
                 </div>
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function HomePage() {
       {/* ============================================================== */}
       {/* 2. CORE STRENGTHS (Brand Quality & 3 Manufacturing Sister Concerns)*/}
       {/* ============================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
             Core Infrastructure
@@ -217,7 +217,7 @@ export default function HomePage() {
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                Manufacturer of premium veneer safety matches, carbonized cardboard matchboxes, and damp-proof matches. Known for smooth striking surfaces, instant single-strike ignition, and approximately 45,000 bundles wholesale sales volume.
+                Manufacturer of premium veneer safety matches, carbonized cardboard matchboxes, and damp-proof matches. Known for smooth striking surfaces, instant single-strike ignition, and reliable wholesale distribution across India.
               </p>
 
               <div className="space-y-2.5 pt-3 border-t border-slate-100 text-xs text-slate-700">
@@ -308,7 +308,7 @@ export default function HomePage() {
                 href="/manufacturing"
                 className="px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition-colors"
               >
-                15 Factory Photos
+                Factory Gallery
               </Link>
             </div>
           </div>
@@ -318,7 +318,7 @@ export default function HomePage() {
       {/* ============================================================== */}
       {/* 3. SAFETY MATCHES CATALOGUE (Crisp White Product Cards)        */}
       {/* ============================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
@@ -415,9 +415,9 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================== */}
-      {/* 4. THREE MANUFACTURING UNITS & 15 PHOTOS PREVIEW               */}
+      {/* 4. THREE MANUFACTURING UNITS & FACTORY GALLERY PREVIEW         */}
       {/* ============================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
@@ -425,7 +425,7 @@ export default function HomePage() {
                 Manufacturing Facilities
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
-                Our 3 Sister Concerns & 15 Factory Photos
+                Our 3 Sister Concerns & Manufacturing Facilities
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1">
                 Started in 1979 with 1 unit, now grown to 3 dedicated industrial production plants in Srivilliputhur.
@@ -435,7 +435,7 @@ export default function HomePage() {
               href="/manufacturing"
               className="inline-flex items-center gap-2 text-xs font-bold text-red-700 hover:text-red-800 transition-colors"
             >
-              <span>Explore All 15 Photos</span>
+              <span>Explore Factory Gallery</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -510,7 +510,7 @@ export default function HomePage() {
       {/* ============================================================== */}
       {/* 5. ABOUT JEEVAN SAFETY MATCHES (Story & Legacy)                */}
       {/* ============================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm relative overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Story */}
@@ -524,7 +524,7 @@ export default function HomePage() {
               </h2>
 
               <p className="text-sm text-slate-600 leading-relaxed">
-                Established in <strong>1979 by Mr. M. Subburam</strong>, <strong>Jeevan Safety Matches (Regd. No.: 3481060)</strong> carries a legacy of quality, trust and dedication. Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, the company continues its journey with the same commitment to excellence, achieving wholesale sales of approximately <strong>45,000 bundles</strong>.
+                Established in <strong>1979 by Mr. M. Subburam</strong>, <strong>Jeevan Safety Matches (Regd. No.: 3481060)</strong> carries a legacy of quality, trust and dedication. Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, the company continues its journey with the same commitment to excellence, serving wholesale dealers and distributors with unwavering reliability across India.
               </p>
 
               <p className="text-sm text-slate-600 leading-relaxed">
@@ -538,9 +538,9 @@ export default function HomePage() {
                   <p className="text-[10px] text-slate-500">Established founder</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-amber-700 font-black text-base sm:text-lg mb-0.5">45,000</div>
-                  <div className="text-[11px] font-bold text-slate-900">Bundles Sold</div>
-                  <p className="text-[10px] text-slate-500">Wholesale presence</p>
+                  <div className="text-amber-700 font-black text-base sm:text-lg mb-0.5">10 Lines</div>
+                  <div className="text-[11px] font-bold text-slate-900">Modern Machinery</div>
+                  <p className="text-[10px] text-slate-500">Automated lines</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
                   <div className="text-slate-900 font-black text-base sm:text-lg mb-0.5">3 Units</div>
@@ -607,7 +607,7 @@ export default function HomePage() {
 
                 <div className="relative h-28 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
                   <Image
-                    src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800"
+                    src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800"
                     alt="Master Export Packaging Line"
                     fill
                     className="object-cover"
@@ -625,7 +625,7 @@ export default function HomePage() {
       {/* ============================================================== */}
       {/* 6. DIRECT CONTACT BANNER (Royal Burgundy Call-To-Action)       */}
       {/* ============================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="bg-gradient-to-r from-red-900 via-red-800 to-rose-950 p-8 sm:p-10 rounded-3xl text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center md:text-left">
             <h3 className="text-xl sm:text-2xl font-black">

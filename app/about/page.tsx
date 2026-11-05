@@ -43,7 +43,7 @@ export default function AboutPage() {
 
   return (
     <div className="py-10 space-y-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 space-y-16">
         
         {/* ============================================================== */}
         {/* 1. HERO BANNER — OFFICIAL ABOUT JEEVAN SAFETY MATCHES          */}
@@ -72,7 +72,7 @@ export default function AboutPage() {
 
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <div className="px-4 py-2 rounded-xl bg-red-50 border border-red-200 text-red-900 text-xs font-bold">
-                Sales: Approx. 45,000 Bundles
+                10 Advanced Machinery Lines
               </div>
               <div className="px-4 py-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold">
                 3 Manufacturing Sister Concerns
@@ -99,9 +99,9 @@ export default function AboutPage() {
           </div>
 
           <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
-            <div className="text-3xl font-black text-amber-700">45,000</div>
-            <div className="text-xs font-bold text-slate-900">Bundles Sold</div>
-            <p className="text-[11px] text-slate-500">Strong wholesale market presence.</p>
+            <div className="text-3xl font-black text-amber-700">All-India</div>
+            <div className="text-xs font-bold text-slate-900">Dealer Network</div>
+            <p className="text-[11px] text-slate-500">Reliable wholesale supply.</p>
           </div>
 
           <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
@@ -135,7 +135,7 @@ export default function AboutPage() {
               Supported by Three Sister Concerns
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Jeevan Safety Matches has established a strong presence in the wholesale market, serving dealers and distributors with reliability and achieving sales of approximately <strong>45,000 bundles</strong>. Our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works</strong>, <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. Among these, <strong>Veenus Match Works is our largest manufacturing unit</strong>.
+              Jeevan Safety Matches has established a strong presence in the wholesale market, serving dealers and distributors across the country with uncompromised reliability and dedication. Our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works</strong>, <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. Among these, <strong>Veenus Match Works is our largest manufacturing unit</strong>.
             </p>
           </div>
 

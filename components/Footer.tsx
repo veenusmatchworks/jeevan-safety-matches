@@ -13,7 +13,7 @@ export const Footer = () => {
     <footer className="relative bg-slate-950 text-slate-300 border-t border-white/10 mt-16">
       {/* Quick Action Band */}
       <div className="bg-gradient-to-r from-red-950 via-slate-900 to-slate-950 border-b border-red-900/30 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
@@ -47,7 +47,7 @@ export const Footer = () => {
       </div>
 
       {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: Company Profile */}
           <div className="space-y-4">
@@ -76,7 +76,7 @@ export const Footer = () => {
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>Approx. 45,000 Bundles Wholesale Capacity</span>
+                  <span>10 Advanced High-Speed Machinery Lines</span>
                 </li>
               </ul>
             </div>
@@ -151,7 +151,7 @@ export const Footer = () => {
               </li>
               <li>
                 <Link href="/manufacturing" className="hover:text-white transition-colors">
-                  15 Factory Photo Gallery
+                  Factory Photo Gallery
                 </Link>
               </li>
               <li>
@@ -206,7 +206,7 @@ export const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/5 py-5 text-xs text-slate-400 bg-slate-950/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
             &copy; 2026 VEENUS GROUP (Veenus Match Works). All rights reserved.
           </div>

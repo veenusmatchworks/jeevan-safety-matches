@@ -21,11 +21,11 @@ import { COMPANY_CONTACT, MANUFACTURING_15_PHOTOS, ManufacturingPhoto } from '@/
 import { VeenusLogo } from '@/components/VeenusLogo';
 
 export default function ManufacturingPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All Photos (15)');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All Photos');
   const [lightboxPhoto, setLightboxPhoto] = useState<ManufacturingPhoto | null>(null);
 
   const categories = [
-    'All Photos (15)',
+    'All Photos',
     'Unit 1: Chemical & Splints',
     'Unit 2: Box Making & Duplex',
     'Unit 3: Packaging & Warehouse',
@@ -33,13 +33,13 @@ export default function ManufacturingPage() {
   ];
 
   const filteredPhotos = MANUFACTURING_15_PHOTOS.filter((photo) => {
-    if (selectedCategory === 'All Photos (15)') return true;
+    if (selectedCategory === 'All Photos') return true;
     return photo.category === selectedCategory;
   });
 
   return (
     <div className="py-10 space-y-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 space-y-12">
         {/* Header Banner */}
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="max-w-3xl space-y-4">
@@ -56,7 +56,7 @@ export default function ManufacturingPage() {
             </h1>
 
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Established in <strong>1979 by Mr. M. Subburam</strong>, Jeevan Safety Matches (Regd. No.: 3481060) carries a legacy of quality, trust and dedication. Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works</strong> (our largest manufacturing unit), <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. With high-speed machinery and modern industrial infrastructure, we achieve wholesale production of approximately <strong>45,000 bundles</strong>.
+              Established in <strong>1979 by Mr. M. Subburam</strong>, Jeevan Safety Matches (Regd. No.: 3481060) carries a legacy of quality, trust and dedication. Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works</strong> (our largest manufacturing unit), <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. With high-speed machinery and modern industrial infrastructure, we deliver consistent, uncompromised single-strike quality for dealers and distributors nationwide.
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -70,11 +70,11 @@ export default function ManufacturingPage() {
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>15 Company Manufacturing Photos</span>
+                <span>Factory Photo Showcase</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Wholesale Scale: Approx. 45,000 Bundles</span>
+                <span>All-India Wholesale Supply</span>
               </span>
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function ManufacturingPage() {
           </div>
         </div>
 
-        {/* 15 Company Manufacturing Photos Grid */}
+        {/* Company Manufacturing Photos Grid */}
         <div className="space-y-6 pt-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
@@ -236,10 +236,10 @@ export default function ManufacturingPage() {
                 Company Photo Showcase
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
-                15 Photos of Our Manufacturing Units
+                Manufacturing Facilities & Factory Photos
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                Authentic factory machinery, chemical decks, box lines, packaging carousels, and loading bays across our 3 units.
+                Authentic factory machinery, chemical decks, box lines, packaging carousels, and staging bays across our 3 units.
               </p>
             </div>
 
@@ -262,7 +262,7 @@ export default function ManufacturingPage() {
           </div>
 
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold px-1">
-            <span>Showing {filteredPhotos.length} of {MANUFACTURING_15_PHOTOS.length} Factory Photos</span>
+            <span>Factory Infrastructure & Industrial Machinery</span>
             <span className="text-red-700 font-bold">Click any photo to enlarge in HD Lightbox</span>
           </div>
 
