@@ -45,13 +45,13 @@ export default function TransportPage() {
           <div className="max-w-3xl space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-800 text-xs font-bold uppercase tracking-wider">
               <Truck className="w-3.5 h-3.5" />
-              <span>Cavery Travels (30+ Buses) &bull; Commercial Freight Fleet</span>
+              <span>Cauveri Travels (10+ Omni Buses) &bull; Freight Fleet (15+ Lorries)</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-              Cavery Travels & Freight Fleet
+              Cauveri Travels & Transport Fleet
             </h1>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Premier passenger tourism and commercial cargo transport managed under the leadership of Managing Director <strong>Mr. S. Hariharan</strong>. Our fleet features <strong>Cavery Travels (30+ luxury tourist coaches from 32 to 54 seats)</strong> for pilgrimage tours and weddings, alongside 6 & 10-wheeler heavy trucks, Tata Ace mini lorries, and Omni delivery vans.
+              Expanding beyond the matches industry, we entered the transportation sector in 2015 under the leadership of Managing Director <strong>Mr. S. Hariharan</strong>, beginning with a single lorry and continuously expanding to a commercial fleet of <strong>more than 15 lorries</strong>. In 2026, we further entered the omni bus transportation sector under the name <strong>Cauveri Travels</strong>, which currently operates a modern fleet of <strong>more than 10 omni buses</strong> for passenger tourism, pilgrimage trips, weddings, and inter-city routes.
             </p>
           </div>
 

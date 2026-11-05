@@ -270,29 +270,29 @@ export default function HomePage() {
 
               <div>
                 <h3 className="text-xl font-bold text-slate-900 group-hover:text-amber-700 transition-colors">
-                  Cavery Travels & Freight Fleet
+                  Cauveri Travels & Freight Fleet
                 </h3>
                 <p className="text-xs text-amber-700 font-bold mt-0.5">
-                  30+ Luxury Buses & Heavy Lorries
+                  10+ Omni Buses & 15+ Freight Lorries
                 </p>
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                Operating Cavery Travels with an active fleet of 30+ luxury tourist coaches (32 to 54-seater AC/Non-AC), alongside 6 & 10-wheeler commercial freight trucks, Tata Ace mini lorries, and delivery vans.
+                Entered transportation in 2015 under Mr. S. Hariharan (now 15+ lorries), and expanded into omni bus passenger travel in 2026 under Cauveri Travels with 10+ luxury omni buses.
               </p>
 
               <div className="space-y-2.5 pt-3 border-t border-slate-100 text-xs text-slate-700">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Cavery Travels: 30+ Luxury AC & Non-AC coaches</span>
+                  <span>Cauveri Travels: Fleet of 10+ Luxury Omni Buses (Est. 2026)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Freight haulage with safe tarpaulin covers & permits</span>
+                  <span>Commercial Freight: 15+ Heavy Lorries with All-India Permits (Est. 2015)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Pilgrimage tours (Rameswaram, Madurai, Tirupati) & weddings</span>
+                  <span>Wholesale Distribution: Achieving sales of approx. 45,000 bundles</span>
                 </div>
               </div>
             </div>
@@ -498,42 +498,53 @@ export default function HomePage() {
             {/* Story */}
             <div className="lg:col-span-7 space-y-5">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-800 text-xs font-bold uppercase tracking-wider">
-                <span>ABOUT VEENUS GROUP</span>
+                <span>ABOUT JEEVAN SAFETY MATCHES</span>
               </div>
 
               <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
-                Over 45 Years of Manufacturing Quality & Highway Reliability
+                Established 1979 &bull; Quality, Trust and Dedication
               </h2>
 
               <p className="text-sm text-slate-600 leading-relaxed">
-                Founded in <strong>1979</strong> with a single manufacturing unit in <strong>Srivilliputhur, Tamil Nadu</strong>, Veenus Match Works began with a dedicated focus on manufacturing sturdy, damp-resistant safety matchboxes. Today, that enterprise has steadily grown into <strong>3 full-scale industrial manufacturing units</strong>.
+                Established in <strong>1979 by Mr. M. Subburam</strong>, <strong>Jeevan Safety Matches (Regd. No.: 3481060)</strong> carries a legacy of quality, trust and dedication. Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, the company continues its journey with the same commitment to excellence, achieving wholesale sales of approximately <strong>45,000 bundles</strong>.
               </p>
 
               <p className="text-sm text-slate-600 leading-relaxed">
-                Under the visionary leadership of Managing Director <strong>Mr. S. Hariharan</strong>, the group operates in synergy with sister concerns <strong>United Match Industries</strong> and <strong>The Cauveri Matches</strong>, alongside running <strong>Cavery Travels</strong> (a premier fleet of <strong>30+ luxury tourist buses</strong>) and commercial freight haulage lorries, ensuring both manufactured goods and passengers are served with dependable quality.
+                Our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works (our largest manufacturing unit)</strong>, <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. In transportation, we entered the sector in 2015 under Mr. S. Hariharan with a single lorry and expanded to <strong>15+ lorries</strong>, followed by entering omni bus passenger transportation in 2026 under <strong>Cauveri Travels (10+ omni buses)</strong>.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-red-700 font-bold text-sm mb-1">3 Factory Units</div>
-                  <p className="text-[11px] text-slate-500">Grown from 1 unit to 3 modern manufacturing units.</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <div className="text-red-700 font-black text-base sm:text-lg mb-0.5">1979</div>
+                  <div className="text-[11px] font-bold text-slate-900">Mr. M. Subburam</div>
+                  <p className="text-[10px] text-slate-500">Established founder</p>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-emerald-700 font-bold text-sm mb-1">Cavery Travels (30+ Buses)</div>
-                  <p className="text-[11px] text-slate-500">Luxury coaches for temple pilgrimages, weddings & tours.</p>
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <div className="text-amber-700 font-black text-base sm:text-lg mb-0.5">45,000</div>
+                  <div className="text-[11px] font-bold text-slate-900">Bundles Sold</div>
+                  <p className="text-[10px] text-slate-500">Wholesale presence</p>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-amber-700 font-bold text-sm mb-1">Freight Haulage</div>
-                  <p className="text-[11px] text-slate-500">Heavy trucks & mini vans for safe interstate transport.</p>
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <div className="text-blue-700 font-black text-base sm:text-lg mb-0.5">15+ Lorries</div>
+                  <div className="text-[11px] font-bold text-slate-900">Commercial Freight</div>
+                  <p className="text-[10px] text-slate-500">Entered in 2015</p>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <div className="text-emerald-700 font-black text-base sm:text-lg mb-0.5">10+ Buses</div>
+                  <div className="text-[11px] font-bold text-slate-900">Cauveri Travels</div>
+                  <p className="text-[10px] text-slate-500">Omni buses in 2026</p>
                 </div>
               </div>
 
               <div className="pt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600">
-                <span className="font-bold text-slate-800">Sister Concerns:</span>
-                <span className="px-3 py-1 rounded-full bg-red-50 text-red-800 border border-red-200 font-semibold text-[11px]">
+                <span className="font-bold text-slate-800">3 Sister Concerns:</span>
+                <span className="px-3 py-1 rounded-full bg-red-50 text-red-800 border border-red-200 font-bold text-[11px]">
+                  Veenus Match Works (Largest Unit)
+                </span>
+                <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 font-semibold text-[11px]">
                   United Match Industries
                 </span>
-                <span className="px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-semibold text-[11px]">
+                <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 font-semibold text-[11px]">
                   The Cauveri Matches
                 </span>
               </div>

@@ -195,17 +195,17 @@ export default function ManufacturingPage() {
             </h1>
 
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Established in <strong>1979 starting with a single unit</strong> in Srivilliputhur, Veenus Match Works has steadily expanded under the leadership of Managing Director <strong>Mr. S. Hariharan</strong> into <strong>3 full-scale industrial manufacturing units</strong>, operating in coordination with sister concerns <strong>United Match Industries</strong> and <strong>The Cauveri Matches</strong> to manufacture <strong>JEEVAN</strong> and <strong>TEHLA</strong> safety matches with consistent single-strike reliability and damp-proof performance.
+              Established in <strong>1979 by Mr. M. Subburam</strong>, Jeevan Safety Matches (Regd. No.: 3481060) carries a legacy of quality, trust and dedication. Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works</strong> (our largest manufacturing unit), <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. With high-speed machinery and modern industrial infrastructure, we achieve wholesale production of approximately <strong>45,000 bundles</strong>.
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>3 Industrial Production Units</span>
+                <span>3 Manufacturing Sister Concerns</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Sister Concerns: United Match Industries & The Cauveri Matches</span>
+                <span>Veenus Match Works (Largest Manufacturing Unit)</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
@@ -213,7 +213,7 @@ export default function ManufacturingPage() {
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Cavery Travels (30+ Luxury Buses)</span>
+                <span>Cauveri Travels (10+ Omni Buses) &bull; Freight (15+ Lorries)</span>
               </span>
             </div>
           </div>
@@ -227,103 +227,143 @@ export default function ManufacturingPage() {
         <div className="space-y-6">
           <div className="text-center max-w-2xl mx-auto">
             <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-              Manufacturing Infrastructure
+              Sister Concerns & Infrastructure
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
-              Our 3 Factory Manufacturing Plants
+              Our 3 Manufacturing Units
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Started in 1979 with 1 unit in Srivilliputhur, grown into 3 specialized industrial units.
+              Supported by three sister concerns in Srivilliputhur, equipped with advanced high-speed machinery for large-scale production.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Unit 1 */}
-            <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 p-6 space-y-4 shadow-sm hover:shadow-lg hover:border-red-200 transition-all">
-              <div className="flex items-center justify-between">
+            {/* Unit 1: Veenus Match Works */}
+            <div className="bg-white rounded-3xl overflow-hidden border-2 border-red-200 p-6 space-y-4 shadow-sm hover:shadow-lg transition-all relative">
+              <div className="absolute top-4 right-4">
+                <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-red-700 text-white shadow-xs">
+                  Largest Unit
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
                 <span className="w-10 h-10 rounded-xl bg-red-50 text-red-700 border border-red-200 flex items-center justify-center font-black text-sm">
                   01
                 </span>
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                  Est. 1979 Mother Plant
-                </span>
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-lg">Unit 1 — Chemical & Splints</h3>
-                <p className="text-xs text-red-700 font-semibold">Venkateswarpuram, Aladipatti</p>
+                <h3 className="font-bold text-slate-900 text-lg">Veenus Match Works</h3>
+                <p className="text-xs text-red-700 font-bold">Our Largest Manufacturing Unit &bull; Srivilliputhur</p>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Initial mother unit established in 1979. Handles non-toxic phosphorus formulation, wooden splint carbonization to eliminate afterglow, and automated chemical head dipping.
+                Our flagship central manufacturing installation operating high-speed automated match production, chemical formulation, precision dipping, and heavy wholesale dispatch.
               </p>
               <div className="pt-2 border-t border-slate-100 space-y-1.5 text-[11px] text-slate-600">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Phosphorus compounding & head dipping</span>
+                  <span>High-speed match-frame & dipping machinery</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Carbonized wooden splint processing</span>
+                  <span>Heavy wholesale bundle staging & dispatch</span>
                 </div>
               </div>
             </div>
 
-            {/* Unit 2 */}
-            <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 p-6 space-y-4 shadow-sm hover:shadow-lg hover:border-red-200 transition-all">
+            {/* Unit 2: United Match Industries */}
+            <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 p-6 space-y-4 shadow-sm hover:shadow-lg hover:border-amber-200 transition-all">
               <div className="flex items-center justify-between">
                 <span className="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center font-black text-sm">
                   02
                 </span>
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                  Box Making Plant
+                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                  Sister Concern
                 </span>
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-lg">Unit 2 — Duplex Shell & Tray</h3>
-                <p className="text-xs text-amber-700 font-semibold">Perumalpatti Industrial Road</p>
+                <h3 className="font-bold text-slate-900 text-lg">United Match Industries</h3>
+                <p className="text-xs text-amber-700 font-bold">High-Speed Box & Splint Operations</p>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Modern high-capacity plant dedicated to folding, pasting, and precision cutting of damp-resistant duplex outer shells and inner trays for JEEVAN & TEHLA matchboxes.
+                Specialized production facility equipped with precision splint-sorting, inner and outer duplex box-making, and high-velocity automated box filling lines.
               </p>
               <div className="pt-2 border-t border-slate-100 space-y-1.5 text-[11px] text-slate-600">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Damp-proof outer box shell forming</span>
+                  <span>Splint-sorting & matchbox-making systems</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Smooth precision sliding match tray line</span>
+                  <span>Automated matchbox-filling & friction coating</span>
                 </div>
               </div>
             </div>
 
-            {/* Unit 3 */}
-            <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 p-6 space-y-4 shadow-sm hover:shadow-lg hover:border-red-200 transition-all">
+            {/* Unit 3: The Cauveri Matches */}
+            <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 p-6 space-y-4 shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all">
               <div className="flex items-center justify-between">
                 <span className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center font-black text-sm">
                   03
                 </span>
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                  Packaging & Dispatch
+                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  Sister Concern
                 </span>
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-lg">Unit 3 — Packaging & Dispatch</h3>
-                <p className="text-xs text-emerald-700 font-semibold">Srivilliputhur Dispatch Terminal</p>
+                <h3 className="font-bold text-slate-900 text-lg">The Cauveri Matches</h3>
+                <p className="text-xs text-emerald-700 font-bold">Packaging & Quality Assurance</p>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Automated high-speed tray filling, friction strip edge coating, 10-box cellophane banding, 100-box retail packaging, and master export bale compression.
+                Advanced manufacturing unit hosting industrial drying chambers, multi-color branding and labelling, digital quality inspection, and carton-packing lines.
               </p>
               <div className="pt-2 border-t border-slate-100 space-y-1.5 text-[11px] text-slate-600">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Automated stick count & box insertion</span>
+                  <span>Industrial drying & quality-inspection systems</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Direct freight loading bay for highway lorries</span>
+                  <span>Automated carton-packing & bundle wrapping</span>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* 10 Advanced Machinery & Industrial Infrastructure Section */}
+        <div className="bg-white rounded-3xl border border-slate-200/90 p-8 sm:p-10 shadow-sm space-y-6">
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+              Modern Industrial Infrastructure
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              10 Advanced High-Speed Machinery Lines
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              All three manufacturing units are equipped with advanced industrial equipment supporting large-scale manufacturing, efficient production processes, and consistent single-strike product quality.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 pt-2">
+            {[
+              { num: '01', name: 'Splint-Making Machines', desc: 'Precision timber cutting & uniform wooden splints' },
+              { num: '02', name: 'Splint-Sorting Machines', desc: 'Calibrated vibration sieve & defect elimination' },
+              { num: '03', name: 'Match-Frame Machines', desc: 'High-speed automated splint alignment frames' },
+              { num: '04', name: 'Match-Head Dipping', desc: 'Accurate chemical formulation & compound dip' },
+              { num: '05', name: 'Industrial Drying Systems', desc: 'Temperature-controlled continuous damp-proof curing' },
+              { num: '06', name: 'Matchbox-Making Machines', desc: 'Duplex paper board precision crease & folding' },
+              { num: '07', name: 'Automated Box Filling', desc: 'Accurate count insertion into sliding trays' },
+              { num: '08', name: 'Printing & Labelling', desc: 'High-definition brand label registration' },
+              { num: '09', name: 'Quality-Inspection Systems', desc: 'Defect rejection, strike testing & safety standards' },
+              { num: '10', name: 'Carton-Packing Machinery', desc: 'Bale bundling, shrink sealing & master carton pack' },
+            ].map((m) => (
+              <div key={m.num} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5 hover:border-red-300 transition-all">
+                <span className="text-[11px] font-black text-red-700 bg-red-50 px-2 py-0.5 rounded-md border border-red-200">
+                  {m.num}
+                </span>
+                <h4 className="text-xs font-bold text-slate-900 leading-snug">{m.name}</h4>
+                <p className="text-[11px] text-slate-500 leading-relaxed">{m.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
 

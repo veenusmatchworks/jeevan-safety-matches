@@ -64,7 +64,7 @@ export const Footer = () => {
               <ul className="space-y-1 text-[11px] text-slate-400">
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                  <span>Veenus Match Works (3 Units)</span>
+                  <span>Veenus Match Works (Largest Manufacturing Unit)</span>
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
@@ -76,11 +76,11 @@ export const Footer = () => {
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>Cavery Travels (30+ Luxury Buses)</span>
+                  <span>Cauveri Travels (10+ Omni Buses)</span>
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                  <span>Commercial Freight Fleet (Lorries & Vans)</span>
+                  <span>Commercial Freight Fleet (15+ Lorries)</span>
                 </li>
               </ul>
             </div>
@@ -221,7 +221,7 @@ export const Footer = () => {
             <span>&bull;</span>
             <span>Est. 1979</span>
             <span>&bull;</span>
-            <span>Cavery Travels</span>
+            <span>Cauveri Travels</span>
           </div>
         </div>
       </div>

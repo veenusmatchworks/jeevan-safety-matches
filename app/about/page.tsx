@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,8 +8,6 @@ import {
   Truck,
   ShieldCheck,
   CheckCircle2,
-  Users,
-  Target,
   Award,
   ArrowRight,
   Phone,
@@ -15,308 +15,338 @@ import {
   MapPin,
   Building2,
   History,
-  Calendar
+  Calendar,
+  Factory,
+  Cog,
+  Bus,
+  Layers,
+  Sparkles
 } from 'lucide-react';
 import { COMPANY_CONTACT } from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
 
 export default function AboutPage() {
   const whatsappUrl = `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
-    'Hello Veenus Group, I would like to inquire about Veenus Match Works products and Transport services.'
+    'Hello Jeevan Safety Matches, I would like to inquire about your safety matches and transport services.'
   )}`;
+
+  const machineryList = [
+    { title: 'Splint-Making Machines', desc: 'Precision wood veneer peeling and uniform carbonized splint processing.' },
+    { title: 'Splint-Sorting Machines', desc: 'High-speed automated grading to separate uniform, unblemished sticks.' },
+    { title: 'Match-Frame Machines', desc: 'Continuous mechanical framing for systematic multi-splint alignment.' },
+    { title: 'Match-Head Dipping Machines', desc: 'Controlled chemical head formulation and spark-free composition dipping.' },
+    { title: 'Industrial Drying Systems', desc: 'Moisture-evaporating ventilation tunnels for consistent humidity resistance.' },
+    { title: 'Matchbox-Making Machines', desc: 'Automated duplex paperboard folding, creasing, and tray forming.' },
+    { title: 'Automated Matchbox-Filling Machines', desc: 'High-speed optical stick counting and smooth tray insertion.' },
+    { title: 'Printing & Labelling Machines', desc: 'Precision multi-color offset presses for registered trademark artworks.' },
+    { title: 'Quality-Inspection Systems', desc: 'Rigorous batch testing for single-strike reliability and zero afterglow.' },
+    { title: 'Carton-Packing Machinery', desc: 'Airtight 10-box cellophane banding and 1,000-box master bale compression.' },
+  ];
 
   return (
     <div className="py-10 space-y-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        {/* Hero Banner */}
+        
+        {/* ============================================================== */}
+        {/* 1. HERO BANNER — OFFICIAL ABOUT JEEVAN SAFETY MATCHES          */}
+        {/* ============================================================== */}
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-8">
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-800 text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-800 text-xs font-bold uppercase tracking-wider">
               <History className="w-3.5 h-3.5" />
-              <span>ESTABLISHED 1979 &bull; SRIVILLIPUTHUR, TAMIL NADU</span>
+              <span>ESTABLISHED 1979 &bull; REGD. NO.: 3481060 &bull; SRIVILLIPUTHUR</span>
             </div>
+
             <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-              More Than Safety Matches &mdash; <br className="hidden sm:inline" />
+              About Us &mdash; <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-red-700 via-red-800 to-amber-700 bg-clip-text text-transparent">
-                A Unified Industrial & Transport Enterprise.
+                Jeevan Safety Matches
               </span>
             </h1>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              <strong>Veenus Group</strong> brings together over 45 years of industrial heritage. Headquartered in <strong>Srivilliputhur</strong>, the business was established in <strong>1979</strong> starting with 1 manufacturing unit and has steadily grown into <strong>3 full-scale industrial manufacturing units</strong> producing <strong>JEEVAN and TEHLA</strong> safety matches, alongside sister concerns <strong>United Match Industries</strong> and <strong>The Cauveri Matches</strong>, while operating <strong>Cavery Travels (fleet of 30+ luxury tourist buses)</strong> and commercial freight lorries under the leadership of Managing Director <strong>Mr. S. Hariharan</strong>.
+
+            <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">
+              Established in 1979 by <strong>Mr. M. Subburam</strong>, <strong>Jeevan Safety Matches (Regd. No.: 3481060)</strong> carries a legacy of quality, trust and dedication.
             </p>
+
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, the company continues its journey with the same commitment to excellence. At Jeevan Safety Matches, quality is our identity. We believe that the quality of even a single matchstick reflects the reputation of our brand. With decades of experience and a strong commitment to consistency, we strive to maintain the trust of our customers.
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <div className="px-4 py-2 rounded-xl bg-red-50 border border-red-200 text-red-900 text-xs font-bold">
+                Sales: Approx. 45,000 Bundles
+              </div>
+              <div className="px-4 py-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold">
+                3 Manufacturing Units (Veenus Largest)
+              </div>
+              <div className="px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-bold">
+                Cauveri Travels &bull; 10+ Omni Buses
+              </div>
+            </div>
           </div>
+
           <div className="hidden lg:flex shrink-0 p-4 rounded-3xl bg-slate-50 border border-slate-200">
             <VeenusLogo size="lg" />
           </div>
         </div>
 
-        {/* The 3 Core Pillars with Visual Cards */}
-        <div>
-          <div className="text-center max-w-2xl mx-auto mb-10">
+        {/* ============================================================== */}
+        {/* 2. FIVE KEY METRICS CARDS                                      */}
+        {/* ============================================================== */}
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
+            <div className="text-3xl font-black text-red-700">1979</div>
+            <div className="text-xs font-bold text-slate-900">Year Established</div>
+            <p className="text-[11px] text-slate-500">By Mr. M. Subburam in Srivilliputhur.</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
+            <div className="text-3xl font-black text-amber-700">45,000</div>
+            <div className="text-xs font-bold text-slate-900">Bundles Sold</div>
+            <p className="text-[11px] text-slate-500">Strong wholesale market presence.</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
+            <div className="text-3xl font-black text-slate-900">3 Units</div>
+            <div className="text-xs font-bold text-slate-900">Manufacturing Strength</div>
+            <p className="text-[11px] text-slate-500">Veenus Match Works largest unit.</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
+            <div className="text-3xl font-black text-blue-700">15+ Lorries</div>
+            <div className="text-xs font-bold text-slate-900">Freight Transport</div>
+            <p className="text-[11px] text-slate-500">Entered in 2015 with single lorry.</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1 col-span-2 lg:col-span-1">
+            <div className="text-3xl font-black text-emerald-700">10+ Buses</div>
+            <div className="text-xs font-bold text-slate-900">Cauveri Travels</div>
+            <p className="text-[11px] text-slate-500">Omni bus fleet launched in 2026.</p>
+          </div>
+        </div>
+
+        {/* ============================================================== */}
+        {/* 3. WHOLESALE & THREE SISTER CONCERNS                           */}
+        {/* ============================================================== */}
+        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm space-y-8">
+          <div className="max-w-3xl space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-              Integrated Capabilities
+              Manufacturing Strength & Distribution
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">
-              Safety Matches &bull; Freight Lorries &bull; Passenger Fleet
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              Supported by Three Sister Concerns
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Direct factory manufacturing backed by end-to-end commercial highway logistics.
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Jeevan Safety Matches has established a strong presence in the wholesale market, serving dealers and distributors with reliability and achieving sales of approximately <strong>45,000 bundles</strong>. Our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works</strong>, <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. Among these, <strong>Veenus Match Works is our largest manufacturing unit</strong>.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Pillar 1: Matchbox Manufacturing */}
-            <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-red-200 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="relative h-56 w-full bg-slate-50 border-b border-slate-100 flex items-center justify-center p-3">
-                  <Image
-                    src="/products/jeevan-1rs-matches.jpg"
-                    alt="JEEVAN Safety Matches by Veenus Match Works"
-                    fill
-                    className="object-contain group-hover:scale-105 transition-transform duration-500 p-2"
-                  />
-                  <div className="absolute top-3 left-3 bg-red-700 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
-                    Matchbox Works
-                  </div>
-                </div>
-
-                <div className="p-6 space-y-3">
-                  <h3 className="font-bold text-slate-900 text-lg group-hover:text-red-700 transition-colors">
-                    Veenus Match Works
-                  </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Producing premier JEEVAN and TEHLA brand safety matches. Engineered with carbonized wooden splints, moisture-resistant duplex boards, and consistent single-strike ignition.
-                  </p>
-
-                  <div className="pt-3 border-t border-slate-100 space-y-2 text-xs text-slate-700">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Natural veneer & duplex board boxes</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>High humidity resistance & zero afterglow</span>
-                    </div>
-                  </div>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Unit 1: Veenus Match Works */}
+            <div className="p-6 rounded-2xl bg-slate-50 border-2 border-red-200 shadow-xs space-y-3 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-red-700 text-white text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl tracking-wider">
+                Largest Unit
               </div>
-
-              <div className="p-6 pt-0">
-                <Link
-                  href="/products"
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 text-xs font-bold transition-colors"
-                >
-                  <span>Explore Match Products</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+              <div className="w-10 h-10 rounded-xl bg-red-100 text-red-800 flex items-center justify-center font-black text-sm">
+                01
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">Veenus Match Works</h3>
+                <p className="text-xs text-red-700 font-bold">Largest Manufacturing Unit &bull; Srivilliputhur</p>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Our primary and largest manufacturing facility, housing advanced high-speed automated machinery, chemical formulation decks, and automated packing carousels for flagship Jeevan Safety Matches.
+              </p>
+              <div className="pt-2 border-t border-slate-200 text-[11px] font-semibold text-slate-700 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <span>Primary production & master export packaging</span>
               </div>
             </div>
 
-            {/* Pillar 2: Freight Lorries */}
-            <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-red-200 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="relative h-56 w-full bg-slate-100 border-b border-slate-100">
-                  <Image
-                    src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=800"
-                    alt="Veenus Commercial Freight Lorries"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 left-3 bg-slate-900 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
-                    Freight Logistics
-                  </div>
-                </div>
-
-                <div className="p-6 space-y-3">
-                  <h3 className="font-bold text-slate-900 text-lg group-hover:text-red-700 transition-colors">
-                    Commercial Lorries & Trucks
-                  </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Operating 6-wheeler and 10-wheeler heavy trucks along with Tata Ace mini lorries for fast factory dispatches, raw material transport, and wholesale cargo shipments.
-                  </p>
-
-                  <div className="pt-3 border-t border-slate-100 space-y-2 text-xs text-slate-700">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>All-India national transport permits</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Secure weather-tight tarpaulin covers</span>
-                    </div>
-                  </div>
-                </div>
+            {/* Unit 2: United Match Industries */}
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-black text-sm">
+                02
               </div>
-
-              <div className="p-6 pt-0">
-                <Link
-                  href="/transport"
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 text-xs font-bold transition-colors"
-                >
-                  <span>View Truck Fleet</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">United Match Industries</h3>
+                <p className="text-xs text-amber-700 font-bold">Manufacturing Sister Concern &bull; Koomapatti</p>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Dedicated manufacturing unit specialized in precision matchstick production, including the renowned TEHLA safety matches (Regd. No. 1395866) and wholesale cartons.
+              </p>
+              <div className="pt-2 border-t border-slate-200 text-[11px] font-semibold text-slate-700 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <span>Safety match manufacturing & wholesale supply</span>
               </div>
             </div>
 
-            {/* Pillar 3: Travels & Vans */}
-            <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-red-200 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="relative h-56 w-full bg-slate-100 border-b border-slate-100">
-                  <Image
-                    src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800"
-                    alt="Veenus Travels Passenger Buses"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 left-3 bg-amber-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
-                    Passenger Fleet
-                  </div>
-                </div>
-
-                <div className="p-6 space-y-3">
-                  <h3 className="font-bold text-slate-900 text-lg group-hover:text-red-700 transition-colors">
-                    Cavery Travels (30+ Buses)
-                  </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Operating an expansive fleet of 30+ luxury tourist coaches (32 to 54 seater AC & Non-AC) and mini vans for South India pilgrimage tours, family weddings, and institutional excursions.
-                  </p>
-
-                  <div className="pt-3 border-t border-slate-100 space-y-2 text-xs text-slate-700">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>30+ Luxury push-back AC & Non-AC coaches</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Experienced highway captains & 24/7 service</span>
-                    </div>
-                  </div>
-                </div>
+            {/* Unit 3: The Cauveri Matches */}
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-slate-200 text-slate-800 flex items-center justify-center font-black text-sm">
+                03
               </div>
-
-              <div className="p-6 pt-0">
-                <Link
-                  href="/transport"
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 text-xs font-bold transition-colors"
-                >
-                  <span>Book Cavery Travels Buses</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">The Cauveri Matches</h3>
+                <p className="text-xs text-slate-700 font-bold">Allied Manufacturing Sister Concern</p>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Allied manufacturing unit supporting large-scale output with high-speed automated splint handling, moisture-resistant packaging, and extensive dealer distribution.
+              </p>
+              <div className="pt-2 border-t border-slate-200 text-[11px] font-semibold text-slate-700 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <span>Industrial match production & regional supply</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Heritage & Founders Card */}
-        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div className="space-y-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-                Our Heritage & Leadership
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-                Four Decades of Industry Trust
-              </h2>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Founded in <strong>1979</strong> with a single manufacturing unit in Srivilliputhur, Veenus Match Works began with a dedicated commitment to quality safety matches. Over the decades, through strategic focus and customer trust, that single unit has expanded into <strong>3 modern industrial manufacturing units</strong> across the region.
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Today, under the leadership of Managing Director <strong>Mr. S. Hariharan</strong>, Veenus Group has further diversified into passenger tourism with <strong>Cavery Travels</strong>, operating an impressive fleet of <strong>30+ luxury buses</strong> alongside heavy freight lorries.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="text-3xl font-black text-red-700">1979</div>
-                <div className="text-xs font-bold text-slate-900">Year Established</div>
-                <p className="text-[11px] text-slate-500">Established in Srivilliputhur with 1 initial unit.</p>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="text-3xl font-black text-amber-700">3 Units</div>
-                <div className="text-xs font-bold text-slate-900">Manufacturing Plants</div>
-                <p className="text-[11px] text-slate-500">Grown from 1 unit into 3 modern production units.</p>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="text-3xl font-black text-emerald-700">30+ Buses</div>
-                <div className="text-xs font-bold text-slate-900">Cavery Travels</div>
-                <p className="text-[11px] text-slate-500">Luxury coaches for tours, weddings & pilgrimages.</p>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="text-3xl font-black text-slate-800">24/7</div>
-                <div className="text-xs font-bold text-slate-900">Logistics & Fleet</div>
-                <p className="text-[11px] text-slate-500">Managed under the direction of Mr. S. Hariharan.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Sister Concerns & Group Network */}
-        <div className="bg-slate-50 border border-slate-200/90 rounded-3xl p-8 sm:p-10 space-y-6">
-          <div className="max-w-2xl">
+        {/* ============================================================== */}
+        {/* 4. ADVANCED INDUSTRIAL MACHINERY & INFRASTRUCTURE              */}
+        {/* ============================================================== */}
+        <div className="bg-slate-50 p-8 sm:p-12 rounded-3xl border border-slate-200/90 space-y-8">
+          <div className="max-w-3xl space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-100/70 px-3 py-1 rounded-full border border-red-200">
-              Corporate Network
+              Modern Infrastructure
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
-              Sister Concerns & Allied Enterprises
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              High-Speed Machinery & Facilities
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Expanding manufacturing capacity and distributor networks through our dedicated sister concerns.
+            <p className="text-sm text-slate-600 leading-relaxed">
+              All three manufacturing units are equipped with advanced high-speed machinery and modern industrial infrastructure. These facilities support large-scale manufacturing, efficient production processes and consistent product quality:
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-red-50 text-red-800 border border-red-200">
-                  Sister Concern
-                </span>
-                <span className="text-xs text-slate-500 font-semibold">Koomapatti / Srivilliputhur</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {machineryList.map((mach, idx) => (
+              <div key={idx} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-2">
+                <div className="flex items-center gap-2 text-red-700">
+                  <Cog className="w-4 h-4" />
+                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Step 0{idx + 1}</span>
+                </div>
+                <h3 className="font-bold text-slate-900 text-sm leading-snug">{mach.title}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">{mach.desc}</p>
               </div>
-              <h3 className="text-xl font-bold text-slate-900">United Match Industries</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Key manufacturing sister concern of Veenus Group specializing in high-grade safety matchbox production, including the renowned <strong>TEHLA</strong> brand safety matches (Regd No. 1395866) and wholesale cartons.
-              </p>
-              <div className="pt-2 border-t border-slate-100 flex items-center gap-2 text-[11px] font-bold text-red-700">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Safety Match Manufacturing & Wholesale Supply</span>
+            ))}
+          </div>
+        </div>
+
+        {/* ============================================================== */}
+        {/* 5. TRANSPORTATION SECTOR EXPANSION (2015 & 2026)               */}
+        {/* ============================================================== */}
+        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm space-y-8">
+          <div className="max-w-3xl space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+              Diversification & Growth
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              Expanding Beyond the Matches Industry
+            </h2>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Through continuous innovation and customer trust, our group has diversified into commercial road haulage and luxury passenger travel across South India:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* 2015: Commercial Freight */}
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
+                    Commercial Haulage
+                  </span>
+                  <span className="text-2xl font-black text-slate-900">2015</span>
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">Freight Lorries Fleet (15+ Lorries)</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Expanding beyond the matches industry, we entered the transportation sector in <strong>2015 under the leadership of Mr. S. Hariharan</strong>, beginning with a single lorry. Through continuous growth, we have expanded our fleet to <strong>more than 15 lorries</strong>.
+                </p>
+                <div className="pt-2 space-y-2 text-xs text-slate-700">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Started in 2015 with a single lorry</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Now grown to an active fleet of more than 15 lorries</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>All-India national permits with weather-proof covers</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-200">
+                <Link
+                  href="/transport"
+                  className="inline-flex items-center gap-2 text-xs font-bold text-blue-700 hover:text-blue-800"
+                >
+                  <span>Explore Freight Logistics</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                  Sister Concern
-                </span>
-                <span className="text-xs text-slate-500 font-semibold">Srivilliputhur Region</span>
+            {/* 2026: Cauveri Travels */}
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                    Passenger Tourism
+                  </span>
+                  <span className="text-2xl font-black text-slate-900">2026</span>
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">Cauveri Travels (10+ Omni Buses)</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  In <strong>2026</strong>, we further entered the omni bus transportation sector under the name <strong>Cauveri Travels</strong>, which currently operates a fleet of <strong>more than 10 omni buses</strong>.
+                </p>
+                <div className="pt-2 space-y-2 text-xs text-slate-700">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Entered omni bus sector in 2026 under Cauveri Travels</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Fleet of more than 10 luxury omni buses</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Pilgrimage tours, weddings, and South India travel</span>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900">The Cauveri Matches</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Allied match manufacturing sister unit operating under the Veenus Group umbrella, dedicated to damp-resistant matchstick formulation, inner tray packing, and bulk regional trade distribution.
-              </p>
-              <div className="pt-2 border-t border-slate-100 flex items-center gap-2 text-[11px] font-bold text-amber-700">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Industrial Match Production & Regional Distribution</span>
+
+              <div className="pt-4 border-t border-slate-200">
+                <Link
+                  href="/transport"
+                  className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800"
+                >
+                  <span>Explore Cauveri Travels</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Direct Action Banner */}
-        <div className="bg-gradient-to-r from-red-900 via-red-800 to-rose-950 p-8 sm:p-10 rounded-3xl text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-xl font-bold">Connect with Veenus Group Management</h3>
-            <p className="text-xs sm:text-sm text-rose-100 mt-1">
-              For dealership inquiries, bulk orders, or long-term vehicle leasing contracts.
+        {/* ============================================================== */}
+        {/* 6. CONCLUSION & DIRECT ACTION BANNER                           */}
+        {/* ============================================================== */}
+        <div className="bg-gradient-to-r from-red-900 via-red-800 to-rose-950 p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-6">
+          <div className="max-w-3xl space-y-3">
+            <h3 className="text-2xl sm:text-3xl font-black">
+              Building a Strong Legacy for the Future
+            </h3>
+            <p className="text-sm text-rose-100 leading-relaxed">
+              Through our commitment to quality, advanced manufacturing infrastructure and continuous expansion into new industries, we remain dedicated to building a strong legacy for the future.
             </p>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
+
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <a
               href={`tel:${COMPANY_CONTACT.phoneCall}`}
-              className="px-5 py-2.5 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-sm hover:bg-rose-50 transition-colors"
+              className="px-6 py-3 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-sm hover:bg-rose-50 transition-colors"
             >
               Call: {COMPANY_CONTACT.phoneDisplay}
             </a>
@@ -324,12 +354,20 @@ export default function AboutPage() {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-md transition-colors"
+              className="px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-md transition-colors flex items-center gap-2"
             >
-              Chat on WhatsApp
+              <MessageCircle className="w-4 h-4 fill-current" />
+              <span>Chat on WhatsApp</span>
             </a>
+            <Link
+              href="/products"
+              className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-colors"
+            >
+              View Matchbox Catalogue
+            </Link>
           </div>
         </div>
+
       </div>
     </div>
   );
