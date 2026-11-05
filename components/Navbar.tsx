@@ -26,7 +26,7 @@ export const Navbar = () => {
     { name: 'Home', href: '/' },
     { name: 'Match Products', href: '/products' },
     { name: 'Manufacturing Units', href: '/manufacturing' },
-    { name: 'About Veenus', href: '/about' },
+    { name: 'About Us', href: '/about' },
     { name: 'Contact Us', href: '/contact' },
   ];
 
