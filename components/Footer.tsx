@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Phone, MessageCircle, Mail, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
 import { COMPANY_CONTACT } from '@/lib/data';
@@ -9,6 +9,21 @@ import { useFactory } from '@/context/FactoryContext';
 
 export const Footer = () => {
   const { companyContact } = useFactory();
+  const [footerClicks, setFooterClicks] = useState<number>(0);
+
+  const handleFooterSecretClick = () => {
+    setFooterClicks((prev: number) => {
+      const next = prev + 1;
+      if (next >= 3) {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('open-secret-admin'));
+        }
+        return 0;
+      }
+      setTimeout(() => setFooterClicks(0), 1500);
+      return next;
+    });
+  };
 
   const whatsappUrl = `https://wa.me/${companyContact.whatsappNumber}?text=${encodeURIComponent(
     'Hello Veenus Group, I would like to inquire about Jeevan & Tehla Safety Matches wholesale supply.'
@@ -222,9 +237,13 @@ export const Footer = () => {
             <span>&bull;</span>
             <span>Srivilliputhur, Tamil Nadu</span>
             <span>&bull;</span>
-            <span>Est. 1979</span>
-            <span>&bull;</span>
-            <Link href="/admin" className="hover:text-amber-400 transition-colors font-medium">Admin Portal</Link>
+            <span
+              onClick={handleFooterSecretClick}
+              className="cursor-default select-none transition-colors hover:text-slate-300"
+              title=""
+            >
+              Est. 1979
+            </span>
           </div>
         </div>
       </div>

@@ -22,7 +22,23 @@ import { useFactory } from '@/context/FactoryContext';
 export const Navbar = () => {
   const { companyContact } = useFactory();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoClicks, setLogoClicks] = useState<number>(0);
   const pathname = usePathname();
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    setLogoClicks((prev) => {
+      const next = prev + 1;
+      if (next >= 3) {
+        e.preventDefault();
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('open-secret-admin'));
+        }
+        return 0;
+      }
+      setTimeout(() => setLogoClicks(0), 1500);
+      return next;
+    });
+  };
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -66,13 +82,6 @@ export const Navbar = () => {
               <MessageCircle className="w-3.5 h-3.5 fill-current" />
               <span>WhatsApp</span>
             </a>
-            <span className="text-rose-300/40 hidden sm:inline">|</span>
-            <Link
-              href="/admin"
-              className="text-rose-200 hover:text-white font-medium transition-colors text-[11px]"
-            >
-              Admin
-            </Link>
           </div>
         </div>
       </div>
@@ -80,8 +89,13 @@ export const Navbar = () => {
       {/* Main Corporate Navbar */}
       <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-18 sm:h-20">
-          {/* Official Emblem Logo */}
-          <Link href="/" className="flex items-center shrink-0" aria-label="Veenus Match Works Home">
+          {/* Official Emblem Logo with Secret 3-Click Admin Trigger */}
+          <Link
+            href="/"
+            onClick={handleLogoClick}
+            className="flex items-center shrink-0 cursor-pointer"
+            aria-label="Veenus Match Works Home"
+          >
             <VeenusLogo size="md" showText={true} />
           </Link>
 

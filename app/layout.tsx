@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloating } from "@/components/WhatsAppFloating";
+import { SecretAdminModal } from "@/components/SecretAdminModal";
 import { FactoryProvider } from "@/context/FactoryContext";
 
 const geistSans = Geist({
@@ -49,6 +50,7 @@ export default function RootLayout({
           
           <Footer />
           <WhatsAppFloating />
+          <SecretAdminModal />
         </FactoryProvider>
       </body>
     </html>

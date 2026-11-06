@@ -76,9 +76,23 @@ export default function AdminPage() {
   } = useFactory();
 
   // Authentication State
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [pinInput, setPinInput] = useState<string>('');
   const [pinError, setPinError] = useState<string>('');
+
+  // Check existing session
+  React.useEffect(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const session = sessionStorage.getItem('vmw_admin_session');
+        if (session === 'active') {
+          setIsAuthenticated(true);
+        }
+      }
+    } catch (e) {
+      console.warn('Session read error:', e);
+    }
+  }, []);
 
   // Active Tab: Wholesale-focused
   const [activeTab, setActiveTab] = useState<
@@ -149,6 +163,13 @@ export default function AdminPage() {
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (pinInput === '1979' || pinInput === 'admin' || pinInput === '3481060') {
+      try {
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('vmw_admin_session', 'active');
+        }
+      } catch (err) {
+        console.warn('Session save error:', err);
+      }
       setIsAuthenticated(true);
       setPinError('');
     } else {
@@ -471,6 +492,22 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <button
+              onClick={() => {
+                try {
+                  if (typeof window !== 'undefined') {
+                    sessionStorage.removeItem('vmw_admin_session');
+                  }
+                } catch (e) {}
+                setIsAuthenticated(false);
+              }}
+              className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-1.5"
+              title="Lock Admin Portal Immediately"
+            >
+              <Lock className="w-3.5 h-3.5 text-amber-400" />
+              <span>Lock Portal</span>
+            </button>
+
             <button
               onClick={resetAllDefaults}
               className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-200 transition-colors flex items-center gap-1.5"
