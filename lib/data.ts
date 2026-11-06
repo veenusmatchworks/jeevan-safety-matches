@@ -222,3 +222,227 @@ export const COMPANY_CONTACT = {
   shortAddress: 'Aladipatti, Srivilliputhur, Virudhunagar, Tamil Nadu - 626125',
   hours: 'Monday to Saturday: 8:00 AM - 8:30 PM'
 };
+
+// ============================================================================
+// ADMIN PANEL DATA STRUCTURES & INITIAL MOCK DATA
+// ============================================================================
+
+export interface AdminInquiry {
+  id: string;
+  customerName: string;
+  companyName: string;
+  phone: string;
+  location: string;
+  type: 'Wholesale Safety Matches' | 'Dealership Inquiry' | 'Contract Supply';
+  product: string;
+  quantity: string;
+  date: string;
+  status: 'Pending' | 'Quoted' | 'Dispatched' | 'Delivered';
+  notes: string;
+}
+
+export interface AdminInventoryItem {
+  id: string;
+  name: string;
+  code: string;
+  brand: 'JEEVAN' | 'TEHLA';
+  balesInStock: number;
+  boxesPerBale: number;
+  dailyProductionBales: number;
+  reorderLevel: number;
+  status: 'In Stock' | 'Low Stock' | 'High Demand';
+}
+
+export interface MachineryLineStatus {
+  id: string;
+  name: string;
+  unit: 'Unit 1: Veenus Match Works' | 'Unit 2: United Match Industries' | 'Unit 3: The Cauveri Matches';
+  type: string;
+  speed: string;
+  status: 'Operational' | 'Maintenance' | 'Standby';
+  operator: string;
+}
+
+export const INITIAL_ADMIN_INQUIRIES: AdminInquiry[] = [
+  {
+    id: 'INQ-1082',
+    customerName: 'K. Rajasekaran',
+    companyName: 'Murugan Match Stores',
+    phone: '+91 98422 12345',
+    location: 'Madurai Wholesale Market, TN',
+    type: 'Wholesale Safety Matches',
+    product: 'JEEVAN Safety Matches (₹1.00 - 27s)',
+    quantity: '50 Master Bales (50,000 Boxes)',
+    date: '2026-11-05',
+    status: 'Pending',
+    notes: 'Urgent wholesale consignment requested for deep south distribution.'
+  },
+  {
+    id: 'INQ-1081',
+    customerName: 'S. Mahendran',
+    companyName: 'Sri Balaji Wholesale Traders',
+    phone: '+91 97890 23456',
+    location: 'Salem & Erode Region, TN',
+    type: 'Dealership Inquiry',
+    product: 'JEEVAN Safety Matches (₹2.00 - 50s)',
+    quantity: '30 Master Bales (30,000 Boxes)',
+    date: '2026-11-04',
+    status: 'Quoted',
+    notes: 'Quotation sent via WhatsApp. Follow-up scheduled for advance confirmation.'
+  },
+  {
+    id: 'INQ-1080',
+    customerName: 'P. Shanmugavel',
+    companyName: 'Shanmuga Wholesale Bazaars',
+    phone: '+91 94432 78901',
+    location: 'Tirunelveli Central Market, TN',
+    type: 'Wholesale Safety Matches',
+    product: 'TEHLA Safety Matches (₹1.00 - 30s)',
+    quantity: '40 Master Bales (40,000 Boxes)',
+    date: '2026-11-03',
+    status: 'Dispatched',
+    notes: 'Dispatched from Srivilliputhur warehouse with signed commercial delivery challan.'
+  },
+  {
+    id: 'INQ-1079',
+    customerName: 'G. Ramanathan',
+    companyName: 'Sri Ramajayam Agencies',
+    phone: '+91 98943 45678',
+    location: 'Coimbatore Wholesale Hub, TN',
+    type: 'Contract Supply',
+    product: 'JEEVAN Safety Matches (₹1.00)',
+    quantity: '60 Master Bales (60,000 Boxes)',
+    date: '2026-11-01',
+    status: 'Delivered',
+    notes: 'Safely delivered. Customer verified 100% moisture-proof carton condition.'
+  }
+];
+
+export const INITIAL_ADMIN_INVENTORY: AdminInventoryItem[] = [
+  {
+    id: 'INV-01',
+    name: 'JEEVAN Safety Matches (₹1.00 - 27 Sticks)',
+    code: 'VMW-JEV-01',
+    brand: 'JEEVAN',
+    balesInStock: 340,
+    boxesPerBale: 1000,
+    dailyProductionBales: 45,
+    reorderLevel: 100,
+    status: 'In Stock'
+  },
+  {
+    id: 'INV-02',
+    name: 'JEEVAN Safety Matches (₹2.00 - 50 Sticks)',
+    code: 'VMW-JEV-02',
+    brand: 'JEEVAN',
+    balesInStock: 215,
+    boxesPerBale: 1000,
+    dailyProductionBales: 30,
+    reorderLevel: 80,
+    status: 'In Stock'
+  },
+  {
+    id: 'INV-03',
+    name: 'TEHLA Safety Matches (₹1.00 - 30 Sticks)',
+    code: 'VMW-THL-03',
+    brand: 'TEHLA',
+    balesInStock: 120,
+    boxesPerBale: 1000,
+    dailyProductionBales: 25,
+    reorderLevel: 90,
+    status: 'High Demand'
+  }
+];
+
+export const INITIAL_MACHINERY_LINES: MachineryLineStatus[] = [
+  {
+    id: 'MCH-01',
+    name: 'Continuous Match-Frame Machine & Splint Infeed',
+    unit: 'Unit 1: Veenus Match Works',
+    type: 'High-Speed Automated Frame Infeed',
+    speed: '1,200 frames / hour',
+    status: 'Operational',
+    operator: 'M. Palanichamy (Lead Technician)'
+  },
+  {
+    id: 'MCH-02',
+    name: 'Precision Chemical Head Dipping Carousel',
+    unit: 'Unit 1: Veenus Match Works',
+    type: 'Temperature-Regulated Dipping Tank',
+    speed: 'Uniform Head Deposition',
+    status: 'Operational',
+    operator: 'R. Ganesan (Chemical Deck)'
+  },
+  {
+    id: 'MCH-03',
+    name: 'Continuous Industrial Drying Tunnel System',
+    unit: 'Unit 1: Veenus Match Works',
+    type: 'Multi-Zone Moisture Extraction',
+    speed: 'Continuous Belt Conveyor',
+    status: 'Operational',
+    operator: 'S. Karuppasamy'
+  },
+  {
+    id: 'MCH-04',
+    name: 'High-Grade Wooden Splint Carbonization Chambers',
+    unit: 'Unit 1: Veenus Match Works',
+    type: 'Vacuum Impregnation Autoclave',
+    speed: 'Anti-Afterglow Treatment',
+    status: 'Operational',
+    operator: 'V. Sundaram'
+  },
+  {
+    id: 'MCH-05',
+    name: 'Vibratory Splint Sorting & Quality Screening Line',
+    unit: 'Unit 2: United Match Industries',
+    type: 'Dual-Deck Vibratory Screen',
+    speed: '100% Defect-Free Splints',
+    status: 'Operational',
+    operator: 'K. Muthuraman'
+  },
+  {
+    id: 'MCH-06',
+    name: 'Precision Duplex Cardboard Outer Box Folding Line',
+    unit: 'Unit 2: United Match Industries',
+    type: 'Automated Rotary Folder-Gluer',
+    speed: '450 shells / min',
+    status: 'Operational',
+    operator: 'P. Selvam'
+  },
+  {
+    id: 'MCH-07',
+    name: 'Inner Match Tray Assembly & Creasing Machine',
+    unit: 'Unit 2: United Match Industries',
+    type: 'Automated Tray Form-Paster',
+    speed: '420 trays / min',
+    status: 'Operational',
+    operator: 'A. Murugesan'
+  },
+  {
+    id: 'MCH-08',
+    name: 'Automated Matchbox Filling & Tray Insertion Carousel',
+    unit: 'Unit 3: The Cauveri Matches',
+    type: 'Optical Counting & Box Pusher',
+    speed: '380 boxes / min',
+    status: 'Operational',
+    operator: 'T. Arumugam'
+  },
+  {
+    id: 'MCH-09',
+    name: 'Multi-Color Trademark Label Offset Printing & Curing',
+    unit: 'Unit 3: The Cauveri Matches',
+    type: 'UV Offset Press (Jeevan / Tehla)',
+    speed: 'High-Definition Registration',
+    status: 'Operational',
+    operator: 'M. Senthilkumar'
+  },
+  {
+    id: 'MCH-10',
+    name: 'Quality-Inspection Vision Cameras & Carton Packing',
+    unit: 'Unit 3: The Cauveri Matches',
+    type: 'Automated Vision QC & Baling Machine',
+    speed: '1,000-Box Master Bales',
+    status: 'Operational',
+    operator: 'N. Radhakrishnan (QC Incharge)'
+  }
+];

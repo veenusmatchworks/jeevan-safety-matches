@@ -64,6 +64,13 @@ export const Navbar = () => {
               <MessageCircle className="w-3.5 h-3.5 fill-current" />
               <span>WhatsApp</span>
             </a>
+            <span className="text-rose-300/40 hidden sm:inline">|</span>
+            <Link
+              href="/admin"
+              className="text-rose-200 hover:text-white font-medium transition-colors text-[11px]"
+            >
+              Admin
+            </Link>
           </div>
         </div>
       </div>

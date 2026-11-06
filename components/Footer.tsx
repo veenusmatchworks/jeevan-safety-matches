@@ -218,6 +218,8 @@ export const Footer = () => {
             <span>Srivilliputhur, Tamil Nadu</span>
             <span>&bull;</span>
             <span>Est. 1979</span>
+            <span>&bull;</span>
+            <Link href="/admin" className="hover:text-amber-400 transition-colors font-medium">Admin Portal</Link>
           </div>
         </div>
       </div>
