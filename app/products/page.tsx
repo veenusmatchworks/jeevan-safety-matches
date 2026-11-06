@@ -12,10 +12,12 @@ import {
   ArrowRight,
   Sparkles
 } from 'lucide-react';
-import { VEENUS_MATCH_PRODUCTS, COMPANY_CONTACT, MatchProduct } from '@/lib/data';
+import { COMPANY_CONTACT, MatchProduct } from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
+import { useFactory } from '@/context/FactoryContext';
 
 export default function ProductsPage() {
+  const { products, companyContact } = useFactory();
   const [selectedCategory, setSelectedCategory] = useState<string>('All Products');
 
   const categories = [
@@ -24,7 +26,9 @@ export default function ProductsPage() {
     'TEHLA Brand'
   ];
 
-  const filtered = VEENUS_MATCH_PRODUCTS.filter((item) => {
+  const visibleProducts = products.filter((p) => !p.isHidden);
+
+  const filtered = visibleProducts.filter((item) => {
     if (selectedCategory === 'All Products') return true;
     if (selectedCategory === 'JEEVAN Brand') return item.name.includes('JEEVAN');
     if (selectedCategory === 'TEHLA Brand') return item.name.includes('TEHLA');
@@ -32,7 +36,7 @@ export default function ProductsPage() {
   });
 
   const getWhatsAppProductUrl = (product: MatchProduct) => {
-    return `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
+    return `https://wa.me/${companyContact.whatsappNumber}?text=${encodeURIComponent(
       `Hello Veenus Match Works, I want to inquire about ${product.name} (${product.code}). Please share wholesale price, minimum order quantity, and delivery timeline.`
     )}`;
   };

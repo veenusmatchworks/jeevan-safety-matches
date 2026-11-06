@@ -9,6 +9,7 @@ export interface MatchProduct {
   description: string;
   image: string;
   highlight: string;
+  isHidden?: boolean;
 }
 
 export const VEENUS_MATCH_PRODUCTS: MatchProduct[] = [
@@ -57,6 +58,7 @@ export interface ManufacturingPhoto {
   unitTag: string;
   image: string;
   caption: string;
+  isHidden?: boolean;
 }
 
 export const MANUFACTURING_15_PHOTOS: ManufacturingPhoto[] = [

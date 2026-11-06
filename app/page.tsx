@@ -21,15 +21,19 @@ import {
   Check
 } from 'lucide-react';
 import {
-  VEENUS_MATCH_PRODUCTS,
-  COMPANY_CONTACT,
-  MANUFACTURING_15_PHOTOS
+  COMPANY_CONTACT
 } from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
+import { useFactory } from '@/context/FactoryContext';
 
 export default function HomePage() {
+  const { products, photos, companyContact } = useFactory();
+
+  const visibleProducts = products.filter((p) => !p.isHidden);
+  const visiblePhotos = photos.filter((p) => !p.isHidden);
+
   const getWhatsAppProductUrl = (prodName: string) => {
-    return `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
+    return `https://wa.me/${companyContact.whatsappNumber}?text=${encodeURIComponent(
       `Hello Veenus Match Works, I want to inquire about purchasing: ${prodName}. Please share wholesale price list and minimum order quantity.`
     )}`;
   };
@@ -342,7 +346,7 @@ export default function HomePage() {
 
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {VEENUS_MATCH_PRODUCTS.map((prod) => (
+          {visibleProducts.map((prod) => (
             <div
               key={prod.id}
               className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-red-200 transition-all flex flex-col justify-between group"
@@ -485,7 +489,7 @@ export default function HomePage() {
 
           {/* Photo Strip Preview */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
-            {MANUFACTURING_15_PHOTOS.slice(0, 4).map((p) => (
+            {visiblePhotos.slice(0, 4).map((p) => (
               <Link
                 key={p.id}
                 href="/manufacturing"

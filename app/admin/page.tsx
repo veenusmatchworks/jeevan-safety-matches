@@ -28,71 +28,119 @@ import {
   Lock,
   Unlock,
   Eye,
+  EyeOff,
+  Edit,
   Camera,
   MapPin,
   Clock,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Settings,
+  X,
+  Sliders,
+  RotateCcw
 } from 'lucide-react';
 import {
-  COMPANY_CONTACT,
-  MANUFACTURING_15_PHOTOS,
+  MatchProduct,
   ManufacturingPhoto,
-  VEENUS_MATCH_PRODUCTS,
-  INITIAL_ADMIN_INQUIRIES,
-  INITIAL_ADMIN_INVENTORY,
-  INITIAL_MACHINERY_LINES,
   AdminInquiry,
   AdminInventoryItem,
   MachineryLineStatus
 } from '@/lib/data';
+import { useFactory } from '@/context/FactoryContext';
 import { VeenusLogo } from '@/components/VeenusLogo';
 
 export default function AdminPage() {
+  const {
+    products,
+    photos,
+    inquiries,
+    inventory,
+    machinery,
+    companyContact,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    toggleHideProduct,
+    addPhoto,
+    updatePhoto,
+    deletePhoto,
+    toggleHidePhoto,
+    addInquiry,
+    updateInquiry,
+    deleteInquiry,
+    updateStock,
+    updateMachineryStatus,
+    updateCompanyContact,
+    resetAllDefaults
+  } = useFactory();
+
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [pinInput, setPinInput] = useState<string>('');
   const [pinError, setPinError] = useState<string>('');
 
-  // Active Tab
-  const [activeTab, setActiveTab] = useState<'orders' | 'inventory' | 'gallery' | 'machinery' | 'calculator'>('orders');
+  // Active Tab: Wholesale-focused
+  const [activeTab, setActiveTab] = useState<
+    'products' | 'orders' | 'gallery' | 'inventory' | 'machinery' | 'company' | 'calculator'
+  >('products');
 
-  // Data States
-  const [inquiries, setInquiries] = useState<AdminInquiry[]>(INITIAL_ADMIN_INQUIRIES);
-  const [inventory, setInventory] = useState<AdminInventoryItem[]>(INITIAL_ADMIN_INVENTORY);
-  const [machinery, setMachinery] = useState<MachineryLineStatus[]>(INITIAL_MACHINERY_LINES);
-  const [photos, setPhotos] = useState<ManufacturingPhoto[]>(MANUFACTURING_15_PHOTOS);
+  // Search & Filter for Products
+  const [productSearch, setProductSearch] = useState('');
+  const [productFilter, setProductFilter] = useState<'All' | 'Active' | 'Hidden'>('All');
 
-  // Search & Filter for Inquiries
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('All');
+  // Product Modals: Add / Edit
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
+  const [productForm, setProductForm] = useState<Omit<MatchProduct, 'id'>>({
+    name: '',
+    code: '',
+    category: 'Cardboard Safety Matches',
+    unit: '100 Boxes / Pack • Master Bales Available',
+    priceEstimate: 'M.R.P. ₹ 1.00 (Wholesale Bales Available)',
+    sticksPerBox: 27,
+    description: '',
+    image: '/products/jeevan-1rs-matches.jpg',
+    highlight: '',
+    isHidden: false
+  });
 
-  // New Inquiry Modal Form State
-  const [showAddInquiryModal, setShowAddInquiryModal] = useState(false);
-  const [newInquiry, setNewInquiry] = useState({
+  // Photo Modals: Add / Edit
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
+  const [editingPhotoId, setEditingPhotoId] = useState<string | null>(null);
+  const [photoForm, setPhotoForm] = useState<Omit<ManufacturingPhoto, 'id'>>({
+    title: '',
+    category: 'Unit 1: Chemical & Splints',
+    unitTag: 'Unit 1 • Mother Plant',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1000',
+    caption: '',
+    isHidden: false
+  });
+
+  // Inquiry Modals: Add / Edit
+  const [inquirySearch, setInquirySearch] = useState('');
+  const [inquiryFilter, setInquiryFilter] = useState<string>('All');
+  const [showInquiryModal, setShowInquiryModal] = useState(false);
+  const [editingInquiryId, setEditingInquiryId] = useState<string | null>(null);
+  const [inquiryForm, setInquiryForm] = useState<Omit<AdminInquiry, 'id' | 'date'>>({
     customerName: '',
     companyName: '',
     phone: '',
     location: '',
-    type: 'Wholesale Safety Matches' as AdminInquiry['type'],
+    type: 'Wholesale Safety Matches',
     product: 'JEEVAN Safety Matches (₹1.00 - 27s)',
     quantity: '20 Master Bales (20,000 Boxes)',
+    status: 'Pending',
     notes: ''
   });
 
-  // New Photo Modal Form State
-  const [showAddPhotoModal, setShowAddPhotoModal] = useState(false);
-  const [newPhoto, setNewPhoto] = useState({
-    title: '',
-    category: 'Unit 1: Chemical & Splints' as ManufacturingPhoto['category'],
-    unitTag: 'Unit 1 • Veenus Match Works',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1000',
-    caption: ''
-  });
+  // Company Settings Form State
+  const [contactForm, setContactForm] = useState(companyContact);
+  const [contactSaved, setContactSaved] = useState(false);
 
-  // Quotation Calculator State
+  // Quotation Calculator State (B2B Wholesale)
   const [calcProduct, setCalcProduct] = useState<'JEEVAN-1' | 'JEEVAN-2' | 'TEHLA-1'>('JEEVAN-1');
-  const [calcBales, setCalcBales] = useState<number>(25);
+  const [calcBales, setCalcBales] = useState<number>(30);
   const [calcDiscountPercent, setCalcDiscountPercent] = useState<number>(0);
   const [calcDeliveryLocation, setCalcDeliveryLocation] = useState<string>('Madurai Wholesale Hub');
   const [copiedQuote, setCopiedQuote] = useState(false);
@@ -108,117 +156,174 @@ export default function AdminPage() {
     }
   };
 
-  // Inquiry Status Updater
-  const updateInquiryStatus = (id: string, newStatus: AdminInquiry['status']) => {
-    setInquiries((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
-    );
+  // --------------------------------------------------------------------------
+  // PRODUCT ACTIONS
+  // --------------------------------------------------------------------------
+  const openAddProductModal = () => {
+    setEditingProductId(null);
+    setProductForm({
+      name: '',
+      code: `VMW-PROD-${products.length + 1}`,
+      category: 'Cardboard Safety Matches',
+      unit: '100 Boxes / Pack • Master Bales Available',
+      priceEstimate: 'M.R.P. ₹ 1.00 (Wholesale Bales Available)',
+      sticksPerBox: 27,
+      description: '',
+      image: '/products/jeevan-1rs-matches.jpg',
+      highlight: 'Regd Brand • Premium Wooden Splints',
+      isHidden: false
+    });
+    setShowProductModal(true);
   };
 
-  // Delete Inquiry
-  const deleteInquiry = (id: string) => {
-    if (confirm('Are you sure you want to delete this inquiry record?')) {
-      setInquiries((prev) => prev.filter((item) => item.id !== id));
+  const openEditProductModal = (prod: MatchProduct) => {
+    setEditingProductId(prod.id);
+    setProductForm({
+      name: prod.name,
+      code: prod.code,
+      category: prod.category,
+      unit: prod.unit,
+      priceEstimate: prod.priceEstimate,
+      sticksPerBox: prod.sticksPerBox,
+      description: prod.description,
+      image: prod.image,
+      highlight: prod.highlight,
+      isHidden: prod.isHidden || false
+    });
+    setShowProductModal(true);
+  };
+
+  const handleSaveProduct = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!productForm.name) return;
+
+    if (editingProductId) {
+      updateProduct(editingProductId, productForm);
+    } else {
+      addProduct(productForm);
+    }
+    setShowProductModal(false);
+  };
+
+  const handleDeleteProduct = (id: string, name: string) => {
+    if (confirm(`Are you sure you want to delete the product "${name}"?`)) {
+      deleteProduct(id);
     }
   };
 
-  // Add New Inquiry Handler
-  const handleCreateInquiry = (e: React.FormEvent) => {
+  // --------------------------------------------------------------------------
+  // PHOTO ACTIONS
+  // --------------------------------------------------------------------------
+  const openAddPhotoModal = () => {
+    setEditingPhotoId(null);
+    setPhotoForm({
+      title: '',
+      category: 'Unit 1: Chemical & Splints',
+      unitTag: 'Unit 1 • Mother Plant',
+      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1000',
+      caption: '',
+      isHidden: false
+    });
+    setShowPhotoModal(true);
+  };
+
+  const openEditPhotoModal = (p: ManufacturingPhoto) => {
+    setEditingPhotoId(p.id);
+    setPhotoForm({
+      title: p.title,
+      category: p.category,
+      unitTag: p.unitTag,
+      image: p.image,
+      caption: p.caption,
+      isHidden: p.isHidden || false
+    });
+    setShowPhotoModal(true);
+  };
+
+  const handleSavePhoto = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newInquiry.customerName || !newInquiry.phone) return;
+    if (!photoForm.title || !photoForm.image) return;
 
-    const created: AdminInquiry = {
-      id: `INQ-${Math.floor(1000 + Math.random() * 9000)}`,
-      customerName: newInquiry.customerName,
-      companyName: newInquiry.companyName || 'Retail Dealer',
-      phone: newInquiry.phone,
-      location: newInquiry.location || 'Tamil Nadu',
-      type: newInquiry.type,
-      product: newInquiry.product,
-      quantity: newInquiry.quantity,
-      date: new Date().toISOString().split('T')[0],
-      status: 'Pending',
-      notes: newInquiry.notes || 'Inquiry registered through Factory Portal.'
-    };
+    if (editingPhotoId) {
+      updatePhoto(editingPhotoId, photoForm);
+    } else {
+      addPhoto(photoForm);
+    }
+    setShowPhotoModal(false);
+  };
 
-    setInquiries([created, ...inquiries]);
-    setShowAddInquiryModal(false);
-    setNewInquiry({
+  const handleDeletePhoto = (id: string, title: string) => {
+    if (confirm(`Delete factory photo "${title}" from the gallery?`)) {
+      deletePhoto(id);
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // INQUIRY ACTIONS
+  // --------------------------------------------------------------------------
+  const openAddInquiryModal = () => {
+    setEditingInquiryId(null);
+    setInquiryForm({
       customerName: '',
       companyName: '',
       phone: '',
       location: '',
       type: 'Wholesale Safety Matches',
       product: 'JEEVAN Safety Matches (₹1.00 - 27s)',
-      quantity: '20 Master Bales (20,000 Boxes)',
+      quantity: '25 Master Bales (25,000 Boxes)',
+      status: 'Pending',
       notes: ''
     });
+    setShowInquiryModal(true);
   };
 
-  // Stock Updater
-  const updateStock = (id: string, delta: number) => {
-    setInventory((prev) =>
-      prev.map((item) => {
-        if (item.id === id) {
-          const newQty = Math.max(0, item.balesInStock + delta);
-          return {
-            ...item,
-            balesInStock: newQty,
-            status: newQty <= item.reorderLevel ? 'Low Stock' : 'In Stock'
-          };
-        }
-        return item;
-      })
-    );
-  };
-
-  // Machinery Status Updater
-  const toggleMachineryStatus = (id: string) => {
-    setMachinery((prev) =>
-      prev.map((m) => {
-        if (m.id === id) {
-          const nextStatus: MachineryLineStatus['status'] =
-            m.status === 'Operational' ? 'Maintenance' : m.status === 'Maintenance' ? 'Standby' : 'Operational';
-          return { ...m, status: nextStatus };
-        }
-        return m;
-      })
-    );
-  };
-
-  // Add Photo Handler
-  const handleCreatePhoto = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newPhoto.title || !newPhoto.image) return;
-
-    const createdPhoto: ManufacturingPhoto = {
-      id: `m-${photos.length + 1}`,
-      title: newPhoto.title,
-      category: newPhoto.category,
-      unitTag: newPhoto.unitTag,
-      image: newPhoto.image,
-      caption: newPhoto.caption || 'Verified factory machinery and production floor at Srivilliputhur plant.'
-    };
-
-    setPhotos([...photos, createdPhoto]);
-    setShowAddPhotoModal(false);
-    setNewPhoto({
-      title: '',
-      category: 'Unit 1: Chemical & Splints',
-      unitTag: 'Unit 1 • Veenus Match Works',
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1000',
-      caption: ''
+  const openEditInquiryModal = (inq: AdminInquiry) => {
+    setEditingInquiryId(inq.id);
+    setInquiryForm({
+      customerName: inq.customerName,
+      companyName: inq.companyName,
+      phone: inq.phone,
+      location: inq.location,
+      type: inq.type,
+      product: inq.product,
+      quantity: inq.quantity,
+      status: inq.status,
+      notes: inq.notes
     });
+    setShowInquiryModal(true);
   };
 
-  // Delete Photo Handler
-  const deletePhoto = (id: string) => {
-    if (confirm('Delete this photo from the factory showcase gallery?')) {
-      setPhotos((prev) => prev.filter((p) => p.id !== id));
+  const handleSaveInquiry = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inquiryForm.customerName || !inquiryForm.phone) return;
+
+    if (editingInquiryId) {
+      updateInquiry(editingInquiryId, inquiryForm);
+    } else {
+      addInquiry(inquiryForm);
+    }
+    setShowInquiryModal(false);
+  };
+
+  const handleDeleteInquiry = (id: string, customer: string) => {
+    if (confirm(`Delete wholesale inquiry for "${customer}"?`)) {
+      deleteInquiry(id);
     }
   };
 
-  // Quotation Calculations
+  // --------------------------------------------------------------------------
+  // COMPANY SETTINGS SAVE
+  // --------------------------------------------------------------------------
+  const handleSaveContact = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateCompanyContact(contactForm);
+    setContactSaved(true);
+    setTimeout(() => setContactSaved(false), 3000);
+  };
+
+  // --------------------------------------------------------------------------
+  // B2B WHOLESALE QUOTATION CALCULATIONS
+  // --------------------------------------------------------------------------
   const getRatePerBox = () => {
     if (calcProduct === 'JEEVAN-1') return 0.72; // Wholesale cost for Rs. 1 MRP
     if (calcProduct === 'JEEVAN-2') return 1.45; // Wholesale cost for Rs. 2 MRP
@@ -235,8 +340,8 @@ export default function AdminPage() {
 
   const getQuoteText = () => {
     return `*JEEVAN SAFETY MATCHES — OFFICIAL WHOLESALE QUOTATION*
-Factory: 3/19/A, Venkateswarpuram, Aladipatti, Srivilliputhur - 626125
-Regd. No.: 3481060 | Founder: Mr. M. Subburam (Est. 1979)
+Factory: ${companyContact.address}
+Regd. No.: 3481060 | Established 1979 by Mr. M. Subburam
 ----------------------------------------
 Brand / Line: ${calcProduct === 'JEEVAN-1' ? 'JEEVAN Safety Matches (₹1.00 - 27s)' : calcProduct === 'JEEVAN-2' ? 'JEEVAN Safety Matches (₹2.00 - 50s)' : 'TEHLA Safety Matches (₹1.00 - 30s)'}
 Quantity: ${calcBales} Master Bales (${totalBoxes.toLocaleString('en-IN')} Boxes)
@@ -250,7 +355,7 @@ GST (12%): ₹ ${gstAmount.toLocaleString('en-IN')}
 1. Veenus Match Works (Largest Manufacturing Unit)
 2. United Match Industries
 3. The Cauveri Matches
-Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
+Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.whatsappDisplay}`;
   };
 
   const copyQuoteToClipboard = () => {
@@ -259,18 +364,31 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
     setTimeout(() => setCopiedQuote(false), 2500);
   };
 
-  // Filtered Inquiries
-  const filteredInquiries = inquiries.filter((inq) => {
+  // Filters
+  const filteredProducts = products.filter((p) => {
     const matchesSearch =
-      inq.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      inq.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      inq.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      inq.id.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter === 'All' || inq.status === statusFilter;
-    return matchesSearch && matchesStatus;
+      p.name.toLowerCase().includes(productSearch.toLowerCase()) ||
+      p.code.toLowerCase().includes(productSearch.toLowerCase());
+    const matchesFilter =
+      productFilter === 'All'
+        ? true
+        : productFilter === 'Active'
+        ? !p.isHidden
+        : p.isHidden;
+    return matchesSearch && matchesFilter;
   });
 
-  // If Not Authenticated, Show Security Gate
+  const filteredInquiries = inquiries.filter((inq) => {
+    const matchesSearch =
+      inq.customerName.toLowerCase().includes(inquirySearch.toLowerCase()) ||
+      inq.companyName.toLowerCase().includes(inquirySearch.toLowerCase()) ||
+      inq.location.toLowerCase().includes(inquirySearch.toLowerCase()) ||
+      inq.id.toLowerCase().includes(inquirySearch.toLowerCase());
+    const matchesFilter = inquiryFilter === 'All' || inq.status === inquiryFilter;
+    return matchesSearch && matchesFilter;
+  });
+
+  // Security Gate if Not Authenticated
   if (!isAuthenticated) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 bg-slate-50">
@@ -287,7 +405,7 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
               Factory Admin Portal
             </h1>
             <p className="text-xs text-slate-500">
-              Enter authorized administrator passcode to manage wholesale inquiries, production lines, and factory showcase.
+              Enter administrator passcode to access wholesale product editing, photos, and order staging.
             </p>
           </div>
 
@@ -336,33 +454,37 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
     <div className="py-8 sm:py-12 space-y-8 bg-slate-50 min-h-screen">
       <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 space-y-8">
         {/* ============================================================ */}
-        {/* TOP HEADER CARD                                              */}
+        {/* TOP HEADER CARD — WHOLESALE B2B CONTROL CENTER               */}
         {/* ============================================================ */}
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-800 text-xs font-bold uppercase tracking-wider">
               <Building2 className="w-3.5 h-3.5" />
-              <span>Jeevan Safety Matches &bull; Factory Operations Center</span>
+              <span>Jeevan Safety Matches &bull; B2B Wholesale Management Portal</span>
             </div>
             <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Factory Admin & Operations Portal
+              Factory Admin & Wholesale Operations Center
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">
-              Centralized dashboard for wholesale dealer orders, warehouse stock, 3 sister concerns machinery, and 15 factory photos showcase.
+              Manage matchbox products, add/hide boxes, upload factory photos, stage wholesale dealer inquiries, and adjust warehouse stock in real time.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-right">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Managing Director</span>
-              <span className="text-xs font-black text-slate-900">Mr. S. Hariharan</span>
-              <span className="text-[10px] text-red-700 block font-semibold">Veenus &bull; United &bull; The Cauveri</span>
-            </div>
+            <button
+              onClick={resetAllDefaults}
+              className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-200 transition-colors flex items-center gap-1.5"
+              title="Reset all data back to factory defaults"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Reset Defaults</span>
+            </button>
+
             <Link
               href="/"
-              className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs border border-slate-200 transition-colors flex items-center gap-1.5"
+              className="px-4 py-2 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-1.5"
             >
-              <span>View Live Website</span>
+              <span>View Public Website</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -372,33 +494,31 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
         {/* 4 CORE KPI STATS                                             */}
         {/* ============================================================ */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {/* Card 1 */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs space-y-2">
             <div className="flex items-center justify-between text-slate-500">
-              <span className="text-xs font-bold uppercase tracking-wider">Finished Bales in Stock</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Catalog Products</span>
               <div className="w-8 h-8 rounded-lg bg-red-50 text-red-700 flex items-center justify-center font-bold">
-                <Warehouse className="w-4 h-4" />
+                <Flame className="w-4 h-4" />
               </div>
             </div>
             <div className="text-3xl font-black text-slate-900">
-              {inventory.reduce((acc, i) => acc + i.balesInStock, 0)} <span className="text-xs text-slate-500 font-medium">Bales</span>
+              {products.length} <span className="text-xs text-slate-500 font-medium">Brands / Sizes</span>
             </div>
             <p className="text-[11px] text-emerald-700 font-bold flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>{(inventory.reduce((acc, i) => acc + i.balesInStock, 0) * 1000).toLocaleString('en-IN')} Boxes Ready for Dispatch</span>
+              <span>{products.filter((p) => !p.isHidden).length} Visible on Website ({products.filter((p) => p.isHidden).length} Hidden)</span>
             </p>
           </div>
 
-          {/* Card 2 */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs space-y-2">
             <div className="flex items-center justify-between text-slate-500">
-              <span className="text-xs font-bold uppercase tracking-wider">Active Wholesale Inquiries</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Wholesale Dealer Orders</span>
               <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
                 <FileText className="w-4 h-4" />
               </div>
             </div>
             <div className="text-3xl font-black text-slate-900">
-              {inquiries.length} <span className="text-xs text-slate-500 font-medium">Recorded</span>
+              {inquiries.length} <span className="text-xs text-slate-500 font-medium">Consignments</span>
             </div>
             <p className="text-[11px] text-amber-700 font-bold flex items-center gap-1">
               <Clock className="w-3.5 h-3.5" />
@@ -406,37 +526,35 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
             </p>
           </div>
 
-          {/* Card 3 */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs space-y-2">
             <div className="flex items-center justify-between text-slate-500">
-              <span className="text-xs font-bold uppercase tracking-wider">3 Sister Plants Machinery</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Finished Bales in Stock</span>
               <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
-                <ShieldCheck className="w-4 h-4" />
+                <Warehouse className="w-4 h-4" />
               </div>
             </div>
             <div className="text-3xl font-black text-slate-900">
-              {machinery.filter((m) => m.status === 'Operational').length} / {machinery.length} <span className="text-xs text-slate-500 font-medium">Lines Active</span>
+              {inventory.reduce((acc, i) => acc + i.balesInStock, 0)} <span className="text-xs text-slate-500 font-medium">Bales</span>
             </div>
             <p className="text-[11px] text-emerald-700 font-bold flex items-center gap-1">
               <Check className="w-3.5 h-3.5" />
-              <span>Full automated splint, dipping & box packing</span>
+              <span>{(inventory.reduce((acc, i) => acc + i.balesInStock, 0) * 1000).toLocaleString('en-IN')} Boxes Ready for Dispatch</span>
             </p>
           </div>
 
-          {/* Card 4 */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs space-y-2">
             <div className="flex items-center justify-between text-slate-500">
-              <span className="text-xs font-bold uppercase tracking-wider">Factory Showcase Photos</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Factory Photos</span>
               <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
                 <Camera className="w-4 h-4" />
               </div>
             </div>
             <div className="text-3xl font-black text-slate-900">
-              {photos.length} <span className="text-xs text-slate-500 font-medium">HD Photos</span>
+              {photos.length} <span className="text-xs text-slate-500 font-medium">Showcase Photos</span>
             </div>
             <p className="text-[11px] text-blue-700 font-bold flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Covering Unit 1, Unit 2, Unit 3 & QC Lab</span>
+              <span>Across Unit 1, Unit 2, Unit 3 & QC Lab</span>
             </p>
           </div>
         </div>
@@ -446,56 +564,80 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
         {/* ============================================================ */}
         <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
           <button
+            onClick={() => setActiveTab('products')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+              activeTab === 'products'
+                ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
+                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+            }`}
+          >
+            <Flame className="w-4 h-4" />
+            <span>Match Products Manager ({products.length})</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('orders')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
               activeTab === 'orders'
                 ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
                 : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <FileText className="w-4 h-4" />
-            <span>Wholesale Inquiries ({inquiries.length})</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('inventory')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
-              activeTab === 'inventory'
-                ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
-                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
-            }`}
-          >
-            <Warehouse className="w-4 h-4" />
-            <span>Matchbox Stock & Inventory</span>
+            <span>Wholesale Dealer Inquiries ({inquiries.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('gallery')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
               activeTab === 'gallery'
                 ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
                 : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <Camera className="w-4 h-4" />
-            <span>Manufacturing Photos Manager ({photos.length})</span>
+            <span>Manufacturing Photos ({photos.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('inventory')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+              activeTab === 'inventory'
+                ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
+                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+            }`}
+          >
+            <Warehouse className="w-4 h-4" />
+            <span>Bales Stock & Inventory</span>
           </button>
 
           <button
             onClick={() => setActiveTab('machinery')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
               activeTab === 'machinery'
                 ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
                 : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <Building className="w-4 h-4" />
-            <span>3 Sister Plants & 10 Machinery Lines</span>
+            <span>3 Sister Plants & Machinery</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('company')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+              activeTab === 'company'
+                ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
+                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+            }`}
+          >
+            <Settings className="w-4 h-4" />
+            <span>Company & Contact Details</span>
           </button>
 
           <button
             onClick={() => setActiveTab('calculator')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
               activeTab === 'calculator'
                 ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
                 : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
@@ -507,34 +649,219 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
         </div>
 
         {/* ============================================================ */}
-        {/* TAB 1: WHOLESALE INQUIRIES & ORDERS                          */}
+        {/* TAB 1: MATCH PRODUCTS MANAGER (Add, Edit, Delete, Hide/Show) */}
         {/* ============================================================ */}
-        {activeTab === 'orders' && (
+        {activeTab === 'products' && (
           <div className="space-y-6">
-            {/* Filter, Search & Add Bar */}
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+                  Full Box & Product Control
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+                  Matchbox Products & Box Catalog
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Add new matchbox products, edit box specs, change wholesale prices, or hide/unhide any box from the website instantly.
+                </p>
+              </div>
+
+              <button
+                onClick={openAddProductModal}
+                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-xs shadow-md shadow-red-900/20 transition-all hover:scale-102 shrink-0"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add New Matchbox Product</span>
+              </button>
+            </div>
+
+            {/* Filter & Search Bar */}
             <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="relative w-full sm:w-80">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search customer, location or order..."
+                  value={productSearch}
+                  onChange={(e) => setProductSearch(e.target.value)}
+                  placeholder="Search product name or code..."
                   className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-red-700"
                 />
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                <div className="flex items-center gap-1 text-xs text-slate-500 font-semibold mr-1">
-                  <Filter className="w-3.5 h-3.5" />
-                  <span>Status:</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-500 font-semibold">Visibility:</span>
+                {(['All', 'Active', 'Hidden'] as const).map((filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => setProductFilter(filter)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                      productFilter === filter
+                        ? 'bg-red-800 text-white'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    {filter}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Product Cards Grid with Complete Controls */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {filteredProducts.map((prod) => (
+                <div
+                  key={prod.id}
+                  className={`bg-white rounded-3xl overflow-hidden border transition-all shadow-sm flex flex-col justify-between group ${
+                    prod.isHidden
+                      ? 'border-dashed border-amber-400/90 bg-amber-50/20 opacity-80'
+                      : 'border-slate-200/90 hover:shadow-xl'
+                  }`}
+                >
+                  <div>
+                    {/* Image & Visibility Badge */}
+                    <div className="relative h-48 w-full bg-slate-50 border-b border-slate-100 flex items-center justify-center p-3 overflow-hidden">
+                      <Image
+                        src={prod.image}
+                        alt={prod.name}
+                        fill
+                        className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-3 left-3">
+                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/95 text-slate-800 border border-slate-200 shadow-2xs">
+                          {prod.category}
+                        </span>
+                      </div>
+                      <div className="absolute top-3 right-3">
+                        {prod.isHidden ? (
+                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 flex items-center gap-1 shadow-2xs font-semibold">
+                            <EyeOff className="w-3 h-3" />
+                            <span>Hidden on Site</span>
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-600 text-white flex items-center gap-1 shadow-2xs font-semibold">
+                            <Eye className="w-3 h-3" />
+                            <span>Active on Site</span>
+                          </span>
+                        )}
+                      </div>
+                      <div className="absolute bottom-3 right-3">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500 text-slate-950">
+                          {prod.sticksPerBox} Sticks
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Details */}
+                    <div className="p-5 space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-mono text-slate-400 font-bold">{prod.code}</span>
+                        <span className="text-xs font-bold text-red-700">{prod.priceEstimate}</span>
+                      </div>
+                      <h3 className="font-bold text-slate-900 text-base">{prod.name}</h3>
+                      <p className="text-[11px] text-red-700 font-semibold">{prod.highlight}</p>
+                      <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                        {prod.description}
+                      </p>
+                      <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+                        <span className="text-slate-400 text-[11px] block">Packaging Standard:</span>
+                        <span className="font-semibold text-slate-800">{prod.unit}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions Toolbar for this Box */}
+                  <div className="p-5 pt-0 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button
+                      onClick={() => toggleHideProduct(prod.id)}
+                      className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                        prod.isHidden
+                          ? 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'
+                          : 'bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200'
+                      }`}
+                    >
+                      {prod.isHidden ? (
+                        <>
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>Unhide Box</span>
+                        </>
+                      ) : (
+                        <>
+                          <EyeOff className="w-3.5 h-3.5" />
+                          <span>Hide Box</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => openEditProductModal(prod)}
+                      className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors"
+                      title="Edit this Box Details"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteProduct(prod.id, prod.name)}
+                      className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 transition-colors"
+                      title="Delete Product"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TAB 2: WHOLESALE DEALER INQUIRIES & CONSIGNMENT STAGING       */}
+        {/* ============================================================ */}
+        {activeTab === 'orders' && (
+          <div className="space-y-6">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+                  B2B Wholesale Staging
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+                  Wholesale Consignments & Dealer Inquiries
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Manage incoming dealer purchase inquiries, send instant WhatsApp wholesale quotes, and update factory dispatch status.
+                </p>
+              </div>
+
+              <button
+                onClick={openAddInquiryModal}
+                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all hover:scale-102 shrink-0"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Log New Dealer Consignment</span>
+              </button>
+            </div>
+
+            {/* Filter & Search Bar */}
+            <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="relative w-full sm:w-80">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={inquirySearch}
+                  onChange={(e) => setInquirySearch(e.target.value)}
+                  placeholder="Search customer, location or consignment..."
+                  className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-red-700"
+                />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs text-slate-500 font-semibold mr-1">Status:</span>
                 {['All', 'Pending', 'Quoted', 'Dispatched', 'Delivered'].map((st) => (
                   <button
                     key={st}
-                    onClick={() => setStatusFilter(st)}
+                    onClick={() => setInquiryFilter(st)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-                      statusFilter === st
+                      inquiryFilter === st
                         ? 'bg-red-800 text-white'
                         : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
@@ -542,28 +869,20 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                     {st}
                   </button>
                 ))}
-
-                <button
-                  onClick={() => setShowAddInquiryModal(true)}
-                  className="ml-auto sm:ml-2 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Log New Order</span>
-                </button>
               </div>
             </div>
 
-            {/* Inquiries Table / Cards */}
+            {/* Inquiries Table */}
             <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
                   <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
                     <tr>
                       <th className="py-4 px-6">ID & Date</th>
-                      <th className="py-4 px-6">Customer & Wholesaler</th>
+                      <th className="py-4 px-6">Dealer & Wholesaler</th>
                       <th className="py-4 px-6">Product & Quantity</th>
-                      <th className="py-4 px-6">Status</th>
-                      <th className="py-4 px-6">Internal Notes</th>
+                      <th className="py-4 px-6">Dispatch Status</th>
+                      <th className="py-4 px-6">Factory Notes</th>
                       <th className="py-4 px-6 text-right">Actions</th>
                     </tr>
                   </thead>
@@ -571,12 +890,12 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                     {filteredInquiries.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="py-10 text-center text-slate-400">
-                          No wholesale inquiry records found matching &ldquo;{searchQuery}&rdquo;.
+                          No wholesale inquiry records found matching &ldquo;{inquirySearch}&rdquo;.
                         </td>
                       </tr>
                     ) : (
                       filteredInquiries.map((inq) => {
-                        const waText = `Hello ${inq.customerName}, this is regarding your wholesale inquiry ${inq.id} for ${inq.product} (${inq.quantity}) from Jeevan Safety Matches / Veenus Match Works.`;
+                        const waText = `Hello ${inq.customerName}, this is regarding your wholesale match consignment ${inq.id} for ${inq.product} (${inq.quantity}) from Jeevan Safety Matches.`;
                         const waLink = `https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(waText)}`;
 
                         return (
@@ -600,7 +919,7 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                             <td className="py-4 px-6">
                               <select
                                 value={inq.status}
-                                onChange={(e) => updateInquiryStatus(inq.id, e.target.value as AdminInquiry['status'])}
+                                onChange={(e) => updateInquiry(inq.id, { status: e.target.value as AdminInquiry['status'] })}
                                 className={`text-[11px] font-bold px-3 py-1.5 rounded-xl border focus:outline-none cursor-pointer ${
                                   inq.status === 'Pending'
                                     ? 'bg-amber-50 text-amber-800 border-amber-200'
@@ -621,25 +940,32 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                               {inq.notes}
                             </td>
                             <td className="py-4 px-6 text-right">
-                              <div className="flex items-center justify-end gap-2">
+                              <div className="flex items-center justify-end gap-1.5">
                                 <a
                                   href={waLink}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="p-2 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 transition-colors"
-                                  title="WhatsApp Wholesaler"
+                                  title="WhatsApp Dealer"
                                 >
                                   <MessageCircle className="w-4 h-4" />
                                 </a>
                                 <a
                                   href={`tel:${inq.phone.replace(/[^0-9+]/g, '')}`}
                                   className="p-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-                                  title="Call Wholesaler"
+                                  title="Call Dealer"
                                 >
                                   <Phone className="w-4 h-4" />
                                 </a>
                                 <button
-                                  onClick={() => deleteInquiry(inq.id)}
+                                  onClick={() => openEditInquiryModal(inq)}
+                                  className="p-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                                  title="Edit Inquiry"
+                                >
+                                  <Edit className="w-4 h-4" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteInquiry(inq.id, inq.customerName)}
                                   className="p-2 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition-colors"
                                   title="Delete Record"
                                 >
@@ -659,22 +985,143 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
         )}
 
         {/* ============================================================ */}
-        {/* TAB 2: FINISHED STOCK & INVENTORY                            */}
+        {/* TAB 3: MANUFACTURING PHOTOS MANAGER (Add, Edit, Delete, Hide)*/}
+        {/* ============================================================ */}
+        {activeTab === 'gallery' && (
+          <div className="space-y-6">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+                  Industrial Photo Showcase
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+                  Manufacturing Facilities & Photo Gallery
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Add factory photos, edit machinery captions, or hide photos from the public gallery across our 3 units.
+                </p>
+              </div>
+
+              <button
+                onClick={openAddPhotoModal}
+                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-xs shadow-md shadow-red-900/20 transition-all hover:scale-102 shrink-0"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add / Upload Factory Photo</span>
+              </button>
+            </div>
+
+            {/* Photos Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {photos.map((photo, index) => (
+                <div
+                  key={photo.id}
+                  className={`bg-white rounded-3xl overflow-hidden border transition-all shadow-sm flex flex-col justify-between group ${
+                    photo.isHidden
+                      ? 'border-dashed border-amber-400 bg-amber-50/20 opacity-80'
+                      : 'border-slate-200/90 hover:shadow-xl'
+                  }`}
+                >
+                  <div>
+                    <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
+                      <Image
+                        src={photo.image}
+                        alt={photo.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-3 left-3">
+                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-black/70 text-white backdrop-blur-xs">
+                          {photo.unitTag}
+                        </span>
+                      </div>
+                      <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                        {photo.isHidden && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-semibold">
+                            Hidden
+                          </span>
+                        )}
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-900 text-white font-mono">
+                          #{index + 1}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-5 space-y-2">
+                      <span className="text-[10px] font-bold text-red-700 uppercase tracking-wider block">
+                        {photo.category}
+                      </span>
+                      <h4 className="font-bold text-slate-900 text-sm line-clamp-1">{photo.title}</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">
+                        {photo.caption}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-5 pt-0 flex items-center justify-between border-t border-slate-100 gap-2">
+                    <button
+                      onClick={() => toggleHidePhoto(photo.id)}
+                      className={`flex-1 py-1.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                        photo.isHidden
+                          ? 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'
+                          : 'bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200'
+                      }`}
+                    >
+                      {photo.isHidden ? (
+                        <>
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>Show</span>
+                        </>
+                      ) : (
+                        <>
+                          <EyeOff className="w-3.5 h-3.5" />
+                          <span>Hide</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => openEditPhotoModal(photo)}
+                      className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors"
+                      title="Edit Photo Details"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDeletePhoto(photo.id, photo.title)}
+                      className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 transition-colors"
+                      title="Delete Photo"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TAB 4: BALES STOCK & WAREHOUSE INVENTORY                     */}
         {/* ============================================================ */}
         {activeTab === 'inventory' && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h2 className="text-xl font-bold text-slate-900">
-                  Finished Warehouse Stock & Daily Production Rate
+                <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+                  Warehouse Stock
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+                  Finished Master Bales & Production Inventory
                 </h2>
-                <p className="text-xs text-slate-500">
-                  Track finished master bales (1,000 boxes/bale) and daily packaging runs for Jeevan and Tehla matchboxes.
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Monitor warehouse stock in master bales (1,000 boxes/bale) and adjust daily manufacturing counts.
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-slate-500">All 3 Brands Active</span>
+                <span className="text-xs font-semibold text-slate-500">Live Sync</span>
               </div>
             </div>
 
@@ -764,108 +1211,27 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
         )}
 
         {/* ============================================================ */}
-        {/* TAB 3: MANUFACTURING PHOTOS MANAGER (15 HD PHOTOS)           */}
-        {/* ============================================================ */}
-        {activeTab === 'gallery' && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-                  Industrial Photo Showcase
-                </span>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
-                  Manufacturing Facilities & Factory Photo Gallery
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Manage the factory showcase photos displayed on the public Manufacturing page across our 3 units.
-                </p>
-              </div>
-
-              <button
-                onClick={() => setShowAddPhotoModal(true)}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-xs shadow-md shadow-red-900/20 transition-all hover:scale-102 shrink-0"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add / Upload Factory Photo</span>
-              </button>
-            </div>
-
-            {/* Photos Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {photos.map((photo, index) => (
-                <div
-                  key={photo.id}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm group flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
-                      <Image
-                        src={photo.image}
-                        alt={photo.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute top-3 left-3">
-                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-black/70 text-white backdrop-blur-xs">
-                          {photo.unitTag}
-                        </span>
-                      </div>
-                      <div className="absolute top-3 right-3">
-                        <span className="text-[10px] font-bold px-2.5 py-0.5 rounded bg-amber-500 text-slate-950 font-mono">
-                          #{index + 1}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-5 space-y-2">
-                      <span className="text-[10px] font-bold text-red-700 uppercase tracking-wider block">
-                        {photo.category}
-                      </span>
-                      <h4 className="font-bold text-slate-900 text-sm line-clamp-1">{photo.title}</h4>
-                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">
-                        {photo.caption}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-5 pt-0 flex items-center justify-between border-t border-slate-100">
-                    <span className="text-[11px] font-mono text-slate-400">ID: {photo.id}</span>
-                    <button
-                      onClick={() => deletePhoto(photo.id)}
-                      className="text-xs font-bold text-rose-700 hover:text-rose-900 flex items-center gap-1 transition-colors"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                      <span>Remove</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ============================================================ */}
-        {/* TAB 4: 3 SISTER PLANTS & 10 MACHINERY LINES                  */}
+        {/* TAB 5: 3 SISTER PLANTS & 10 MACHINERY LINES                  */}
         {/* ============================================================ */}
         {activeTab === 'machinery' && (
           <div className="space-y-6">
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-                  3 Industrial Units &bull; Srivilliputhur Base
+                  3 Industrial Plants &bull; Srivilliputhur Base
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
                   10 High-Speed Automated Machinery Lines
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Real-time operational status across Veenus Match Works (Mother Plant), United Match Industries, and The Cauveri Matches.
+                  Real-time status across Veenus Match Works, United Match Industries, and The Cauveri Matches.
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
                 <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-xs flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-                  <span>All Plants Online</span>
+                  <span>3 Sister Plants Active</span>
                 </span>
               </div>
             </div>
@@ -880,7 +1246,15 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                     <div className="flex items-center justify-between">
                       <span className="text-[11px] font-mono font-bold text-slate-400">{line.id}</span>
                       <button
-                        onClick={() => toggleMachineryStatus(line.id)}
+                        onClick={() => {
+                          const nextStatus: MachineryLineStatus['status'] =
+                            line.status === 'Operational'
+                              ? 'Maintenance'
+                              : line.status === 'Maintenance'
+                              ? 'Standby'
+                              : 'Operational';
+                          updateMachineryStatus(line.id, nextStatus);
+                        }}
                         className={`text-[11px] font-bold px-3 py-1 rounded-full border transition-colors flex items-center gap-1.5 ${
                           line.status === 'Operational'
                             ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
@@ -935,15 +1309,148 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
         )}
 
         {/* ============================================================ */}
-        {/* TAB 5: WHOLESALE QUOTATION GENERATOR                         */}
+        {/* TAB 6: COMPANY & CONTACT SETTINGS                            */}
+        {/* ============================================================ */}
+        {activeTab === 'company' && (
+          <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200/90 shadow-sm space-y-6 max-w-4xl">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+                  Factory Configuration
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+                  Company Identity & Contact Info
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Updates telephone hotlines, factory address, founder name, and sister concerns across the entire website.
+                </p>
+              </div>
+
+              {contactSaved && (
+                <span className="px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-xs flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span>Saved Live!</span>
+                </span>
+              )}
+            </div>
+
+            <form onSubmit={handleSaveContact} className="space-y-5 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Company / Brand Name</label>
+                  <input
+                    type="text"
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Managing Director</label>
+                  <input
+                    type="text"
+                    value={contactForm.managingDirector}
+                    onChange={(e) => setContactForm({ ...contactForm, managingDirector: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Office Landline Number *</label>
+                  <input
+                    type="text"
+                    value={contactForm.phoneDisplay}
+                    onChange={(e) => setContactForm({ ...contactForm, phoneDisplay: e.target.value, phoneCall: `+91${e.target.value.replace(/[^0-9]/g, '')}` })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700 font-bold text-slate-900"
+                  />
+                  <p className="text-[10px] text-slate-400 mt-1">Official factory office line (04563 262657)</p>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Mobile / WhatsApp Number *</label>
+                  <input
+                    type="text"
+                    value={contactForm.whatsappDisplay}
+                    onChange={(e) => setContactForm({
+                      ...contactForm,
+                      whatsappDisplay: e.target.value,
+                      mobileDisplay: e.target.value,
+                      whatsappNumber: e.target.value.replace(/[^0-9]/g, ''),
+                      mobileCall: `+${e.target.value.replace(/[^0-9]/g, '')}`
+                    })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700 font-bold text-slate-900"
+                  />
+                  <p className="text-[10px] text-slate-400 mt-1">Used for wholesale WhatsApp dispatches</p>
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Official Email Address</label>
+                <input
+                  type="email"
+                  value={contactForm.email}
+                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Complete Factory & Office Address</label>
+                <textarea
+                  rows={2}
+                  value={contactForm.address}
+                  onChange={(e) => setContactForm({ ...contactForm, address: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700 leading-relaxed"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Founder / Regd Details</label>
+                  <input
+                    type="text"
+                    value={contactForm.founder}
+                    onChange={(e) => setContactForm({ ...contactForm, founder: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Operating Hours</label>
+                  <input
+                    type="text"
+                    value={contactForm.hours}
+                    onChange={(e) => setContactForm({ ...contactForm, hours: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2 flex items-center justify-end">
+                <button
+                  type="submit"
+                  className="px-6 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-xs shadow-md shadow-red-900/20 transition-all hover:scale-102 flex items-center gap-2"
+                >
+                  <Check className="w-4 h-4" />
+                  <span>Save Company Details Live</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TAB 7: B2B WHOLESALE QUOTATION GENERATOR                     */}
         {/* ============================================================ */}
         {activeTab === 'calculator' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Config Card */}
             <div className="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-                  Instant Commercial Estimator
+                  B2B Commercial Estimator
                 </span>
                 <h3 className="text-xl font-bold text-slate-900 mt-2">
                   Wholesale Quotation Generator
@@ -954,7 +1461,6 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
               </div>
 
               <div className="space-y-4">
-                {/* Product Choice */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-2">
                     Select Matchbox Product & Brand
@@ -1001,7 +1507,6 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                   </div>
                 </div>
 
-                {/* Bales Slider / Input */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="text-xs font-bold text-slate-700">
@@ -1025,7 +1530,6 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                   </div>
                 </div>
 
-                {/* Discount Percentage */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="text-xs font-bold text-slate-700">
@@ -1051,7 +1555,6 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                   </div>
                 </div>
 
-                {/* Destination Hub */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
                     Dealer Delivery Hub / Destination
@@ -1067,7 +1570,6 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
               </div>
             </div>
 
-            {/* Right Invoice & WhatsApp Dispatch Card */}
             <div className="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div>
@@ -1154,54 +1656,55 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
         )}
 
         {/* ============================================================ */}
-        {/* ADD INQUIRY MODAL                                            */}
+        {/* PRODUCT MODAL (Add / Edit)                                   */}
         {/* ============================================================ */}
-        {showAddInquiryModal && (
+        {showProductModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-            <div className="bg-white w-full max-w-lg p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl space-y-5">
+            <div className="bg-white w-full max-w-lg p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <h3 className="font-bold text-slate-900 text-lg">Log New Wholesale Inquiry</h3>
+                <h3 className="font-bold text-slate-900 text-lg">
+                  {editingProductId ? 'Edit Matchbox Product' : 'Add New Matchbox Product'}
+                </h3>
                 <button
-                  onClick={() => setShowAddInquiryModal(false)}
+                  onClick={() => setShowProductModal(false)}
                   className="text-slate-400 hover:text-slate-700 text-xs font-bold"
                 >
                   ✕ Close
                 </button>
               </div>
 
-              <form onSubmit={handleCreateInquiry} className="space-y-3.5 text-xs">
+              <form onSubmit={handleSaveProduct} className="space-y-3.5 text-xs">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Customer / Dealer Name *</label>
+                  <label className="block font-bold text-slate-700 mb-1">Product / Brand Name *</label>
                   <input
                     type="text"
                     required
-                    value={newInquiry.customerName}
-                    onChange={(e) => setNewInquiry({ ...newInquiry, customerName: e.target.value })}
-                    placeholder="e.g. S. Murugesan"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                    value={productForm.name}
+                    onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
+                    placeholder="e.g. JEEVAN Safety Matches (₹1.00)"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700 font-bold"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">Company / Agency</label>
+                    <label className="block font-bold text-slate-700 mb-1">Product Code</label>
                     <input
                       type="text"
-                      value={newInquiry.companyName}
-                      onChange={(e) => setNewInquiry({ ...newInquiry, companyName: e.target.value })}
-                      placeholder="e.g. Sri Krishna Agencies"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                      value={productForm.code}
+                      onChange={(e) => setProductForm({ ...productForm, code: e.target.value })}
+                      placeholder="e.g. VMW-JEV-01"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700 font-mono"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">Phone / WhatsApp *</label>
+                    <label className="block font-bold text-slate-700 mb-1">Average Sticks / Box</label>
                     <input
-                      type="tel"
-                      required
-                      value={newInquiry.phone}
-                      onChange={(e) => setNewInquiry({ ...newInquiry, phone: e.target.value })}
-                      placeholder="+91 98421 XXXXX"
+                      type="number"
+                      value={productForm.sticksPerBox}
+                      onChange={(e) => setProductForm({ ...productForm, sticksPerBox: Number(e.target.value) })}
+                      placeholder="27, 30, 50"
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
                     />
                   </div>
@@ -1209,56 +1712,92 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">Location / Market</label>
-                    <input
-                      type="text"
-                      value={newInquiry.location}
-                      onChange={(e) => setNewInquiry({ ...newInquiry, location: e.target.value })}
-                      placeholder="e.g. Madurai, TN"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block font-bold text-slate-700 mb-1">Product</label>
+                    <label className="block font-bold text-slate-700 mb-1">Category</label>
                     <select
-                      value={newInquiry.product}
-                      onChange={(e) => setNewInquiry({ ...newInquiry, product: e.target.value })}
+                      value={productForm.category}
+                      onChange={(e) => setProductForm({ ...productForm, category: e.target.value as MatchProduct['category'] })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
                     >
-                      <option value="JEEVAN Safety Matches (₹1.00 - 27s)">JEEVAN Safety Matches (₹1.00)</option>
-                      <option value="JEEVAN Safety Matches (₹2.00 - 50s)">JEEVAN Safety Matches (₹2.00)</option>
-                      <option value="TEHLA Safety Matches (₹1.00 - 30s)">TEHLA Safety Matches (₹1.00)</option>
+                      <option value="Cardboard Safety Matches">Cardboard Safety Matches</option>
+                      <option value="Veneer Safety Matches">Veneer Safety Matches</option>
+                      <option value="Wax Matches">Wax Matches</option>
+                      <option value="Wholesale & Export Cartons">Wholesale & Export Cartons</option>
                     </select>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Price / Wholesale Rate</label>
+                    <input
+                      type="text"
+                      value={productForm.priceEstimate}
+                      onChange={(e) => setProductForm({ ...productForm, priceEstimate: e.target.value })}
+                      placeholder="M.R.P. ₹ 1.00 (Wholesale Bales Available)"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                    />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Quantity</label>
+                  <label className="block font-bold text-slate-700 mb-1">Image URL / Path *</label>
                   <input
                     type="text"
-                    value={newInquiry.quantity}
-                    onChange={(e) => setNewInquiry({ ...newInquiry, quantity: e.target.value })}
-                    placeholder="e.g. 50 Master Bales (50,000 Boxes)"
+                    required
+                    value={productForm.image}
+                    onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
+                    placeholder="/products/jeevan-1rs-matches.jpg or https://..."
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Notes</label>
-                  <textarea
-                    rows={2}
-                    value={newInquiry.notes}
-                    onChange={(e) => setNewInquiry({ ...newInquiry, notes: e.target.value })}
-                    placeholder="Order urgency, payment terms, or delivery expectations..."
+                  <label className="block font-bold text-slate-700 mb-1">Packaging Standard</label>
+                  <input
+                    type="text"
+                    value={productForm.unit}
+                    onChange={(e) => setProductForm({ ...productForm, unit: e.target.value })}
+                    placeholder="100 Boxes / Pack • Master Bales Available"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
                   />
                 </div>
 
-                <div className="pt-2 flex items-center justify-end gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Highlight Badge</label>
+                  <input
+                    type="text"
+                    value={productForm.highlight}
+                    onChange={(e) => setProductForm({ ...productForm, highlight: e.target.value })}
+                    placeholder="Regd No. 3481060 • Avg. 27 Sticks • Three Fruits Brand"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Full Description</label>
+                  <textarea
+                    rows={3}
+                    value={productForm.description}
+                    onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
+                    placeholder="Description of wood splints, striking friction, and packaging..."
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                  />
+                </div>
+
+                <div className="pt-1">
+                  <label className="inline-flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={productForm.isHidden}
+                      onChange={(e) => setProductForm({ ...productForm, isHidden: e.target.checked })}
+                      className="rounded accent-red-700 w-4 h-4"
+                    />
+                    <span className="font-bold text-slate-800">Hide from Public Website (Keep in admin only)</span>
+                  </label>
+                </div>
+
+                <div className="pt-2 flex items-center justify-end gap-3 border-t border-slate-100">
                   <button
                     type="button"
-                    onClick={() => setShowAddInquiryModal(false)}
+                    onClick={() => setShowProductModal(false)}
                     className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
                   >
                     Cancel
@@ -1267,7 +1806,7 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                     type="submit"
                     className="px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold shadow-md shadow-red-900/20"
                   >
-                    Save Inquiry
+                    {editingProductId ? 'Save Product Changes' : 'Create Product'}
                   </button>
                 </div>
               </form>
@@ -1276,31 +1815,33 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
         )}
 
         {/* ============================================================ */}
-        {/* ADD PHOTO MODAL                                              */}
+        {/* PHOTO MODAL (Add / Edit)                                     */}
         {/* ============================================================ */}
-        {showAddPhotoModal && (
+        {showPhotoModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
             <div className="bg-white w-full max-w-lg p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl space-y-5">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <h3 className="font-bold text-slate-900 text-lg">Add Factory Photo to Showcase</h3>
+                <h3 className="font-bold text-slate-900 text-lg">
+                  {editingPhotoId ? 'Edit Factory Photo' : 'Add Factory Photo'}
+                </h3>
                 <button
-                  onClick={() => setShowAddPhotoModal(false)}
+                  onClick={() => setShowPhotoModal(false)}
                   className="text-slate-400 hover:text-slate-700 text-xs font-bold"
                 >
                   ✕ Close
                 </button>
               </div>
 
-              <form onSubmit={handleCreatePhoto} className="space-y-3.5 text-xs">
+              <form onSubmit={handleSavePhoto} className="space-y-3.5 text-xs">
                 <div>
                   <label className="block font-bold text-slate-700 mb-1">Photo Title *</label>
                   <input
                     type="text"
                     required
-                    value={newPhoto.title}
-                    onChange={(e) => setNewPhoto({ ...newPhoto, title: e.target.value })}
-                    placeholder="e.g. Unit 1 — High-Speed Chemical Dipping Machine"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                    value={photoForm.title}
+                    onChange={(e) => setPhotoForm({ ...photoForm, title: e.target.value })}
+                    placeholder="e.g. Unit 1 — High-Speed Chemical Dipping Carousel"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700 font-bold"
                   />
                 </div>
 
@@ -1308,8 +1849,8 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                   <div>
                     <label className="block font-bold text-slate-700 mb-1">Category</label>
                     <select
-                      value={newPhoto.category}
-                      onChange={(e) => setNewPhoto({ ...newPhoto, category: e.target.value as ManufacturingPhoto['category'] })}
+                      value={photoForm.category}
+                      onChange={(e) => setPhotoForm({ ...photoForm, category: e.target.value as ManufacturingPhoto['category'] })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
                     >
                       <option value="Unit 1: Chemical & Splints">Unit 1: Chemical & Splints</option>
@@ -1323,8 +1864,8 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                     <label className="block font-bold text-slate-700 mb-1">Unit Tag</label>
                     <input
                       type="text"
-                      value={newPhoto.unitTag}
-                      onChange={(e) => setNewPhoto({ ...newPhoto, unitTag: e.target.value })}
+                      value={photoForm.unitTag}
+                      onChange={(e) => setPhotoForm({ ...photoForm, unitTag: e.target.value })}
                       placeholder="e.g. Unit 1 • Mother Plant"
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
                     />
@@ -1336,28 +1877,40 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                   <input
                     type="url"
                     required
-                    value={newPhoto.image}
-                    onChange={(e) => setNewPhoto({ ...newPhoto, image: e.target.value })}
+                    value={photoForm.image}
+                    onChange={(e) => setPhotoForm({ ...photoForm, image: e.target.value })}
                     placeholder="https://images.unsplash.com/photo-..."
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Caption / Description</label>
+                  <label className="block font-bold text-slate-700 mb-1">Caption / Machinery Description</label>
                   <textarea
                     rows={2}
-                    value={newPhoto.caption}
-                    onChange={(e) => setNewPhoto({ ...newPhoto, caption: e.target.value })}
-                    placeholder="Describe machinery features, capacity, or plant process..."
+                    value={photoForm.caption}
+                    onChange={(e) => setPhotoForm({ ...photoForm, caption: e.target.value })}
+                    placeholder="Describe machinery process, temperature control, or plant throughput..."
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
                   />
                 </div>
 
-                <div className="pt-2 flex items-center justify-end gap-3">
+                <div className="pt-1">
+                  <label className="inline-flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={photoForm.isHidden}
+                      onChange={(e) => setPhotoForm({ ...photoForm, isHidden: e.target.checked })}
+                      className="rounded accent-red-700 w-4 h-4"
+                    />
+                    <span className="font-bold text-slate-800">Hide from Public Gallery (Keep in admin only)</span>
+                  </label>
+                </div>
+
+                <div className="pt-2 flex items-center justify-end gap-3 border-t border-slate-100">
                   <button
                     type="button"
-                    onClick={() => setShowAddPhotoModal(false)}
+                    onClick={() => setShowPhotoModal(false)}
                     className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
                   >
                     Cancel
@@ -1366,7 +1919,147 @@ Office Hotline: 04563 262657 | WhatsApp: +91 98421 56789`;
                     type="submit"
                     className="px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold shadow-md shadow-red-900/20"
                   >
-                    Add to Gallery
+                    {editingPhotoId ? 'Save Photo Changes' : 'Add Photo'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* INQUIRY MODAL (Add / Edit)                                   */}
+        {/* ============================================================ */}
+        {showInquiryModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+            <div className="bg-white w-full max-w-lg p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl space-y-5">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 className="font-bold text-slate-900 text-lg">
+                  {editingInquiryId ? 'Edit Wholesale Consignment' : 'Log New Dealer Consignment'}
+                </h3>
+                <button
+                  onClick={() => setShowInquiryModal(false)}
+                  className="text-slate-400 hover:text-slate-700 text-xs font-bold"
+                >
+                  ✕ Close
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveInquiry} className="space-y-3.5 text-xs">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Customer / Dealer Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={inquiryForm.customerName}
+                    onChange={(e) => setInquiryForm({ ...inquiryForm, customerName: e.target.value })}
+                    placeholder="e.g. S. Murugesan"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700 font-bold"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Company / Agency Name</label>
+                    <input
+                      type="text"
+                      value={inquiryForm.companyName}
+                      onChange={(e) => setInquiryForm({ ...inquiryForm, companyName: e.target.value })}
+                      placeholder="e.g. Sri Krishna Match Traders"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Phone / WhatsApp *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={inquiryForm.phone}
+                      onChange={(e) => setInquiryForm({ ...inquiryForm, phone: e.target.value })}
+                      placeholder="+91 98421 XXXXX"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700 font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Location / Market Hub</label>
+                    <input
+                      type="text"
+                      value={inquiryForm.location}
+                      onChange={(e) => setInquiryForm({ ...inquiryForm, location: e.target.value })}
+                      placeholder="e.g. Madurai, Salem, Coimbatore"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Product</label>
+                    <select
+                      value={inquiryForm.product}
+                      onChange={(e) => setInquiryForm({ ...inquiryForm, product: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                    >
+                      <option value="JEEVAN Safety Matches (₹1.00 - 27s)">JEEVAN Safety Matches (₹1.00)</option>
+                      <option value="JEEVAN Safety Matches (₹2.00 - 50s)">JEEVAN Safety Matches (₹2.00)</option>
+                      <option value="TEHLA Safety Matches (₹1.00 - 30s)">TEHLA Safety Matches (₹1.00)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Quantity (Bales / Boxes)</label>
+                    <input
+                      type="text"
+                      value={inquiryForm.quantity}
+                      onChange={(e) => setInquiryForm({ ...inquiryForm, quantity: e.target.value })}
+                      placeholder="e.g. 50 Master Bales (50,000 Boxes)"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Status</label>
+                    <select
+                      value={inquiryForm.status}
+                      onChange={(e) => setInquiryForm({ ...inquiryForm, status: e.target.value as AdminInquiry['status'] })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Quoted">Quoted</option>
+                      <option value="Dispatched">Dispatched</option>
+                      <option value="Delivered">Delivered</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Notes / Instructions</label>
+                  <textarea
+                    rows={2}
+                    value={inquiryForm.notes}
+                    onChange={(e) => setInquiryForm({ ...inquiryForm, notes: e.target.value })}
+                    placeholder="Delivery timeline, payment terms, or custom master bale stamping..."
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                  />
+                </div>
+
+                <div className="pt-2 flex items-center justify-end gap-3 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => setShowInquiryModal(false)}
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold shadow-md shadow-red-900/20"
+                  >
+                    {editingInquiryId ? 'Save Consignment' : 'Log Consignment'}
                   </button>
                 </div>
               </form>

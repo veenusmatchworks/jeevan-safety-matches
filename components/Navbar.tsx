@@ -17,8 +17,10 @@ import {
 } from 'lucide-react';
 import { COMPANY_CONTACT } from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
+import { useFactory } from '@/context/FactoryContext';
 
 export const Navbar = () => {
+  const { companyContact } = useFactory();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -30,7 +32,7 @@ export const Navbar = () => {
     { name: 'Contact Us', href: '/contact' },
   ];
 
-  const whatsappUrl = `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/${companyContact.whatsappNumber}?text=${encodeURIComponent(
     'Hello Veenus Group, I would like to inquire about Jeevan & Tehla Safety Matches.'
   )}`;
 
@@ -48,11 +50,11 @@ export const Navbar = () => {
 
           <div className="flex items-center gap-4 text-xs shrink-0">
             <a
-              href={`tel:${COMPANY_CONTACT.phoneCall}`}
+              href={`tel:${companyContact.phoneCall}`}
               className="flex items-center gap-1.5 text-rose-100 hover:text-amber-200 font-medium transition-colors"
             >
               <Phone className="w-3.5 h-3.5 text-amber-300" />
-              <span>{COMPANY_CONTACT.phoneDisplay}</span>
+              <span>{companyContact.phoneDisplay}</span>
             </a>
             <span className="text-rose-300/40 hidden sm:inline">|</span>
             <a
@@ -162,12 +164,12 @@ export const Navbar = () => {
               <span>Chat on WhatsApp</span>
             </a>
             <a
-              href={`tel:${COMPANY_CONTACT.phoneCall}`}
+              href={`tel:${companyContact.phoneCall}`}
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center justify-center gap-2 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold text-xs border border-slate-200"
             >
               <Phone className="w-3.5 h-3.5 text-red-700" />
-              <span>Call: {COMPANY_CONTACT.phoneDisplay}</span>
+              <span>Call: {companyContact.phoneDisplay}</span>
             </a>
           </div>
         </div>

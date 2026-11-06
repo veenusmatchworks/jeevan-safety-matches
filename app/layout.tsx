@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloating } from "@/components/WhatsAppFloating";
+import { FactoryProvider } from "@/context/FactoryContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,14 +40,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-slate-50 text-slate-800`}
       >
-        <Suspense fallback={<div className="h-20 bg-white border-b border-slate-200" />}>
-          <Navbar />
-        </Suspense>
-        
-        <main className="flex-1">{children}</main>
-        
-        <Footer />
-        <WhatsAppFloating />
+        <FactoryProvider>
+          <Suspense fallback={<div className="h-20 bg-white border-b border-slate-200" />}>
+            <Navbar />
+          </Suspense>
+          
+          <main className="flex-1">{children}</main>
+          
+          <Footer />
+          <WhatsAppFloating />
+        </FactoryProvider>
       </body>
     </html>
   );

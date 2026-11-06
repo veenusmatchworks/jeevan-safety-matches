@@ -17,10 +17,12 @@ import {
   Package,
   Sparkles
 } from 'lucide-react';
-import { COMPANY_CONTACT, MANUFACTURING_15_PHOTOS, ManufacturingPhoto } from '@/lib/data';
+import { COMPANY_CONTACT, ManufacturingPhoto } from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
+import { useFactory } from '@/context/FactoryContext';
 
 export default function ManufacturingPage() {
+  const { photos, companyContact } = useFactory();
   const [selectedCategory, setSelectedCategory] = useState<string>('All Photos');
   const [lightboxPhoto, setLightboxPhoto] = useState<ManufacturingPhoto | null>(null);
 
@@ -32,7 +34,9 @@ export default function ManufacturingPage() {
     'Quality & Loading Bay'
   ];
 
-  const filteredPhotos = MANUFACTURING_15_PHOTOS.filter((photo) => {
+  const visiblePhotos = photos.filter((p) => !p.isHidden);
+
+  const filteredPhotos = visiblePhotos.filter((photo) => {
     if (selectedCategory === 'All Photos') return true;
     return photo.category === selectedCategory;
   });

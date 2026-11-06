@@ -1,11 +1,16 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Phone, MessageCircle, Mail, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
 import { COMPANY_CONTACT } from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
+import { useFactory } from '@/context/FactoryContext';
 
 export const Footer = () => {
-  const whatsappUrl = `https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent(
+  const { companyContact } = useFactory();
+
+  const whatsappUrl = `https://wa.me/${companyContact.whatsappNumber}?text=${encodeURIComponent(
     'Hello Veenus Group, I would like to inquire about Jeevan & Tehla Safety Matches wholesale supply.'
   )}`;
 
@@ -28,10 +33,10 @@ export const Footer = () => {
           </div>
           <div className="flex items-center gap-3">
             <a
-              href={`tel:${COMPANY_CONTACT.phoneCall}`}
+              href={`tel:${companyContact.phoneCall}`}
               className="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-5 py-2.5 rounded-xl text-xs font-semibold transition-all hover:scale-105 shadow-sm"
             >
-              Call: {COMPANY_CONTACT.phoneDisplay}
+              Call: {companyContact.phoneDisplay}
             </a>
             <a
               href={whatsappUrl}
@@ -171,33 +176,33 @@ export const Footer = () => {
             <div className="space-y-3 text-xs text-slate-400">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span className="leading-relaxed">{COMPANY_CONTACT.address}</span>
+                <span className="leading-relaxed">{companyContact.address}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <a href={`tel:${COMPANY_CONTACT.phoneCall}`} className="hover:text-white font-semibold transition-colors">
-                    {COMPANY_CONTACT.phoneDisplay} <span className="text-[10px] text-slate-400 font-normal">(Office)</span>
+                  <a href={`tel:${companyContact.phoneCall}`} className="hover:text-white font-semibold transition-colors">
+                    {companyContact.phoneDisplay} <span className="text-[10px] text-slate-400 font-normal">(Office)</span>
                   </a>
-                  <a href={`tel:${COMPANY_CONTACT.mobileCall}`} className="hover:text-white text-slate-300 transition-colors">
-                    {COMPANY_CONTACT.mobileDisplay} <span className="text-[10px] text-slate-400 font-normal">(Mobile)</span>
+                  <a href={`tel:${companyContact.mobileCall}`} className="hover:text-white text-slate-300 transition-colors">
+                    {companyContact.mobileDisplay} <span className="text-[10px] text-slate-400 font-normal">(Mobile)</span>
                   </a>
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
                 <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0" />
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white font-semibold transition-colors">
-                  WhatsApp: {COMPANY_CONTACT.whatsappDisplay}
+                  WhatsApp: {companyContact.whatsappDisplay}
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-amber-400 shrink-0" />
-                <a href={`mailto:${COMPANY_CONTACT.email}`} className="hover:text-white transition-colors">
-                  {COMPANY_CONTACT.email}
+                <a href={`mailto:${companyContact.email}`} className="hover:text-white transition-colors">
+                  {companyContact.email}
                 </a>
               </div>
               <div className="text-[11px] text-slate-500 pt-2 border-t border-white/5">
-                {COMPANY_CONTACT.hours}
+                {companyContact.hours}
               </div>
             </div>
           </div>
