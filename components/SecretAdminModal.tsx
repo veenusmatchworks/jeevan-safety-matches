@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, Unlock, X, ShieldCheck, AlertCircle, KeyRound } from 'lucide-react';
+import { Lock, Unlock, X, ShieldCheck, AlertCircle, KeyRound, RefreshCw } from 'lucide-react';
 
 export const SecretAdminModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState('');
+  const [isAuthorizing, setIsAuthorizing] = useState(false);
   const router = useRouter();
 
   // Listen for global keyboard shortcut and custom events
@@ -37,20 +38,38 @@ export const SecretAdminModal = () => {
     };
   }, []);
 
-  const handleUnlock = (e: React.FormEvent) => {
+  const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === '1979' || passcode === '3481060' || passcode === 'admin') {
-      try {
-        sessionStorage.setItem('vmw_admin_session', 'active');
-      } catch (err) {
-        console.warn('Session storage write error:', err);
+    if (!passcode.trim()) return;
+
+    setIsAuthorizing(true);
+    setError('');
+
+    try {
+      const res = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success && data.redirectUrl) {
+        try {
+          sessionStorage.setItem('vmw_admin_session', 'active');
+        } catch (err) {
+          console.warn('Session storage write error:', err);
+        }
+        setIsOpen(false);
+        setPasscode('');
+        setError('');
+        router.push(data.redirectUrl);
+      } else {
+        setError(data.error || 'Invalid administrator authorization code.');
       }
-      setIsOpen(false);
-      setPasscode('');
-      setError('');
-      router.push('/admin');
-    } else {
-      setError('Invalid authorization code.');
+    } catch {
+      setError('Connection error. Please try again.');
+    } finally {
+      setIsAuthorizing(false);
     }
   };
 
@@ -90,10 +109,11 @@ export const SecretAdminModal = () => {
               type="password"
               autoFocus
               required
+              disabled={isAuthorizing}
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
               placeholder="••••"
-              className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-center text-lg tracking-widest placeholder:text-slate-500 focus:outline-none focus:border-red-600 transition-colors"
+              className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-center text-lg tracking-widest placeholder:text-slate-500 focus:outline-none focus:border-red-600 transition-colors disabled:opacity-50"
             />
             {error && (
               <p className="text-xs text-rose-400 font-semibold mt-1.5 flex items-center justify-center gap-1">
@@ -105,10 +125,20 @@ export const SecretAdminModal = () => {
 
           <button
             type="submit"
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-900/30 transition-all hover:scale-101 flex items-center justify-center gap-2"
+            disabled={isAuthorizing}
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-900/30 transition-all hover:scale-101 flex items-center justify-center gap-2 disabled:opacity-60"
           >
-            <Unlock className="w-4 h-4" />
-            <span>Authorize & Open Portal</span>
+            {isAuthorizing ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                <span>Verifying...</span>
+              </>
+            ) : (
+              <>
+                <Unlock className="w-4 h-4" />
+                <span>Authorize & Open Portal</span>
+              </>
+            )}
           </button>
         </form>
 
