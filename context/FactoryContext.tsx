@@ -59,7 +59,7 @@ const STORAGE_KEYS = {
   INQUIRIES: 'vmw_inquiries_v2',
   INVENTORY: 'vmw_inventory_v2',
   MACHINERY: 'vmw_machinery_v2',
-  CONTACT: 'vmw_contact_v2'
+  CONTACT: 'vmw_contact_v3'
 };
 
 export const FactoryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

@@ -95,7 +95,15 @@ export const Footer = () => {
                   <span>The Cauveri Matches (Sister Concern)</span>
                 </li>
                 <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                  <span>Sri Cauvery Travels (Fleet of 10+ Omni Buses)</span>
+                </li>
+                <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>Monthly Production: {companyContact.monthlyProduction || '50,000+ Bundles'}</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
                   <span>10 Advanced High-Speed Machinery Lines</span>
                 </li>
               </ul>

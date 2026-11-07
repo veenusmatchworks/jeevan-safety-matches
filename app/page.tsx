@@ -106,8 +106,8 @@ export default function HomePage() {
                   <div className="text-xs text-slate-500 font-semibold">Moisture-Proof Matches</div>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black text-amber-700">{companyContact.monthlyProduction || '1,25,000+'}</div>
-                  <div className="text-xs text-slate-500 font-semibold">Monthly Production</div>
+                  <div className="text-2xl sm:text-3xl font-black text-amber-700">{companyContact.monthlyProduction || '50,000+'}</div>
+                  <div className="text-xs text-slate-500 font-semibold">Monthly Production (50K Sales)</div>
                 </div>
               </div>
             </div>
@@ -529,7 +529,7 @@ export default function HomePage() {
               </p>
 
               <p className="text-sm text-slate-600 leading-relaxed">
-                At Jeevan Safety Matches, quality is our identity. We believe that the quality of even a single matchstick reflects the reputation of our brand. With decades of experience and a strong commitment to consistency, we strive to maintain the trust of our customers across every wholesale market and retail dealership.
+                At Jeevan Safety Matches, quality is our identity. We believe that the quality of even a single matchstick reflects the reputation of our brand. With decades of experience and a strong commitment to consistency, we strive to maintain the trust of our customers across every wholesale market and retail dealership, achieving wholesale sales and production of approximately <strong>{companyContact.monthlyProduction || '50,000+ Bundles'}</strong>.
               </p>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
@@ -538,25 +538,25 @@ export default function HomePage() {
                   <div className="text-[11px] font-bold text-slate-900">Mr. M. Subburam</div>
                   <p className="text-[10px] text-slate-500">Established founder</p>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-amber-700 font-black text-base sm:text-lg mb-0.5">{companyContact.monthlyProduction || '1,25,000+'}</div>
-                  <div className="text-[11px] font-bold text-slate-900">Monthly Output</div>
-                  <p className="text-[10px] text-slate-500">Bundles wholesale scale</p>
+                <div className="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-300">
+                  <div className="text-amber-800 font-black text-base sm:text-lg mb-0.5">{companyContact.monthlyProduction || '50,000+'}</div>
+                  <div className="text-[11px] font-bold text-slate-900">Monthly Sales</div>
+                  <p className="text-[10px] text-slate-500">50K+ wholesale bundles</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
                   <div className="text-slate-900 font-black text-base sm:text-lg mb-0.5">3 Units</div>
                   <div className="text-[11px] font-bold text-slate-900">Manufacturing Base</div>
                   <p className="text-[10px] text-slate-500">Srivilliputhur plants</p>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-emerald-700 font-black text-base sm:text-lg mb-0.5">100%</div>
-                  <div className="text-[11px] font-bold text-slate-900">Carbonized</div>
-                  <p className="text-[10px] text-slate-500">Damp-proof ignition</p>
+                <div className="p-3.5 rounded-2xl bg-sky-50/50 border border-sky-300">
+                  <div className="text-sky-800 font-black text-base sm:text-lg mb-0.5">{companyContact.cauveriTravelsFleet || '10+ Buses'}</div>
+                  <div className="text-[11px] font-bold text-slate-900">Sri Cauvery Travels</div>
+                  <p className="text-[10px] text-slate-500">Omni bus fleet</p>
                 </div>
               </div>
 
               <div className="pt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600">
-                <span className="font-bold text-slate-800">3 Sister Concerns:</span>
+                <span className="font-bold text-slate-800">Group &amp; Sister Divisions:</span>
                 <span className="px-3 py-1 rounded-full bg-red-50 text-red-800 border border-red-200 font-bold text-[11px]">
                   Veenus Match Works (Largest Unit)
                 </span>
@@ -565,6 +565,9 @@ export default function HomePage() {
                 </span>
                 <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 font-semibold text-[11px]">
                   The Cauveri Matches
+                </span>
+                <span className="px-3 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200 font-bold text-[11px]">
+                  Sri Cauvery Travels (10+ Omni Buses)
                 </span>
               </div>
 

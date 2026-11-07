@@ -1546,7 +1546,7 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                       type="text"
                       value={contactForm.monthlyProduction || ''}
                       onChange={(e) => setContactForm({ ...contactForm, monthlyProduction: e.target.value })}
-                      placeholder="e.g. 1,25,000+ Bundles"
+                      placeholder="e.g. 50,000+ Bundles"
                       className="w-full px-4 py-3 rounded-xl bg-white border border-amber-300 focus:outline-none focus:border-amber-600 font-bold text-slate-900"
                     />
                     <p className="text-[10px] text-slate-500 mt-1">Appears on Home page stats bar &amp; About page metrics</p>
@@ -1558,7 +1558,7 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                       type="text"
                       value={contactForm.monthlyProductionDisplay || ''}
                       onChange={(e) => setContactForm({ ...contactForm, monthlyProductionDisplay: e.target.value })}
-                      placeholder="e.g. 1,25,000+ Bundles / Month"
+                      placeholder="e.g. 50,000+ Bundles / Month (50K Sales)"
                       className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 text-slate-900"
                     />
                     <p className="text-[10px] text-slate-500 mt-1">Appears in leadership &amp; production highlights</p>
@@ -1712,6 +1712,37 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                     placeholder="Leadership bio on expanding modern manufacturing and high-speed machinery..."
                     className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 leading-relaxed text-slate-900"
                   />
+                </div>
+              </div>
+
+              {/* --- Section: Sri Cauvery Travels (Omni Bus Transportation) --- */}
+              <div className="p-5 rounded-2xl bg-sky-50/60 border border-sky-200/80 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Sri Cauvery Travels (Omni Bus Passenger Fleet)</h4>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Active Omni Bus Fleet Count *</label>
+                    <input
+                      type="text"
+                      value={contactForm.cauveriTravelsFleet || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, cauveriTravelsFleet: e.target.value })}
+                      placeholder="e.g. 10+ Omni Buses"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-sky-300 focus:outline-none focus:border-sky-600 font-bold text-slate-900"
+                    />
+                    <p className="text-[10px] text-slate-500 mt-1">Appears in website footer, About metrics &amp; expansion showcase</p>
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Division Summary / Fleet Scope</label>
+                    <input
+                      type="text"
+                      value={contactForm.cauveriTravelsSummary || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, cauveriTravelsSummary: e.target.value })}
+                      placeholder="e.g. Entered the omni bus transportation sector under the name Sri Cauvery Travels, operating a modern fleet of more than 10 omni buses."
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-sky-600 text-slate-900"
+                    />
+                  </div>
                 </div>
               </div>
 

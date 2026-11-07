@@ -18,7 +18,8 @@ import {
   Factory,
   Cog,
   Layers,
-  Sparkles
+  Sparkles,
+  Bus
 } from 'lucide-react';
 import { VeenusLogo } from '@/components/VeenusLogo';
 import { useFactory } from '@/context/FactoryContext';
@@ -72,11 +73,20 @@ export default function AboutPage() {
               Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, the company continues its journey with the same commitment to excellence. At Jeevan Safety Matches, quality is our identity. We believe that the quality of even a single matchstick reflects the reputation of our brand. With decades of experience and a strong commitment to consistency, we strive to maintain the trust of our customers.
             </p>
 
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Jeevan Safety Matches has established a strong presence in the wholesale market, serving dealers and distributors with reliability and achieving wholesale sales of approximately <strong>{companyContact.monthlyProduction || '50,000+ Bundles'}</strong>.
+            </p>
+
             <div className="pt-2 flex flex-wrap items-center gap-3">
-              <div className="px-4 py-2 rounded-xl bg-red-50 border border-red-200 text-red-900 text-xs font-bold">
-                Monthly Production: {companyContact.monthlyProduction || '1,25,000+ Bundles'}
+              <div className="px-4 py-2 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse"></span>
+                <span>Monthly Production: {companyContact.monthlyProduction || '50,000+ Bundles'}</span>
               </div>
-              <div className="px-4 py-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold">
+              <div className="px-4 py-2 rounded-xl bg-sky-50 border border-sky-200 text-sky-950 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
+                <Bus className="w-3.5 h-3.5 text-sky-700" />
+                <span>Sri Cauvery Travels: {companyContact.cauveriTravelsFleet || '10+ Omni Buses'}</span>
+              </div>
+              <div className="px-4 py-2 rounded-xl bg-red-50 border border-red-200 text-red-900 text-xs font-bold">
                 10 Advanced Machinery Lines
               </div>
               <div className="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold">
@@ -91,19 +101,19 @@ export default function AboutPage() {
         </div>
 
         {/* ============================================================== */}
-        {/* 2. FIVE KEY METRICS CARDS (With Monthly Production)            */}
+        {/* 2. KEY METRICS CARDS (Monthly Production, Units & Travels)     */}
         {/* ============================================================== */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
           <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
             <div className="text-3xl font-black text-red-700">1979</div>
             <div className="text-xs font-bold text-slate-900">Year Established</div>
             <p className="text-[11px] text-slate-500">By Mr. M. Subburam in Srivilliputhur.</p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
-            <div className="text-2xl sm:text-3xl font-black text-amber-700">{companyContact.monthlyProduction || '1,25,000+'}</div>
-            <div className="text-xs font-bold text-slate-900">Monthly Production</div>
-            <p className="text-[11px] text-slate-500">Bundles wholesale output.</p>
+          <div className="p-6 rounded-2xl bg-amber-50/40 border-2 border-amber-300 shadow-xs space-y-1">
+            <div className="text-2xl sm:text-3xl font-black text-amber-800">{companyContact.monthlyProduction || '50,000+'}</div>
+            <div className="text-xs font-bold text-slate-900">Monthly Sales</div>
+            <p className="text-[11px] text-slate-500">50K+ wholesale bundles.</p>
           </div>
 
           <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
@@ -118,7 +128,13 @@ export default function AboutPage() {
             <p className="text-[11px] text-slate-500">High-speed automated systems.</p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1 col-span-2 lg:col-span-1">
+          <div className="p-6 rounded-2xl bg-sky-50/40 border-2 border-sky-300 shadow-xs space-y-1">
+            <div className="text-2xl sm:text-3xl font-black text-sky-800">{companyContact.cauveriTravelsFleet || '10+ Buses'}</div>
+            <div className="text-xs font-bold text-slate-900">Sri Cauvery Travels</div>
+            <p className="text-[11px] text-slate-500">Omni bus passenger fleet.</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
             <div className="text-3xl font-black text-emerald-700">All-India</div>
             <div className="text-xs font-bold text-slate-900">Dealer Network</div>
             <p className="text-[11px] text-slate-500">Reliable wholesale supply.</p>
@@ -230,7 +246,7 @@ export default function AboutPage() {
 
               <div className="pt-4 mt-6 border-t border-slate-200 flex items-center justify-between text-xs">
                 <span className="text-slate-500">Active Production:</span>
-                <span className="font-bold text-amber-800">{companyContact.monthlyProduction || '1,25,000+ Bundles'} / Month</span>
+                <span className="font-bold text-amber-800">{companyContact.monthlyProduction || '50,000+ Bundles'} / Month</span>
               </div>
             </div>
           </div>
@@ -393,7 +409,61 @@ export default function AboutPage() {
         </div>
 
         {/* ============================================================== */}
-        {/* 6. CONCLUSION & DIRECT ACTION BANNER                           */}
+        {/* 6. EXPANSION BEYOND MATCHES — SRI CAUVERY TRAVELS              */}
+        {/* ============================================================== */}
+        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm space-y-8">
+          <div className="max-w-3xl space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-sky-800 bg-sky-50 px-3 py-1 rounded-full border border-sky-200 flex items-center gap-1.5 w-fit">
+              <Bus className="w-3.5 h-3.5 text-sky-700" />
+              <span>Omni Bus Transportation Division</span>
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+              Expanding Beyond Matches &mdash; Sri Cauvery Travels
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Expanding beyond the matches industry under the leadership of <strong>Mr. S. Hariharan</strong>, we entered the omni bus transportation sector under the name <strong>Sri Cauvery Travels</strong>, which currently operates an active fleet of <strong>more than 10 omni buses</strong>.
+            </p>
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Through our commitment to quality, advanced infrastructure, and continuous expansion into new industries, we remain dedicated to building a strong legacy for the future.
+            </p>
+          </div>
+
+          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-sky-950 via-slate-900 to-sky-900 text-white shadow-lg space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-400 shrink-0">
+                  <Bus className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-black text-white">Sri Cauvery Travels</h3>
+                  <p className="text-xs text-sky-200">Sister Division of Jeevan Safety Matches &bull; Est. 2026</p>
+                </div>
+              </div>
+              <div className="px-5 py-2.5 rounded-2xl bg-white/10 border border-white/20 text-center sm:text-right shrink-0">
+                <span className="text-2xl font-black text-sky-300 block">{companyContact.cauveriTravelsFleet || '10+ Omni Buses'}</span>
+                <span className="text-[10px] text-sky-200 uppercase tracking-wider font-semibold">Active Omni Bus Fleet</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-sky-100">
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                <span className="text-white font-bold block text-sm">Modern Omni Bus Fleet</span>
+                <p className="text-[11px] text-sky-200">Well-maintained, reliable passenger omni buses operating across key intercity routes.</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                <span className="text-white font-bold block text-sm">Under Executive Leadership</span>
+                <p className="text-[11px] text-sky-200">Spearheaded by Mr. S. Hariharan, continuing our family legacy of trust and operational excellence.</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                <span className="text-white font-bold block text-sm">Dedication to Quality</span>
+                <p className="text-[11px] text-sky-200">Translating the same dedication to quality from safety matches manufacturing into passenger travel.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ============================================================== */}
+        {/* 7. CONCLUSION & DIRECT ACTION BANNER                           */}
         {/* ============================================================== */}
         <div className="bg-gradient-to-r from-red-900 via-red-800 to-rose-950 p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-6">
           <div className="max-w-3xl space-y-3">
