@@ -167,18 +167,18 @@ export default function ProductsPage() {
           <div className="space-y-1 text-center md:text-left">
             <h4 className="text-lg font-bold">Looking for Bulk JEEVAN or TEHLA Matchbox Cartons?</h4>
             <p className="text-xs text-rose-100">
-              We supply direct factory consignments to distributors, retail super stockists, and export freight carriers.
+              We supply direct factory consignments to distributors, retail super stockists, and wholesale commercial partners.
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href={`tel:${COMPANY_CONTACT.phoneCall}`}
+              href={`tel:${companyContact.phoneCall}`}
               className="px-5 py-2.5 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-sm hover:bg-rose-50 transition-colors"
             >
-              Call: {COMPANY_CONTACT.phoneDisplay}
+              Call: {companyContact.phoneDisplay}
             </a>
             <a
-              href={`https://wa.me/${COMPANY_CONTACT.whatsappNumber}`}
+              href={`https://wa.me/${companyContact.whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-md transition-colors"

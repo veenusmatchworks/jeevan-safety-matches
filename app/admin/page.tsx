@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -151,6 +151,12 @@ export default function AdminPage() {
   // Company Settings Form State
   const [contactForm, setContactForm] = useState(companyContact);
   const [contactSaved, setContactSaved] = useState(false);
+
+  useEffect(() => {
+    if (companyContact) {
+      setContactForm((prev) => ({ ...companyContact, ...prev, ...companyContact }));
+    }
+  }, [companyContact]);
 
   // Quotation Calculator State (B2B Wholesale)
   const [calcProduct, setCalcProduct] = useState<'JEEVAN-1' | 'JEEVAN-2' | 'TEHLA-1'>('JEEVAN-1');
@@ -1462,6 +1468,188 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                     value={contactForm.hours}
                     onChange={(e) => setContactForm({ ...contactForm, hours: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:border-red-700"
+                  />
+                </div>
+              </div>
+
+              {/* --- Section: Monthly Production Capacity --- */}
+              <div className="p-5 rounded-2xl bg-amber-50/50 border border-amber-200/80 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Monthly Production Capacity (Live Across Website)</h4>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Monthly Production Stat / Count *</label>
+                    <input
+                      type="text"
+                      value={contactForm.monthlyProduction || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, monthlyProduction: e.target.value })}
+                      placeholder="e.g. 1,25,000+ Bundles"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-amber-300 focus:outline-none focus:border-amber-600 font-bold text-slate-900"
+                    />
+                    <p className="text-[10px] text-slate-500 mt-1">Appears on Home page stats bar &amp; About page metrics</p>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Display Label / Frequency</label>
+                    <input
+                      type="text"
+                      value={contactForm.monthlyProductionDisplay || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, monthlyProductionDisplay: e.target.value })}
+                      placeholder="e.g. 1,25,000+ Bundles / Month"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 text-slate-900"
+                    />
+                    <p className="text-[10px] text-slate-500 mt-1">Appears in leadership &amp; production highlights</p>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Monthly Production Description</label>
+                  <input
+                    type="text"
+                    value={contactForm.monthlyProductionDescription || ''}
+                    onChange={(e) => setContactForm({ ...contactForm, monthlyProductionDescription: e.target.value })}
+                    placeholder="e.g. Large-scale monthly production capacity across our 3 manufacturing plants."
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 text-slate-900"
+                  />
+                </div>
+              </div>
+
+              {/* --- Section: Founder Profile (Mr. M. Subburam) --- */}
+              <div className="p-5 rounded-2xl bg-red-50/40 border border-red-200/80 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-700"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Founder Profile (About Us Page)</h4>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Founder Full Name *</label>
+                    <input
+                      type="text"
+                      value={contactForm.founderName || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, founderName: e.target.value })}
+                      placeholder="e.g. Mr. M. Subburam"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 font-bold text-slate-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Founder Role / Title</label>
+                    <input
+                      type="text"
+                      value={contactForm.founderRole || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, founderRole: e.target.value })}
+                      placeholder="e.g. Founder & Visionary (Established 1979)"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 text-slate-900"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Founder Photo URL *</label>
+                  <div className="flex gap-3 items-center">
+                    <input
+                      type="url"
+                      value={contactForm.founderPhoto || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, founderPhoto: e.target.value })}
+                      placeholder="https://..."
+                      className="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 text-slate-900 font-mono text-[11px]"
+                    />
+                    {contactForm.founderPhoto && (
+                      <div className="w-12 h-12 rounded-xl overflow-hidden border border-slate-300 relative shrink-0 shadow-2xs">
+                        <img
+                          src={contactForm.founderPhoto}
+                          alt="Founder Preview"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-1">Direct image URL for Mr. M. Subburam shown prominently in About Us</p>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Founder Bio / Legacy Quote</label>
+                  <textarea
+                    rows={3}
+                    value={contactForm.founderBio || ''}
+                    onChange={(e) => setContactForm({ ...contactForm, founderBio: e.target.value })}
+                    placeholder="Brief background on establishing Jeevan Safety Matches in 1979..."
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 leading-relaxed text-slate-900"
+                  />
+                </div>
+              </div>
+
+              {/* --- Section: Managing Director Profile (Mr. S. Hariharan) --- */}
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Managing Director Profile (About Us Page)</h4>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Managing Director Name *</label>
+                    <input
+                      type="text"
+                      value={contactForm.managingDirectorName || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, managingDirectorName: e.target.value, managingDirector: e.target.value })}
+                      placeholder="e.g. Mr. S. Hariharan"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 font-bold text-slate-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Managing Director Role / Title</label>
+                    <input
+                      type="text"
+                      value={contactForm.managingDirectorRole || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, managingDirectorRole: e.target.value })}
+                      placeholder="e.g. Managing Director (Son of Mr. M. Subburam)"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 text-slate-900"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Managing Director Photo URL *</label>
+                  <div className="flex gap-3 items-center">
+                    <input
+                      type="url"
+                      value={contactForm.managingDirectorPhoto || ''}
+                      onChange={(e) => setContactForm({ ...contactForm, managingDirectorPhoto: e.target.value })}
+                      placeholder="https://..."
+                      className="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 text-slate-900 font-mono text-[11px]"
+                    />
+                    {contactForm.managingDirectorPhoto && (
+                      <div className="w-12 h-12 rounded-xl overflow-hidden border border-slate-300 relative shrink-0 shadow-2xs">
+                        <img
+                          src={contactForm.managingDirectorPhoto}
+                          alt="Managing Director Preview"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-1">Direct image URL for Mr. S. Hariharan shown prominently in About Us</p>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Managing Director Leadership Bio</label>
+                  <textarea
+                    rows={3}
+                    value={contactForm.managingDirectorBio || ''}
+                    onChange={(e) => setContactForm({ ...contactForm, managingDirectorBio: e.target.value })}
+                    placeholder="Leadership bio on expanding modern manufacturing and high-speed machinery..."
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-red-700 leading-relaxed text-slate-900"
                   />
                 </div>
               </div>

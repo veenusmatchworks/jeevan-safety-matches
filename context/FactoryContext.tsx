@@ -90,7 +90,9 @@ export const FactoryProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (storedMachinery) setMachinery(JSON.parse(storedMachinery));
 
       const storedContact = localStorage.getItem(STORAGE_KEYS.CONTACT);
-      if (storedContact) setCompanyContact(JSON.parse(storedContact));
+      if (storedContact) {
+        setCompanyContact({ ...COMPANY_CONTACT, ...JSON.parse(storedContact) });
+      }
     } catch (e) {
       console.warn('Failed to load factory data from storage:', e);
     } finally {

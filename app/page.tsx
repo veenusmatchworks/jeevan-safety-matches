@@ -20,9 +20,6 @@ import {
   Layers,
   Check
 } from 'lucide-react';
-import {
-  COMPANY_CONTACT
-} from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
 import { useFactory } from '@/context/FactoryContext';
 
@@ -88,7 +85,7 @@ export default function HomePage() {
                 </Link>
 
                 <a
-                  href={`https://wa.me/${COMPANY_CONTACT.whatsappNumber}`}
+                  href={`https://wa.me/${companyContact.whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm shadow-md shadow-emerald-600/20 transition-all hover:scale-102"
@@ -109,8 +106,8 @@ export default function HomePage() {
                   <div className="text-xs text-slate-500 font-semibold">Moisture-Proof Matches</div>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black text-amber-700">3 Plants</div>
-                  <div className="text-xs text-slate-500 font-semibold">Industrial Facilities</div>
+                  <div className="text-2xl sm:text-3xl font-black text-amber-700">{companyContact.monthlyProduction || '1,25,000+'}</div>
+                  <div className="text-xs text-slate-500 font-semibold">Monthly Production</div>
                 </div>
               </div>
             </div>
@@ -170,11 +167,11 @@ export default function HomePage() {
                 </div>
 
                 <a
-                  href={`tel:${COMPANY_CONTACT.phoneCall}`}
+                  href={`tel:${companyContact.phoneCall}`}
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-50 hover:bg-red-100 text-red-900 font-bold text-xs border border-red-200/90 transition-colors shadow-2xs"
                 >
                   <Phone className="w-3.5 h-3.5 text-red-700" />
-                  <span>Direct Hotline: {COMPANY_CONTACT.phoneDisplay}</span>
+                  <span>Direct Hotline: {companyContact.phoneDisplay}</span>
                 </a>
               </div>
             </div>
@@ -249,7 +246,7 @@ export default function HomePage() {
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <a
-                href={`https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${encodeURIComponent('Hello Veenus Match Works, I would like to inquire about safety match orders.')}`}
+                href={`https://wa.me/${companyContact.whatsappNumber}?text=${encodeURIComponent('Hello Veenus Match Works, I would like to inquire about safety match orders.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-colors"
@@ -542,9 +539,9 @@ export default function HomePage() {
                   <p className="text-[10px] text-slate-500">Established founder</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-amber-700 font-black text-base sm:text-lg mb-0.5">10 Lines</div>
-                  <div className="text-[11px] font-bold text-slate-900">Modern Machinery</div>
-                  <p className="text-[10px] text-slate-500">Automated lines</p>
+                  <div className="text-amber-700 font-black text-base sm:text-lg mb-0.5">{companyContact.monthlyProduction || '1,25,000+'}</div>
+                  <div className="text-[11px] font-bold text-slate-900">Monthly Output</div>
+                  <p className="text-[10px] text-slate-500">Bundles wholesale scale</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
                   <div className="text-slate-900 font-black text-base sm:text-lg mb-0.5">3 Units</div>
@@ -642,15 +639,15 @@ export default function HomePage() {
 
           <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
             <a
-              href={`tel:${COMPANY_CONTACT.phoneCall}`}
+              href={`tel:${companyContact.phoneCall}`}
               className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-sm hover:bg-rose-50 transition-all hover:scale-102"
             >
               <Phone className="w-4 h-4 text-red-700" />
-              <span>Call: {COMPANY_CONTACT.phoneDisplay}</span>
+              <span>Call: {companyContact.phoneDisplay}</span>
             </a>
 
             <a
-              href={`https://wa.me/${COMPANY_CONTACT.whatsappNumber}`}
+              href={`https://wa.me/${companyContact.whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-md transition-all hover:scale-102"
