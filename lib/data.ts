@@ -211,7 +211,7 @@ export const COMPANY_CONTACT = {
   monthlyProductionDisplay: '50,000+ Bundles / Month (50K Sales)',
   monthlyProductionDescription: 'Consistent wholesale production capacity of approximately 50,000 bundles across our manufacturing plants.',
   cauveriTravelsFleet: '10+ Omni Buses',
-  cauveriTravelsSummary: 'Entered the omni bus transportation sector under the name Sri Cauvery Travels, operating a modern fleet of more than 10 omni buses.',
+  cauveriTravelsSummary: 'Entered the omni bus transportation sector under the name Sri Cauveri Travels, operating a modern fleet of more than 10 omni buses.',
   establishedYear: '1979',
   founder: 'Mr. M. Subburam (Established 1979)',
   founderName: 'Mr. M. Subburam',

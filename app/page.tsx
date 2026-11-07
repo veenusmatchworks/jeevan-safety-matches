@@ -550,7 +550,7 @@ export default function HomePage() {
                 </div>
                 <div className="p-3.5 rounded-2xl bg-sky-50/50 border border-sky-300">
                   <div className="text-sky-800 font-black text-base sm:text-lg mb-0.5">{companyContact.cauveriTravelsFleet || '10+ Buses'}</div>
-                  <div className="text-[11px] font-bold text-slate-900">Sri Cauvery Travels</div>
+                  <div className="text-[11px] font-bold text-slate-900">Sri Cauveri Travels</div>
                   <p className="text-[10px] text-slate-500">Omni bus fleet</p>
                 </div>
               </div>
@@ -567,7 +567,7 @@ export default function HomePage() {
                   The Cauveri Matches
                 </span>
                 <span className="px-3 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200 font-bold text-[11px]">
-                  Sri Cauvery Travels (10+ Omni Buses)
+                  Sri Cauveri Travels (10+ Omni Buses)
                 </span>
               </div>
 

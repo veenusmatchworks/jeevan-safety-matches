@@ -1715,11 +1715,11 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                 </div>
               </div>
 
-              {/* --- Section: Sri Cauvery Travels (Omni Bus Transportation) --- */}
+              {/* --- Section: Sri Cauveri Travels (Omni Bus Transportation) --- */}
               <div className="p-5 rounded-2xl bg-sky-50/60 border border-sky-200/80 space-y-4">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
-                  <h4 className="font-bold text-slate-900 text-sm">Sri Cauvery Travels (Omni Bus Passenger Fleet)</h4>
+                  <h4 className="font-bold text-slate-900 text-sm">Sri Cauveri Travels (Omni Bus Passenger Fleet)</h4>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -1739,7 +1739,7 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                       type="text"
                       value={contactForm.cauveriTravelsSummary || ''}
                       onChange={(e) => setContactForm({ ...contactForm, cauveriTravelsSummary: e.target.value })}
-                      placeholder="e.g. Entered the omni bus transportation sector under the name Sri Cauvery Travels, operating a modern fleet of more than 10 omni buses."
+                      placeholder="e.g. Entered the omni bus transportation sector under the name Sri Cauveri Travels, operating a modern fleet of more than 10 omni buses."
                       className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-sky-600 text-slate-900"
                     />
                   </div>

@@ -84,7 +84,7 @@ export default function AboutPage() {
               </div>
               <div className="px-4 py-2 rounded-xl bg-sky-50 border border-sky-200 text-sky-950 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
                 <Bus className="w-3.5 h-3.5 text-sky-700" />
-                <span>Sri Cauvery Travels: {companyContact.cauveriTravelsFleet || '10+ Omni Buses'}</span>
+                <span>Sri Cauveri Travels: {companyContact.cauveriTravelsFleet || '10+ Omni Buses'}</span>
               </div>
               <div className="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold">
                 3 Manufacturing Sister Concerns
@@ -121,7 +121,7 @@ export default function AboutPage() {
 
           <div className="p-6 rounded-2xl bg-sky-50/40 border-2 border-sky-300 shadow-xs space-y-1">
             <div className="text-2xl sm:text-3xl font-black text-sky-800">{companyContact.cauveriTravelsFleet || '10+ Buses'}</div>
-            <div className="text-xs font-bold text-slate-900">Sri Cauvery Travels</div>
+            <div className="text-xs font-bold text-slate-900">Sri Cauveri Travels</div>
             <p className="text-[11px] text-slate-500">Omni bus passenger fleet.</p>
           </div>
 
@@ -400,7 +400,7 @@ export default function AboutPage() {
         </div>
 
         {/* ============================================================== */}
-        {/* 6. EXPANSION BEYOND MATCHES — SRI CAUVERY TRAVELS              */}
+        {/* 6. EXPANSION BEYOND MATCHES — SRI CAUVERI TRAVELS              */}
         {/* ============================================================== */}
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm space-y-8">
           <div className="max-w-3xl space-y-3">
@@ -409,10 +409,10 @@ export default function AboutPage() {
               <span>Omni Bus Transportation Division</span>
             </span>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900">
-              Expanding Beyond Matches &mdash; Sri Cauvery Travels
+              Expanding Beyond Matches &mdash; Sri Cauveri Travels
             </h2>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Expanding beyond the matches industry under the leadership of <strong>Mr. S. Hariharan</strong>, we entered the omni bus transportation sector under the name <strong>Sri Cauvery Travels</strong>, which currently operates an active fleet of <strong>more than 10 omni buses</strong>.
+              Expanding beyond the matches industry under the leadership of <strong>Mr. S. Hariharan</strong>, we entered the omni bus transportation sector under the name <strong>Sri Cauveri Travels</strong>, which currently operates an active fleet of <strong>more than 10 omni buses</strong>.
             </p>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               Through our commitment to quality, advanced infrastructure, and continuous expansion into new industries, we remain dedicated to building a strong legacy for the future.
@@ -426,7 +426,7 @@ export default function AboutPage() {
                   <Bus className="w-7 h-7" />
                 </div>
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-white">Sri Cauvery Travels</h3>
+                  <h3 className="text-xl sm:text-2xl font-black text-white">Sri Cauveri Travels</h3>
                   <p className="text-xs text-sky-200">Sister Division of Jeevan Safety Matches &bull; Est. 2026</p>
                 </div>
               </div>

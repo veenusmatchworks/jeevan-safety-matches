@@ -96,7 +96,7 @@ export const Footer = () => {
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-                  <span>Sri Cauvery Travels (Fleet of 10+ Omni Buses)</span>
+                  <span>Sri Cauveri Travels (Fleet of 10+ Omni Buses)</span>
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
