@@ -205,7 +205,7 @@ export const COMPANY_CONTACT = {
   sisterConcernsDisplay: 'Veenus Match Works, United Match Industries & The Cauveri Matches',
   largestUnit: 'Veenus Match Works',
   manufacturingUnitsCount: '3 Manufacturing Units',
-  infrastructureSummary: '3 Industrial Plants & 10 Machinery Lines',
+  infrastructureSummary: '3 Industrial Manufacturing Plants',
   distributionNetwork: 'All-India Wholesale Network',
   monthlyProduction: '50,000+ Bundles',
   monthlyProductionDisplay: '50,000+ Bundles / Month (50K Sales)',

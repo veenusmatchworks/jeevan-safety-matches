@@ -278,7 +278,7 @@ export default function HomePage() {
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                Our manufacturing strength is anchored by three sister concerns in Srivilliputhur, with <strong>Veenus Match Works as our largest manufacturing unit</strong>. Equipped with 10 high-speed automated machinery lines.
+                Our manufacturing strength is anchored by three sister concerns in Srivilliputhur, with <strong>Veenus Match Works as our largest manufacturing unit</strong>. Equipped with advanced high-speed automated machinery.
               </p>
 
               <div className="space-y-2.5 pt-3 border-t border-slate-100 text-xs text-slate-700">
@@ -292,7 +292,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>10 high-speed lines: splint-making, head dipping, box filling & packing</span>
+                  <span>Automated machinery lines: splint-making, head dipping, box filling & packing</span>
                 </div>
               </div>
             </div>

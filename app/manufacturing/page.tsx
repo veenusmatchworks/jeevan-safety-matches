@@ -194,14 +194,14 @@ export default function ManufacturingPage() {
           </div>
         </div>
 
-        {/* 10 Advanced Machinery & Industrial Infrastructure Section */}
+        {/* Advanced Machinery & Industrial Infrastructure Section */}
         <div className="bg-white rounded-3xl border border-slate-200/90 p-8 sm:p-10 shadow-sm space-y-6">
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
               Modern Industrial Infrastructure
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-              10 Advanced High-Speed Machinery Lines
+              Advanced High-Speed Industrial Machinery
             </h2>
             <p className="text-xs sm:text-sm text-slate-600">
               All three manufacturing units are equipped with advanced industrial equipment supporting large-scale manufacturing, efficient production processes, and consistent single-strike product quality.

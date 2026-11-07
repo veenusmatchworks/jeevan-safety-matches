@@ -86,9 +86,6 @@ export default function AboutPage() {
                 <Bus className="w-3.5 h-3.5 text-sky-700" />
                 <span>Sri Cauvery Travels: {companyContact.cauveriTravelsFleet || '10+ Omni Buses'}</span>
               </div>
-              <div className="px-4 py-2 rounded-xl bg-red-50 border border-red-200 text-red-900 text-xs font-bold">
-                10 Advanced Machinery Lines
-              </div>
               <div className="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold">
                 3 Manufacturing Sister Concerns
               </div>
@@ -103,7 +100,7 @@ export default function AboutPage() {
         {/* ============================================================== */}
         {/* 2. KEY METRICS CARDS (Monthly Production, Units & Travels)     */}
         {/* ============================================================== */}
-        <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
             <div className="text-3xl font-black text-red-700">1979</div>
             <div className="text-xs font-bold text-slate-900">Year Established</div>
@@ -122,19 +119,13 @@ export default function AboutPage() {
             <p className="text-[11px] text-slate-500">Veenus Match Works largest unit.</p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
-            <div className="text-3xl font-black text-red-700">10 Lines</div>
-            <div className="text-xs font-bold text-slate-900">Modern Machinery</div>
-            <p className="text-[11px] text-slate-500">High-speed automated systems.</p>
-          </div>
-
           <div className="p-6 rounded-2xl bg-sky-50/40 border-2 border-sky-300 shadow-xs space-y-1">
             <div className="text-2xl sm:text-3xl font-black text-sky-800">{companyContact.cauveriTravelsFleet || '10+ Buses'}</div>
             <div className="text-xs font-bold text-slate-900">Sri Cauvery Travels</div>
             <p className="text-[11px] text-slate-500">Omni bus passenger fleet.</p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1 col-span-2 sm:col-span-1">
             <div className="text-3xl font-black text-emerald-700">All-India</div>
             <div className="text-xs font-bold text-slate-900">Dealer Network</div>
             <p className="text-[11px] text-slate-500">Reliable wholesale supply.</p>
@@ -313,7 +304,7 @@ export default function AboutPage() {
         </div>
 
         {/* ============================================================== */}
-        {/* 4. ADVANCED HIGH-SPEED INDUSTRIAL MACHINERY (10 Lines)         */}
+        {/* 4. ADVANCED HIGH-SPEED INDUSTRIAL MACHINERY                   */}
         {/* ============================================================== */}
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-sm space-y-8">
           <div className="max-w-3xl space-y-3">

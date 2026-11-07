@@ -1315,7 +1315,7 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
         )}
 
         {/* ============================================================ */}
-        {/* TAB 5: 3 SISTER PLANTS & 10 MACHINERY LINES                  */}
+        {/* TAB 5: 3 SISTER PLANTS & AUTOMATED MACHINERY               */}
         {/* ============================================================ */}
         {activeTab === 'machinery' && (
           <div className="space-y-6">
@@ -1325,7 +1325,7 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                   3 Industrial Plants &bull; Srivilliputhur Base
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
-                  10 High-Speed Automated Machinery Lines
+                  Advanced Automated Machinery Infrastructure
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
                   Real-time status across Veenus Match Works, United Match Industries, and The Cauveri Matches.

@@ -102,10 +102,6 @@ export const Footer = () => {
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                   <span>Monthly Production: {companyContact.monthlyProduction || '50,000+ Bundles'}</span>
                 </li>
-                <li className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
-                  <span>10 Advanced High-Speed Machinery Lines</span>
-                </li>
               </ul>
             </div>
           </div>
@@ -174,7 +170,7 @@ export const Footer = () => {
               </li>
               <li>
                 <Link href="/manufacturing" className="hover:text-white transition-colors">
-                  10 High-Speed Machinery Lines
+                  Modern Machinery Infrastructure
                 </Link>
               </li>
               <li>
