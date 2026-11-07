@@ -13,10 +13,21 @@ export const SecretAdminModal = () => {
 
   // Listen for global keyboard shortcut and custom events
   useEffect(() => {
-    // 1. Keyboard Shortcut: Ctrl + Shift + A OR Alt + A
+    // Keyboard Shortcuts:
+    // 1. Ctrl + Alt + A (or Cmd + Option + A on Mac) - Recommended (never conflicts with Chrome tab search)
+    // 2. Ctrl + Shift + A (or Cmd + Shift + A on Mac)
+    // 3. Alt + A
+    // 4. Ctrl + Shift + X (or Cmd + Shift + X)
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) ||
-          (e.altKey && (e.key === 'A' || e.key === 'a'))) {
+      const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+      const isKeyA = e.key === 'a' || e.key === 'A';
+      const isKeyX = e.key === 'x' || e.key === 'X';
+
+      if (
+        (isCtrlOrCmd && e.altKey && isKeyA) ||
+        (isCtrlOrCmd && e.shiftKey && (isKeyA || isKeyX)) ||
+        (e.altKey && isKeyA)
+      ) {
         e.preventDefault();
         setIsOpen(true);
         setError('');
