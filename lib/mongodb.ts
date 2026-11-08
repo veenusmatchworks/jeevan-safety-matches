@@ -1,4 +1,12 @@
 import { MongoClient, Db } from 'mongodb';
+import dns from 'dns';
+
+// Ensure SRV records can always be resolved reliably across ISPs & platforms
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // Ignore in environments where setting DNS servers is restricted
+}
 
 const uri = process.env.MONGODB_URI || '';
 const options = {};
