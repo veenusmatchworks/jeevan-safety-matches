@@ -48,9 +48,15 @@ export default function RootLayout({
           
           <main className="flex-1">{children}</main>
           
-          <Footer />
-          <WhatsAppFloating />
-          <SecretAdminModal />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
+          <Suspense fallback={null}>
+            <WhatsAppFloating />
+          </Suspense>
+          <Suspense fallback={null}>
+            <SecretAdminModal />
+          </Suspense>
         </FactoryProvider>
       </body>
     </html>
