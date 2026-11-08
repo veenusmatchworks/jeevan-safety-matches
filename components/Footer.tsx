@@ -2,14 +2,21 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Phone, MessageCircle, Mail, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
 import { COMPANY_CONTACT } from '@/lib/data';
 import { VeenusLogo } from '@/components/VeenusLogo';
 import { useFactory } from '@/context/FactoryContext';
 
 export const Footer = () => {
+  const pathname = usePathname();
   const { companyContact } = useFactory();
   const [footerClicks, setFooterClicks] = useState<number>(0);
+
+  // Do not render public website footer on admin portal
+  if (pathname?.startsWith('/control-center') || pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   const handleFooterSecretClick = () => {
     setFooterClicks((prev: number) => {

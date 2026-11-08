@@ -38,7 +38,11 @@ import {
   Settings,
   X,
   Sliders,
-  RotateCcw
+  RotateCcw,
+  FileEdit,
+  Database,
+  Cloud,
+  Upload
 } from 'lucide-react';
 import {
   MatchProduct,
@@ -113,10 +117,93 @@ export default function AdminPage() {
     verifyAuth();
   }, []);
 
-  // Active Tab: Wholesale-focused
+  // Active Tab
   const [activeTab, setActiveTab] = useState<
-    'products' | 'orders' | 'gallery' | 'inventory' | 'machinery' | 'company' | 'calculator'
-  >('products');
+    'about' | 'products' | 'orders' | 'gallery' | 'company' | 'database'
+  >('about');
+
+  // Dedicated About Page Form State
+  const [aboutForm, setAboutForm] = useState({
+    aboutHeroTitle: companyContact.aboutHeroTitle || '',
+    aboutHeroSubtitle: companyContact.aboutHeroSubtitle || '',
+    aboutHeroDescription: companyContact.aboutHeroDescription || '',
+    monthlyProduction: companyContact.monthlyProduction || '50,000+ Bundles',
+    monthlyProductionDisplay: companyContact.monthlyProductionDisplay || '50,000+ Bundles / Month (50K Sales)',
+    founderName: companyContact.founderName || 'Mr. M. Subburam',
+    founderRole: companyContact.founderRole || 'Founder & Visionary (Established 1979)',
+    founderPhoto: companyContact.founderPhoto || '',
+    founderBio: companyContact.founderBio || '',
+    managingDirectorName: companyContact.managingDirectorName || 'Mr. S. Hariharan',
+    managingDirectorRole: companyContact.managingDirectorRole || 'Managing Director (Son of Mr. M. Subburam)',
+    managingDirectorPhoto: companyContact.managingDirectorPhoto || '',
+    managingDirectorBio: companyContact.managingDirectorBio || '',
+    aboutSisterConcernsText: companyContact.aboutSisterConcernsText || '',
+    cauveriTravelsFleet: companyContact.cauveriTravelsFleet || '10+ Omni Buses',
+    aboutCauveriTravelsHeading: companyContact.aboutCauveriTravelsHeading || 'Expanding Beyond Matches — Sri Cauveri Travels',
+    aboutCauveriTravelsText: companyContact.aboutCauveriTravelsText || ''
+  });
+
+  const [aboutSaved, setAboutSaved] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [dbStatus, setDbStatus] = useState<{
+    mongodb: { connected: boolean; error: string | null; configured: boolean };
+    cloudinary: { configured: boolean; cloudName: string | null };
+  } | null>(null);
+
+  useEffect(() => {
+    setAboutForm({
+      aboutHeroTitle: companyContact.aboutHeroTitle || '',
+      aboutHeroSubtitle: companyContact.aboutHeroSubtitle || '',
+      aboutHeroDescription: companyContact.aboutHeroDescription || '',
+      monthlyProduction: companyContact.monthlyProduction || '50,000+ Bundles',
+      monthlyProductionDisplay: companyContact.monthlyProductionDisplay || '50,000+ Bundles / Month (50K Sales)',
+      founderName: companyContact.founderName || 'Mr. M. Subburam',
+      founderRole: companyContact.founderRole || 'Founder & Visionary (Established 1979)',
+      founderPhoto: companyContact.founderPhoto || '',
+      founderBio: companyContact.founderBio || '',
+      managingDirectorName: companyContact.managingDirectorName || 'Mr. S. Hariharan',
+      managingDirectorRole: companyContact.managingDirectorRole || 'Managing Director (Son of Mr. M. Subburam)',
+      managingDirectorPhoto: companyContact.managingDirectorPhoto || '',
+      managingDirectorBio: companyContact.managingDirectorBio || '',
+      aboutSisterConcernsText: companyContact.aboutSisterConcernsText || '',
+      cauveriTravelsFleet: companyContact.cauveriTravelsFleet || '10+ Omni Buses',
+      aboutCauveriTravelsHeading: companyContact.aboutCauveriTravelsHeading || 'Expanding Beyond Matches — Sri Cauveri Travels',
+      aboutCauveriTravelsText: companyContact.aboutCauveriTravelsText || ''
+    });
+  }, [companyContact]);
+
+  useEffect(() => {
+    fetch('/api/db/status')
+      .then((res) => res.json())
+      .then((data) => setDbStatus(data))
+      .catch((e) => console.warn('Could not check DB status:', e));
+  }, []);
+
+  const handleSaveAbout = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateCompanyContact(aboutForm);
+    setAboutSaved(true);
+    setTimeout(() => setAboutSaved(false), 3000);
+  };
+
+  const handleUploadImage = async (file: File): Promise<string> => {
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || 'Upload failed');
+      }
+      return data.url;
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   // Search & Filter for Products
   const [productSearch, setProductSearch] = useState('');
@@ -177,12 +264,7 @@ export default function AdminPage() {
     }
   }, [companyContact]);
 
-  // Quotation Calculator State (B2B Wholesale)
-  const [calcProduct, setCalcProduct] = useState<'JEEVAN-1' | 'JEEVAN-2' | 'TEHLA-1'>('JEEVAN-1');
-  const [calcBales, setCalcBales] = useState<number>(30);
-  const [calcDiscountPercent, setCalcDiscountPercent] = useState<number>(0);
-  const [calcDeliveryLocation, setCalcDeliveryLocation] = useState<string>('Madurai Wholesale Hub');
-  const [copiedQuote, setCopiedQuote] = useState(false);
+
 
   // Authentication Handler with Server Authorization
   const handlePinSubmit = async (e: React.FormEvent) => {
@@ -394,49 +476,6 @@ export default function AdminPage() {
     setTimeout(() => setContactSaved(false), 3000);
   };
 
-  // --------------------------------------------------------------------------
-  // B2B WHOLESALE QUOTATION CALCULATIONS
-  // --------------------------------------------------------------------------
-  const getRatePerBox = () => {
-    if (calcProduct === 'JEEVAN-1') return 0.72; // Wholesale cost for Rs. 1 MRP
-    if (calcProduct === 'JEEVAN-2') return 1.45; // Wholesale cost for Rs. 2 MRP
-    return 0.70; // Tehla wholesale rate
-  };
-
-  const totalBoxes = calcBales * 1000;
-  const baseRate = getRatePerBox();
-  const subtotalBeforeDiscount = Math.round(totalBoxes * baseRate);
-  const discountAmount = Math.round((subtotalBeforeDiscount * calcDiscountPercent) / 100);
-  const matchCost = subtotalBeforeDiscount - discountAmount;
-  const gstAmount = Math.round(matchCost * 0.12); // 12% GST on safety matches
-  const totalInvoice = matchCost + gstAmount;
-
-  const getQuoteText = () => {
-    return `*JEEVAN SAFETY MATCHES — OFFICIAL WHOLESALE QUOTATION*
-Factory: ${companyContact.address}
-Regd. No.: 3481060 | Established 1979 by Mr. M. Subburam
-----------------------------------------
-Brand / Line: ${calcProduct === 'JEEVAN-1' ? 'JEEVAN Safety Matches (₹1.00 - 27s)' : calcProduct === 'JEEVAN-2' ? 'JEEVAN Safety Matches (₹2.00 - 50s)' : 'TEHLA Safety Matches (₹1.00 - 30s)'}
-Quantity: ${calcBales} Master Bales (${totalBoxes.toLocaleString('en-IN')} Boxes)
-Destination: ${calcDeliveryLocation}
-Base Cost: ₹ ${subtotalBeforeDiscount.toLocaleString('en-IN')}
-${calcDiscountPercent > 0 ? `Wholesale Discount (${calcDiscountPercent}%): - ₹ ${discountAmount.toLocaleString('en-IN')}\n` : ''}Net Matchbox Cost: ₹ ${matchCost.toLocaleString('en-IN')}
-GST (12%): ₹ ${gstAmount.toLocaleString('en-IN')}
-*TOTAL ESTIMATE: ₹ ${totalInvoice.toLocaleString('en-IN')}*
-----------------------------------------
-3 Manufacturing Sister Concerns:
-1. Veenus Match Works (Largest Manufacturing Unit)
-2. United Match Industries
-3. The Cauveri Matches
-Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.whatsappDisplay}`;
-  };
-
-  const copyQuoteToClipboard = () => {
-    navigator.clipboard.writeText(getQuoteText());
-    setCopiedQuote(true);
-    setTimeout(() => setCopiedQuote(false), 2500);
-  };
-
   // Filters
   const filteredProducts = products.filter((p) => {
     const matchesSearch =
@@ -599,6 +638,18 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
         {/* ============================================================ */}
         <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
           <button
+            onClick={() => setActiveTab('about')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+              activeTab === 'about'
+                ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
+                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+            }`}
+          >
+            <FileEdit className="w-4 h-4" />
+            <span>Edit About Us Page</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('products')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
               activeTab === 'products'
@@ -608,18 +659,6 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
           >
             <Flame className="w-4 h-4" />
             <span>Match Products Manager ({products.length})</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('orders')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
-              activeTab === 'orders'
-                ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
-                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
-            }`}
-          >
-            <FileText className="w-4 h-4" />
-            <span>Wholesale Dealer Inquiries ({inquiries.length})</span>
           </button>
 
           <button
@@ -635,27 +674,15 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
           </button>
 
           <button
-            onClick={() => setActiveTab('inventory')}
+            onClick={() => setActiveTab('orders')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
-              activeTab === 'inventory'
+              activeTab === 'orders'
                 ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
                 : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
-            <Warehouse className="w-4 h-4" />
-            <span>Bales Stock & Inventory</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('machinery')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
-              activeTab === 'machinery'
-                ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
-                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
-            }`}
-          >
-            <Building className="w-4 h-4" />
-            <span>3 Sister Plants & Machinery</span>
+            <FileText className="w-4 h-4" />
+            <span>Customer Inquiries ({inquiries.length})</span>
           </button>
 
           <button
@@ -671,15 +698,15 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
           </button>
 
           <button
-            onClick={() => setActiveTab('calculator')}
+            onClick={() => setActiveTab('database')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
-              activeTab === 'calculator'
+              activeTab === 'database'
                 ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
                 : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
-            <Calculator className="w-4 h-4" />
-            <span>Wholesale Quotation Generator</span>
+            <Database className="w-4 h-4" />
+            <span>MongoDB & Cloudinary</span>
           </button>
         </div>
 
@@ -860,10 +887,10 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                   B2B Wholesale Staging
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
-                  Wholesale Consignments & Dealer Inquiries
+                  Customer &amp; Dealer Inquiries
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Manage incoming dealer purchase inquiries, send instant WhatsApp wholesale quotes, and update factory dispatch status.
+                  Real customer inquiries submitted through the website Contact form and WhatsApp. <span className="text-slate-400 font-semibold">(Confidential admin record &bull; Never displayed on public website)</span>
                 </p>
               </div>
 
@@ -924,8 +951,12 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
                   <tbody className="divide-y divide-slate-100 text-slate-700">
                     {filteredInquiries.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="py-10 text-center text-slate-400">
-                          No wholesale inquiry records found matching &ldquo;{inquirySearch}&rdquo;.
+                        <td colSpan={6} className="py-14 text-center text-slate-400">
+                          <FileText className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                          <p className="font-bold text-slate-600 text-sm">No Customer Inquiries Yet</p>
+                          <p className="text-xs text-slate-400 mt-1">
+                            Real customer inquiries submitted through the website Contact form will appear here automatically.
+                          </p>
                         </td>
                       </tr>
                     ) : (
@@ -1138,208 +1169,358 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
         )}
 
         {/* ============================================================ */}
-        {/* TAB 4: BALES STOCK & WAREHOUSE INVENTORY                     */}
+        {/* TAB: EDIT ABOUT US PAGE (Live Click & Edit Publisher)         */}
         {/* ============================================================ */}
-        {activeTab === 'inventory' && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {activeTab === 'about' && (
+          <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200/90 shadow-sm space-y-8 max-w-5xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-200 gap-4">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-                  Warehouse Stock
+                  Live Page Editor &bull; One-Click Publish
                 </span>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
-                  Finished Master Bales & Production Inventory
+                <h2 className="text-xl sm:text-3xl font-black text-slate-900 mt-2">
+                  Edit About Us Page
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Monitor warehouse stock in master bales (1,000 boxes/bale) and adjust daily manufacturing counts.
+                  Change text, history, founder/director portraits, and Sri Cauveri Travels info. Click publish to update the live public site immediately.
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-slate-500">Live Sync</span>
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/about"
+                  target="_blank"
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs flex items-center gap-2"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>View Live About Page</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleSaveAbout}
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white font-bold text-xs shadow-md shadow-red-900/20 transition-all hover:scale-102 flex items-center gap-2"
+                >
+                  {aboutSaved ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                      <span>Published Live!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Save &amp; Publish Live</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {inventory.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-5 flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-mono font-bold text-slate-400">{item.code}</span>
-                      <span
-                        className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
-                          item.status === 'Low Stock'
-                            ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                            : item.status === 'High Demand'
-                            ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                            : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                    </div>
+            <form onSubmit={handleSaveAbout} className="space-y-8">
+              {/* --- Section 1: Hero Headline & Legacy Story --- */}
+              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-700"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Header &amp; Legacy Overview</h4>
+                </div>
 
-                    <h3 className="font-bold text-slate-900 text-base">{item.name}</h3>
-
-                    <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-slate-500">Bales in Stock:</span>
-                        <span className="text-2xl font-black text-slate-900">{item.balesInStock} Bales</span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-200/80">
-                        <span className="text-slate-500">Total Matchboxes:</span>
-                        <span className="font-bold text-red-700">
-                          {(item.balesInStock * item.boxesPerBale).toLocaleString('en-IN')} Boxes
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-slate-500">Daily Production:</span>
-                        <span className="font-bold text-emerald-700">
-                          +{item.dailyProductionBales} Bales / Day
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-slate-500">Reorder Alert Level:</span>
-                        <span className="font-medium text-slate-700">{item.reorderLevel} Bales</span>
-                      </div>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1 text-xs">Hero Title</label>
+                    <input
+                      type="text"
+                      value={aboutForm.aboutHeroTitle}
+                      onChange={(e) => setAboutForm({ ...aboutForm, aboutHeroTitle: e.target.value })}
+                      placeholder="About Us — Jeevan Safety Matches"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-900 focus:outline-none focus:border-red-700"
+                    />
                   </div>
 
-                  <div className="space-y-2 pt-2 border-t border-slate-100">
-                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Quick Stock Adjustment:
-                    </span>
-                    <div className="grid grid-cols-4 gap-2">
-                      <button
-                        onClick={() => updateStock(item.id, -50)}
-                        className="py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs"
-                      >
-                        -50
-                      </button>
-                      <button
-                        onClick={() => updateStock(item.id, -10)}
-                        className="py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs"
-                      >
-                        -10
-                      </button>
-                      <button
-                        onClick={() => updateStock(item.id, 10)}
-                        className="py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-200"
-                      >
-                        +10
-                      </button>
-                      <button
-                        onClick={() => updateStock(item.id, 50)}
-                        className="py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-200"
-                      >
-                        +50
-                      </button>
-                    </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1 text-xs">Monthly Production / Sales Stat *</label>
+                    <input
+                      type="text"
+                      value={aboutForm.monthlyProduction}
+                      onChange={(e) => setAboutForm({ ...aboutForm, monthlyProduction: e.target.value })}
+                      placeholder="e.g. 50,000+ Bundles"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-amber-300 text-xs font-bold text-amber-900 focus:outline-none focus:border-amber-600"
+                    />
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {/* ============================================================ */}
-        {/* TAB 5: 3 SISTER PLANTS & AUTOMATED MACHINERY               */}
-        {/* ============================================================ */}
-        {activeTab === 'machinery' && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-                  3 Industrial Plants &bull; Srivilliputhur Base
-                </span>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
-                  Advanced Automated Machinery Infrastructure
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Real-time status across Veenus Match Works, United Match Industries, and The Cauveri Matches.
-                </p>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1 text-xs">Hero Subtitle / Legacy Statement</label>
+                  <input
+                    type="text"
+                    value={aboutForm.aboutHeroSubtitle}
+                    onChange={(e) => setAboutForm({ ...aboutForm, aboutHeroSubtitle: e.target.value })}
+                    placeholder="Established in 1979 by Mr. M. Subburam, Jeevan Safety Matches carries a legacy..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-red-700"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1 text-xs">Main Company Story &amp; Leadership Description</label>
+                  <textarea
+                    rows={4}
+                    value={aboutForm.aboutHeroDescription}
+                    onChange={(e) => setAboutForm({ ...aboutForm, aboutHeroDescription: e.target.value })}
+                    placeholder="Today, under the leadership of his son, Mr. S. Hariharan..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-red-700 leading-relaxed"
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-xs flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-                  <span>3 Sister Plants Active</span>
-                </span>
-              </div>
-            </div>
+              {/* --- Section 2: Founder Profile (Mr. M. Subburam) --- */}
+              <div className="p-6 rounded-2xl bg-red-50/40 border border-red-200/80 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-700"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Founder Profile (Mr. M. Subburam)</h4>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {machinery.map((line) => (
-                <div
-                  key={line.id}
-                  className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-4 flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-mono font-bold text-slate-400">{line.id}</span>
-                      <button
-                        onClick={() => {
-                          const nextStatus: MachineryLineStatus['status'] =
-                            line.status === 'Operational'
-                              ? 'Maintenance'
-                              : line.status === 'Maintenance'
-                              ? 'Standby'
-                              : 'Operational';
-                          updateMachineryStatus(line.id, nextStatus);
-                        }}
-                        className={`text-[11px] font-bold px-3 py-1 rounded-full border transition-colors flex items-center gap-1.5 ${
-                          line.status === 'Operational'
-                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                            : line.status === 'Maintenance'
-                            ? 'bg-amber-50 text-amber-800 border-amber-200'
-                            : 'bg-slate-100 text-slate-700 border-slate-200'
-                        }`}
-                        title="Click to toggle status"
-                      >
-                        <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            line.status === 'Operational'
-                              ? 'bg-emerald-600'
-                              : line.status === 'Maintenance'
-                              ? 'bg-amber-600'
-                              : 'bg-slate-500'
-                          }`}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1 text-xs">Founder Name *</label>
+                    <input
+                      type="text"
+                      value={aboutForm.founderName}
+                      onChange={(e) => setAboutForm({ ...aboutForm, founderName: e.target.value })}
+                      placeholder="e.g. Mr. M. Subburam"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-900 focus:outline-none focus:border-red-700"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1 text-xs">Founder Title / Role</label>
+                    <input
+                      type="text"
+                      value={aboutForm.founderRole}
+                      onChange={(e) => setAboutForm({ ...aboutForm, founderRole: e.target.value })}
+                      placeholder="Founder &amp; Visionary (Established 1979)"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-red-700"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1 text-xs">Founder Photo (Cloudinary or Direct URL)</label>
+                  <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden border border-slate-300 relative shrink-0 bg-slate-100 shadow-xs">
+                      {aboutForm.founderPhoto ? (
+                        <img
+                          src={aboutForm.founderPhoto}
+                          alt="Founder"
+                          className="w-full h-full object-cover"
+                          onError={(e) => ((e.target as HTMLElement).style.display = 'none')}
                         />
-                        <span>{line.status}</span>
-                      </button>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-400 text-[10px]">No Photo</div>
+                      )}
                     </div>
-
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-base">{line.name}</h4>
-                      <p className="text-xs text-red-700 font-semibold mt-0.5">{line.unit}</p>
+                    <div className="flex-1 w-full space-y-2">
+                      <input
+                        type="url"
+                        value={aboutForm.founderPhoto}
+                        onChange={(e) => setAboutForm({ ...aboutForm, founderPhoto: e.target.value })}
+                        placeholder="https://res.cloudinary.com/... or paste image URL"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs font-mono text-slate-800 focus:outline-none focus:border-red-700"
+                      />
+                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 text-[11px] font-bold cursor-pointer transition-colors">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>{uploadingImage ? 'Uploading...' : 'Upload to Cloudinary'}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              try {
+                                const url = await handleUploadImage(file);
+                                setAboutForm((prev) => ({ ...prev, founderPhoto: url }));
+                              } catch (err: unknown) {
+                                alert(err instanceof Error ? err.message : 'Upload failed');
+                              }
+                            }
+                          }}
+                        />
+                      </label>
                     </div>
-
-                    <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Machinery Specification:</span>
-                        <span className="font-bold text-slate-800">{line.type}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Rated Capacity:</span>
-                        <span className="font-bold text-amber-800">{line.speed}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Lead Operator:</span>
-                        <span className="font-bold text-slate-700">{line.operator}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                    <span>Click status badge to toggle maintenance</span>
-                    <span className="text-emerald-700 font-bold">100% Inspected</span>
                   </div>
                 </div>
-              ))}
-            </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1 text-xs">Founder Legacy Quote / Bio</label>
+                  <textarea
+                    rows={3}
+                    value={aboutForm.founderBio}
+                    onChange={(e) => setAboutForm({ ...aboutForm, founderBio: e.target.value })}
+                    placeholder="Established Jeevan Safety Matches in 1979..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-red-700 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* --- Section 3: Managing Director Profile (Mr. S. Hariharan) --- */}
+              <div className="p-6 rounded-2xl bg-amber-50/40 border border-amber-200/80 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-700"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Managing Director Profile (Mr. S. Hariharan)</h4>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1 text-xs">Managing Director Name *</label>
+                    <input
+                      type="text"
+                      value={aboutForm.managingDirectorName}
+                      onChange={(e) => setAboutForm({ ...aboutForm, managingDirectorName: e.target.value })}
+                      placeholder="e.g. Mr. S. Hariharan"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-900 focus:outline-none focus:border-red-700"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1 text-xs">Managing Director Title / Role</label>
+                    <input
+                      type="text"
+                      value={aboutForm.managingDirectorRole}
+                      onChange={(e) => setAboutForm({ ...aboutForm, managingDirectorRole: e.target.value })}
+                      placeholder="Managing Director (Son of Mr. M. Subburam)"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-red-700"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1 text-xs">Managing Director Photo (Cloudinary or Direct URL)</label>
+                  <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden border border-slate-300 relative shrink-0 bg-slate-100 shadow-xs">
+                      {aboutForm.managingDirectorPhoto ? (
+                        <img
+                          src={aboutForm.managingDirectorPhoto}
+                          alt="Managing Director"
+                          className="w-full h-full object-cover"
+                          onError={(e) => ((e.target as HTMLElement).style.display = 'none')}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-400 text-[10px]">No Photo</div>
+                      )}
+                    </div>
+                    <div className="flex-1 w-full space-y-2">
+                      <input
+                        type="url"
+                        value={aboutForm.managingDirectorPhoto}
+                        onChange={(e) => setAboutForm({ ...aboutForm, managingDirectorPhoto: e.target.value })}
+                        placeholder="https://res.cloudinary.com/... or paste image URL"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs font-mono text-slate-800 focus:outline-none focus:border-red-700"
+                      />
+                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 text-[11px] font-bold cursor-pointer transition-colors">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>{uploadingImage ? 'Uploading...' : 'Upload to Cloudinary'}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              try {
+                                const url = await handleUploadImage(file);
+                                setAboutForm((prev) => ({ ...prev, managingDirectorPhoto: url }));
+                              } catch (err: unknown) {
+                                alert(err instanceof Error ? err.message : 'Upload failed');
+                              }
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1 text-xs">Managing Director Leadership Bio</label>
+                  <textarea
+                    rows={3}
+                    value={aboutForm.managingDirectorBio}
+                    onChange={(e) => setAboutForm({ ...aboutForm, managingDirectorBio: e.target.value })}
+                    placeholder="Guiding the company through ongoing technological modernization..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-red-700 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* --- Section 4: Sister Concerns & Infrastructure --- */}
+              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Three Sister Concerns (Veenus, United, Cauveri)</h4>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1 text-xs">Manufacturing Strength &amp; Sister Concerns Overview</label>
+                  <textarea
+                    rows={3}
+                    value={aboutForm.aboutSisterConcernsText}
+                    onChange={(e) => setAboutForm({ ...aboutForm, aboutSisterConcernsText: e.target.value })}
+                    placeholder="Our manufacturing strength is supported by three sister concerns..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-red-700 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* --- Section 5: Sri Cauveri Travels --- */}
+              <div className="p-6 rounded-2xl bg-sky-50/50 border border-sky-200/80 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-sky-700"></span>
+                  <h4 className="font-bold text-slate-900 text-sm">Sri Cauveri Travels (Omni Bus Fleet)</h4>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1 text-xs">Section Heading</label>
+                    <input
+                      type="text"
+                      value={aboutForm.aboutCauveriTravelsHeading}
+                      onChange={(e) => setAboutForm({ ...aboutForm, aboutCauveriTravelsHeading: e.target.value })}
+                      placeholder="Expanding Beyond Matches — Sri Cauveri Travels"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-900 focus:outline-none focus:border-red-700"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1 text-xs">Active Omni Bus Fleet Count *</label>
+                    <input
+                      type="text"
+                      value={aboutForm.cauveriTravelsFleet}
+                      onChange={(e) => setAboutForm({ ...aboutForm, cauveriTravelsFleet: e.target.value })}
+                      placeholder="e.g. 10+ Omni Buses"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-sky-300 text-xs font-bold text-sky-900 focus:outline-none focus:border-sky-600"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1 text-xs">Sri Cauveri Travels Description</label>
+                  <textarea
+                    rows={3}
+                    value={aboutForm.aboutCauveriTravelsText}
+                    onChange={(e) => setAboutForm({ ...aboutForm, aboutCauveriTravelsText: e.target.value })}
+                    placeholder="Expanding beyond the matches industry under the leadership of Mr. S. Hariharan..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-red-700 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Bottom Submit */}
+              <div className="flex items-center justify-end pt-4 border-t border-slate-200 gap-3">
+                <button
+                  type="submit"
+                  className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-900/30 transition-all hover:scale-102 flex items-center gap-2"
+                >
+                  <Check className="w-4 h-4" />
+                  <span>Publish All Changes Live</span>
+                </button>
+              </div>
+            </form>
           </div>
         )}
 
@@ -1691,213 +1872,170 @@ Office Hotline: ${companyContact.phoneDisplay} | WhatsApp: ${companyContact.what
         )}
 
         {/* ============================================================ */}
-        {/* TAB 7: B2B WHOLESALE QUOTATION GENERATOR                     */}
+        {/* TAB: MONGODB ATLAS & CLOUDINARY INTEGRATION                  */}
         {/* ============================================================ */}
-        {activeTab === 'calculator' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+        {activeTab === 'database' && (
+          <div className="space-y-8 max-w-5xl">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-                  B2B Commercial Estimator
+                  Cloud Infrastructure &bull; Media &amp; Database
                 </span>
-                <h3 className="text-xl font-bold text-slate-900 mt-2">
-                  Wholesale Quotation Generator
-                </h3>
-                <p className="text-xs text-slate-500 mt-1">
-                  Configure wholesale orders for dealers, apply volume discounts, and copy a one-click WhatsApp quotation.
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+                  MongoDB Atlas &amp; Cloudinary Storage
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Manage cloud database persistence with MongoDB Atlas and high-speed media hosting with Cloudinary.
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-2">
-                    Select Matchbox Product & Brand
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setCalcProduct('JEEVAN-1')}
-                      className={`p-3 rounded-2xl border text-center transition-all ${
-                        calcProduct === 'JEEVAN-1'
-                          ? 'border-red-700 bg-red-50 text-red-900 font-bold shadow-xs'
-                          : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                      }`}
-                    >
-                      <div className="text-xs font-bold">JEEVAN ₹1.00</div>
-                      <div className="text-[10px] text-slate-500">27 Sticks</div>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setCalcProduct('JEEVAN-2')}
-                      className={`p-3 rounded-2xl border text-center transition-all ${
-                        calcProduct === 'JEEVAN-2'
-                          ? 'border-red-700 bg-red-50 text-red-900 font-bold shadow-xs'
-                          : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                      }`}
-                    >
-                      <div className="text-xs font-bold">JEEVAN ₹2.00</div>
-                      <div className="text-[10px] text-slate-500">50 Sticks</div>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setCalcProduct('TEHLA-1')}
-                      className={`p-3 rounded-2xl border text-center transition-all ${
-                        calcProduct === 'TEHLA-1'
-                          ? 'border-red-700 bg-red-50 text-red-900 font-bold shadow-xs'
-                          : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                      }`}
-                    >
-                      <div className="text-xs font-bold">TEHLA ₹1.00</div>
-                      <div className="text-[10px] text-slate-500">30 Sticks</div>
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-bold text-slate-700">
-                      Wholesale Master Bales Quantity (1 Bale = 1,000 Boxes)
-                    </label>
-                    <span className="text-sm font-black text-red-700">{calcBales} Bales</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="200"
-                    step="5"
-                    value={calcBales}
-                    onChange={(e) => setCalcBales(Number(e.target.value))}
-                    className="w-full accent-red-700 cursor-pointer"
-                  />
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1">
-                    <span>5 Bales (5,000 Boxes)</span>
-                    <span className="font-bold text-slate-700">Total: {totalBoxes.toLocaleString('en-IN')} Boxes</span>
-                    <span>200 Bales (2,00,000 Boxes)</span>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-bold text-slate-700">
-                      Wholesale Volume Discount
-                    </label>
-                    <span className="text-xs font-bold text-emerald-700">{calcDiscountPercent}% Off</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {[0, 2, 3, 5, 7].map((pct) => (
-                      <button
-                        key={pct}
-                        type="button"
-                        onClick={() => setCalcDiscountPercent(pct)}
-                        className={`flex-1 py-2 rounded-xl text-xs font-bold transition-colors ${
-                          calcDiscountPercent === pct
-                            ? 'bg-emerald-600 text-white'
-                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                        }`}
-                      >
-                        {pct === 0 ? 'None' : `${pct}%`}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Dealer Delivery Hub / Destination
-                  </label>
-                  <input
-                    type="text"
-                    value={calcDeliveryLocation}
-                    onChange={(e) => setCalcDeliveryLocation(e.target.value)}
-                    placeholder="e.g. Madurai, Coimbatore, Tirunelveli, Chennai"
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-red-700"
-                  />
-                </div>
-              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  fetch('/api/db/status')
+                    .then((res) => res.json())
+                    .then((data) => setDbStatus(data));
+                }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold shrink-0 transition-colors"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Refresh Cloud Status</span>
+              </button>
             </div>
 
-            <div className="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Formal Quotation</span>
-                  <h4 className="font-bold text-slate-900 text-lg">Invoice Estimate Summary</h4>
+            {/* Cloud Services Status Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Service 1: MongoDB Atlas */}
+              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-5 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center font-black">
+                        <Database className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-900 text-base">MongoDB Atlas</h4>
+                        <p className="text-[11px] text-slate-400">Cloud Document Database</p>
+                      </div>
+                    </div>
+
+                    <span
+                      className={`text-[11px] font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 ${
+                        dbStatus?.mongodb.connected
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                          : dbStatus?.mongodb.configured
+                          ? 'bg-amber-50 text-amber-800 border-amber-200'
+                          : 'bg-slate-100 text-slate-600 border-slate-200'
+                      }`}
+                    >
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          dbStatus?.mongodb.connected
+                            ? 'bg-emerald-600'
+                            : dbStatus?.mongodb.configured
+                            ? 'bg-amber-500'
+                            : 'bg-slate-400'
+                        }`}
+                      />
+                      <span>
+                        {dbStatus?.mongodb.connected
+                          ? 'Atlas Connected'
+                          : dbStatus?.mongodb.configured
+                          ? 'Connecting...'
+                          : 'Local Fallback (Active)'}
+                      </span>
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Stores real customer inquiries, product catalogs, photo metadata, and website configuration in high-availability cloud collections.
+                  </p>
+
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-2">
+                    <span className="font-bold text-slate-700 block text-[11px]">Configuration Key:</span>
+                    <code className="block bg-slate-900 text-emerald-400 px-3 py-2 rounded-xl text-[11px] font-mono break-all">
+                      MONGODB_URI=mongodb+srv://&lt;username&gt;:&lt;password&gt;@cluster0.mongodb.net/jeevan_safety_matches
+                    </code>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-xs font-bold text-red-700 block">Jeevan Safety Matches</span>
-                  <span className="text-[10px] text-slate-400 font-mono">Regd No. 3481060</span>
-                </div>
+
+                <p className="text-[11px] text-slate-400 pt-2 border-t border-slate-100">
+                  {dbStatus?.mongodb.connected
+                    ? '✓ Connected to Atlas cluster.'
+                    : 'Add MONGODB_URI in your Vercel or local environment to sync live.'}
+                </p>
               </div>
 
-              <div className="space-y-3 text-xs text-slate-600">
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span>Product Model:</span>
-                  <span className="font-bold text-slate-900">
-                    {calcProduct === 'JEEVAN-1' ? 'JEEVAN Safety Matches (₹1.00)' : calcProduct === 'JEEVAN-2' ? 'JEEVAN Safety Matches (₹2.00)' : 'TEHLA Safety Matches (₹1.00)'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span>Total Master Bales:</span>
-                  <span className="font-bold text-slate-900">{calcBales} Bales ({totalBoxes.toLocaleString('en-IN')} Boxes)</span>
-                </div>
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span>Gross Product Cost:</span>
-                  <span className="font-bold text-slate-900">₹ {subtotalBeforeDiscount.toLocaleString('en-IN')}</span>
-                </div>
-                {calcDiscountPercent > 0 && (
-                  <div className="flex items-center justify-between py-1.5 border-b border-slate-100 text-emerald-700">
-                    <span>Wholesale Discount ({calcDiscountPercent}%):</span>
-                    <span className="font-bold">- ₹ {discountAmount.toLocaleString('en-IN')}</span>
+              {/* Service 2: Cloudinary Media Storage */}
+              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-5 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 flex items-center justify-center font-black">
+                        <Cloud className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-900 text-base">Cloudinary CDN</h4>
+                        <p className="text-[11px] text-slate-400">Global Image Storage &amp; Optimization</p>
+                      </div>
+                    </div>
+
+                    <span
+                      className={`text-[11px] font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 ${
+                        dbStatus?.cloudinary.configured
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                          : 'bg-slate-100 text-slate-600 border-slate-200'
+                      }`}
+                    >
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          dbStatus?.cloudinary.configured ? 'bg-emerald-600' : 'bg-slate-400'
+                        }`}
+                      />
+                      <span>
+                        {dbStatus?.cloudinary.configured
+                          ? `Ready (${dbStatus.cloudinary.cloudName || 'Active'})`
+                          : 'Direct URL Mode'}
+                      </span>
+                    </span>
                   </div>
-                )}
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span>Net Supply Amount:</span>
-                  <span className="font-bold text-slate-900">₹ {matchCost.toLocaleString('en-IN')}</span>
-                </div>
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span>GST (12%):</span>
-                  <span className="font-bold text-slate-900">₹ {gstAmount.toLocaleString('en-IN')}</span>
-                </div>
 
-                <div className="p-4 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-between text-base">
-                  <div>
-                    <span className="text-xs text-red-800 font-bold block uppercase tracking-wider">Total Wholesale Quote</span>
-                    <span className="text-[11px] text-red-600 font-semibold">Ex-Factory Srivilliputhur</span>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Upload portraits, factory photos, and matchbox packaging directly to Cloudinary for ultra-fast CDN loading.
+                  </p>
+
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-2">
+                    <span className="font-bold text-slate-700 block text-[11px]">Configuration Keys:</span>
+                    <div className="bg-slate-900 text-sky-300 p-3 rounded-xl text-[11px] font-mono space-y-1">
+                      <div>CLOUDINARY_CLOUD_NAME=&lt;cloud_name&gt;</div>
+                      <div>CLOUDINARY_API_KEY=&lt;api_key&gt;</div>
+                      <div>CLOUDINARY_API_SECRET=&lt;api_secret&gt;</div>
+                    </div>
                   </div>
-                  <span className="text-2xl font-black text-red-900">
-                    ₹ {totalInvoice.toLocaleString('en-IN')}
-                  </span>
                 </div>
-              </div>
 
-              <div className="space-y-3 pt-2">
-                <button
-                  onClick={copyQuoteToClipboard}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white font-bold text-xs shadow-md shadow-red-900/20 transition-all hover:scale-101 flex items-center justify-center gap-2"
-                >
-                  {copiedQuote ? (
-                    <>
-                      <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                      <span>Copied Quotation to Clipboard!</span>
-                    </>
-                  ) : (
-                    <>
-                      <FileText className="w-4 h-4" />
-                      <span>Copy Formatted WhatsApp Quotation</span>
-                    </>
-                  )}
-                </button>
-
-                <a
-                  href={`https://wa.me/?text=${encodeURIComponent(getQuoteText())}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-sm transition-all hover:scale-101 flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="w-4 h-4 fill-current" />
-                  <span>Share Directly via WhatsApp</span>
-                </a>
+                <div className="pt-2 border-t border-slate-100">
+                  <label className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 text-xs font-bold cursor-pointer transition-colors">
+                    <Upload className="w-4 h-4" />
+                    <span>{uploadingImage ? 'Uploading Image to Cloudinary...' : 'Upload Test Image to Cloudinary'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          try {
+                            const url = await handleUploadImage(file);
+                            alert(`Upload successful! Cloudinary URL:\n${url}`);
+                          } catch (err: unknown) {
+                            alert(err instanceof Error ? err.message : 'Upload failed. Check Cloudinary credentials in .env.');
+                          }
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
             </div>
           </div>

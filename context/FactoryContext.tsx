@@ -56,10 +56,10 @@ const FactoryContext = createContext<FactoryContextType | undefined>(undefined);
 const STORAGE_KEYS = {
   PRODUCTS: 'vmw_products_v2',
   PHOTOS: 'vmw_photos_v2',
-  INQUIRIES: 'vmw_inquiries_v2',
+  INQUIRIES: 'vmw_inquiries_v3',
   INVENTORY: 'vmw_inventory_v2',
   MACHINERY: 'vmw_machinery_v2',
-  CONTACT: 'vmw_contact_v3'
+  CONTACT: 'vmw_contact_v4'
 };
 
 export const FactoryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

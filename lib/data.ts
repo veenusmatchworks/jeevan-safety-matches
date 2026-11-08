@@ -228,14 +228,21 @@ export const COMPANY_CONTACT = {
   tagline: 'Jeevan Safety Matches (Regd. No.: 3481060)',
   phoneDisplay: '04563 262657',
   phoneCall: '+914563262657',
-  mobileDisplay: '+91 98421 56789',
-  mobileCall: '+919842156789',
-  whatsappNumber: '919842156789',
-  whatsappDisplay: '+91 98421 56789',
+  mobileDisplay: '+91 99524 11077',
+  mobileCall: '+919952411077',
+  whatsappNumber: '919952411077',
+  whatsappDisplay: '+91 99524 11077',
   email: 'veenusmatchworks@gmail.com',
   address: '3/19/A, Venkateswarpuram, Perumalpatti Road, Aladipatti, Srivilliputhur, Virudhunagar, Tamil Nadu - 626125',
   shortAddress: 'Aladipatti, Srivilliputhur, Virudhunagar, Tamil Nadu - 626125',
-  hours: 'Monday to Saturday: 8:00 AM - 8:30 PM'
+  hours: 'Monday to Saturday: 8:00 AM - 8:30 PM',
+  aboutHeroTitle: 'About Us — Jeevan Safety Matches',
+  aboutHeroSubtitle: 'Established in 1979 by Mr. M. Subburam, Jeevan Safety Matches carries a legacy of quality, trust and dedication.',
+  aboutHeroDescription: 'Today, under the leadership of his son, Mr. S. Hariharan, the company continues its journey with the same commitment to excellence, achieving wholesale sales and production of approximately 50,000+ Bundles.',
+  aboutQualityPhilosophy: 'At Jeevan Safety Matches, quality is our identity. We believe that the quality of even a single matchstick reflects the reputation of our brand. With decades of experience and a strong commitment to consistency, we strive to maintain the trust of our customers across every wholesale market and retail dealership.',
+  aboutSisterConcernsText: 'Our manufacturing strength is supported by three sister concerns: Veenus Match Works, United Match Industries, and The Cauveri Matches. Among these, Veenus Match Works is our largest manufacturing unit. All three manufacturing units are equipped with advanced high-speed machinery and modern industrial infrastructure.',
+  aboutCauveriTravelsHeading: 'Expanding Beyond Matches — Sri Cauveri Travels',
+  aboutCauveriTravelsText: 'Expanding beyond the matches industry under the leadership of Mr. S. Hariharan, we entered the omni bus transportation sector under the name Sri Cauveri Travels, which currently operates an active fleet of more than 10 omni buses. Through our commitment to quality, advanced infrastructure, and continuous expansion into new industries, we remain dedicated to building a strong legacy for the future.'
 };
 
 // ============================================================================
@@ -278,60 +285,7 @@ export interface MachineryLineStatus {
   operator: string;
 }
 
-export const INITIAL_ADMIN_INQUIRIES: AdminInquiry[] = [
-  {
-    id: 'INQ-1082',
-    customerName: 'K. Rajasekaran',
-    companyName: 'Murugan Match Stores',
-    phone: '+91 98422 12345',
-    location: 'Madurai Wholesale Market, TN',
-    type: 'Wholesale Safety Matches',
-    product: 'JEEVAN Safety Matches (₹1.00 - 27s)',
-    quantity: '50 Master Bales (50,000 Boxes)',
-    date: '2026-11-05',
-    status: 'Pending',
-    notes: 'Urgent wholesale consignment requested for deep south distribution.'
-  },
-  {
-    id: 'INQ-1081',
-    customerName: 'S. Mahendran',
-    companyName: 'Sri Balaji Wholesale Traders',
-    phone: '+91 97890 23456',
-    location: 'Salem & Erode Region, TN',
-    type: 'Dealership Inquiry',
-    product: 'JEEVAN Safety Matches (₹2.00 - 50s)',
-    quantity: '30 Master Bales (30,000 Boxes)',
-    date: '2026-11-04',
-    status: 'Quoted',
-    notes: 'Quotation sent via WhatsApp. Follow-up scheduled for advance confirmation.'
-  },
-  {
-    id: 'INQ-1080',
-    customerName: 'P. Shanmugavel',
-    companyName: 'Shanmuga Wholesale Bazaars',
-    phone: '+91 94432 78901',
-    location: 'Tirunelveli Central Market, TN',
-    type: 'Wholesale Safety Matches',
-    product: 'TEHLA Safety Matches (₹1.00 - 30s)',
-    quantity: '40 Master Bales (40,000 Boxes)',
-    date: '2026-11-03',
-    status: 'Dispatched',
-    notes: 'Dispatched from Srivilliputhur warehouse with signed commercial delivery challan.'
-  },
-  {
-    id: 'INQ-1079',
-    customerName: 'G. Ramanathan',
-    companyName: 'Sri Ramajayam Agencies',
-    phone: '+91 98943 45678',
-    location: 'Coimbatore Wholesale Hub, TN',
-    type: 'Contract Supply',
-    product: 'JEEVAN Safety Matches (₹1.00)',
-    quantity: '60 Master Bales (60,000 Boxes)',
-    date: '2026-11-01',
-    status: 'Delivered',
-    notes: 'Safely delivered. Customer verified 100% moisture-proof carton condition.'
-  }
-];
+export const INITIAL_ADMIN_INQUIRIES: AdminInquiry[] = [];
 
 export const INITIAL_ADMIN_INVENTORY: AdminInventoryItem[] = [
   {

@@ -15,8 +15,10 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { COMPANY_CONTACT } from '@/lib/data';
+import { useFactory } from '@/context/FactoryContext';
 
 export default function ContactPage() {
+  const { addInquiry, companyContact } = useFactory();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -30,11 +32,24 @@ export default function ContactPage() {
     e.preventDefault();
     if (!formData.name || !formData.phone) return;
 
+    // Record inquiry into admin database
+    addInquiry({
+      customerName: formData.name.trim(),
+      companyName: 'Website Customer',
+      phone: formData.phone.trim(),
+      location: 'Website Direct',
+      type: 'Wholesale Safety Matches',
+      product: formData.serviceType,
+      quantity: 'Pending Quote',
+      status: 'Pending',
+      notes: formData.message?.trim() || 'Inquiry submitted from Contact Us form.'
+    });
+
     // Direct WhatsApp message trigger
     const waText = `Hello Veenus Group,%0A%0AMy Name: ${encodeURIComponent(formData.name)}%0APhone: ${encodeURIComponent(formData.phone)}%0AService / Interest: ${encodeURIComponent(formData.serviceType)}%0AMessage: ${encodeURIComponent(formData.message || 'Please contact me with quotation and details.')}`;
     
     // Open WhatsApp
-    window.open(`https://wa.me/${COMPANY_CONTACT.whatsappNumber}?text=${waText}`, '_blank');
+    window.open(`https://wa.me/${companyContact.whatsappNumber || '919952411077'}?text=${waText}`, '_blank');
     setSubmitted(true);
   };
 
@@ -167,7 +182,7 @@ export default function ContactPage() {
                   <div>
                     <span className="font-bold text-slate-900 block mb-0.5">Factory & Office Address</span>
                     <p className="text-slate-600 leading-relaxed">
-                      {COMPANY_CONTACT.address}
+                      {companyContact.address}
                     </p>
                   </div>
                 </div>
@@ -178,8 +193,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="font-bold text-slate-900 block mb-0.5">Factory Office Landline</span>
-                    <a href={`tel:${COMPANY_CONTACT.phoneCall}`} className="text-slate-800 hover:text-red-700 font-bold">
-                      {COMPANY_CONTACT.phoneDisplay}
+                    <a href={`tel:${companyContact.phoneCall}`} className="text-slate-800 hover:text-red-700 font-bold">
+                      {companyContact.phoneDisplay}
                     </a>
                   </div>
                 </div>
@@ -190,8 +205,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="font-bold text-slate-900 block mb-0.5">Mobile / Direct Hotline</span>
-                    <a href={`tel:${COMPANY_CONTACT.mobileCall}`} className="text-slate-800 hover:text-red-700 font-bold">
-                      {COMPANY_CONTACT.mobileDisplay}
+                    <a href={`tel:${companyContact.mobileCall}`} className="text-slate-800 hover:text-red-700 font-bold">
+                      {companyContact.mobileDisplay}
                     </a>
                   </div>
                 </div>
@@ -203,12 +218,12 @@ export default function ContactPage() {
                   <div>
                     <span className="font-bold text-slate-900 block mb-0.5">WhatsApp Support</span>
                     <a
-                      href={`https://wa.me/${COMPANY_CONTACT.whatsappNumber}`}
+                      href={`https://wa.me/${companyContact.whatsappNumber}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-emerald-700 hover:text-emerald-800 font-bold"
                     >
-                      {COMPANY_CONTACT.whatsappDisplay} (Direct Response)
+                      {companyContact.whatsappDisplay} (Direct Response)
                     </a>
                   </div>
                 </div>
@@ -219,8 +234,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="font-bold text-slate-900 block mb-0.5">Email Support</span>
-                    <a href={`mailto:${COMPANY_CONTACT.email}`} className="text-slate-800 hover:text-red-700 font-semibold">
-                      {COMPANY_CONTACT.email}
+                    <a href={`mailto:${companyContact.email}`} className="text-slate-800 hover:text-red-700 font-semibold">
+                      {companyContact.email}
                     </a>
                   </div>
                 </div>
@@ -232,7 +247,7 @@ export default function ContactPage() {
                   <div>
                     <span className="font-bold text-slate-900 block mb-0.5">Working Hours</span>
                     <p className="text-slate-500 leading-relaxed">
-                      {COMPANY_CONTACT.hours}
+                      {companyContact.hours}
                     </p>
                   </div>
                 </div>

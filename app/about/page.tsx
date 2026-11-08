@@ -59,18 +59,22 @@ export default function AboutPage() {
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-              About Us &mdash; <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-red-700 via-red-800 to-amber-700 bg-clip-text text-transparent">
-                Jeevan Safety Matches
-              </span>
+              {companyContact.aboutHeroTitle || (
+                <>
+                  About Us &mdash; <br className="hidden sm:inline" />
+                  <span className="bg-gradient-to-r from-red-700 via-red-800 to-amber-700 bg-clip-text text-transparent">
+                    Jeevan Safety Matches
+                  </span>
+                </>
+              )}
             </h1>
 
             <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">
-              Established in 1979 by <strong>Mr. M. Subburam</strong>, <strong>Jeevan Safety Matches (Regd. No.: 3481060)</strong> carries a legacy of quality, trust and dedication.
+              {companyContact.aboutHeroSubtitle || 'Established in 1979 by Mr. M. Subburam, Jeevan Safety Matches (Regd. No.: 3481060) carries a legacy of quality, trust and dedication.'}
             </p>
 
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Today, under the leadership of his son, <strong>Mr. S. Hariharan</strong>, the company continues its journey with the same commitment to excellence. At Jeevan Safety Matches, quality is our identity. We believe that the quality of even a single matchstick reflects the reputation of our brand. With decades of experience and a strong commitment to consistency, we strive to maintain the trust of our customers.
+              {companyContact.aboutHeroDescription || 'Today, under the leadership of his son, Mr. S. Hariharan, the company continues its journey with the same commitment to excellence. At Jeevan Safety Matches, quality is our identity. We believe that the quality of even a single matchstick reflects the reputation of our brand. With decades of experience and a strong commitment to consistency, we strive to maintain the trust of our customers.'}
             </p>
 
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
@@ -255,7 +259,7 @@ export default function AboutPage() {
               Supported by Three Sister Concerns
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Jeevan Safety Matches has established a strong presence in the wholesale market, serving dealers and distributors across the country with uncompromised reliability and dedication. Our manufacturing strength is supported by three sister concerns: <strong>Veenus Match Works</strong>, <strong>United Match Industries</strong>, and <strong>The Cauveri Matches</strong>. Among these, <strong>Veenus Match Works is our largest manufacturing unit</strong>.
+              {companyContact.aboutSisterConcernsText || 'Jeevan Safety Matches has established a strong presence in the wholesale market, serving dealers and distributors across the country with uncompromised reliability and dedication. Our manufacturing strength is supported by three sister concerns: Veenus Match Works, United Match Industries, and The Cauveri Matches. Among these, Veenus Match Works is our largest manufacturing unit.'}
             </p>
           </div>
 
@@ -409,13 +413,10 @@ export default function AboutPage() {
               <span>Omni Bus Transportation Division</span>
             </span>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900">
-              Expanding Beyond Matches &mdash; Sri Cauveri Travels
+              {companyContact.aboutCauveriTravelsHeading || 'Expanding Beyond Matches — Sri Cauveri Travels'}
             </h2>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Expanding beyond the matches industry under the leadership of <strong>Mr. S. Hariharan</strong>, we entered the omni bus transportation sector under the name <strong>Sri Cauveri Travels</strong>, which currently operates an active fleet of <strong>more than 10 omni buses</strong>.
-            </p>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Through our commitment to quality, advanced infrastructure, and continuous expansion into new industries, we remain dedicated to building a strong legacy for the future.
+              {companyContact.aboutCauveriTravelsText || 'Expanding beyond the matches industry under the leadership of Mr. S. Hariharan, we entered the omni bus transportation sector under the name Sri Cauveri Travels, which currently operates an active fleet of more than 10 omni buses. Through our commitment to quality, advanced infrastructure, and continuous expansion into new industries, we remain dedicated to building a strong legacy for the future.'}
             </p>
           </div>
 
