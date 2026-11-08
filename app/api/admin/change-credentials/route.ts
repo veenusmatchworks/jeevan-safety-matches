@@ -2,17 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   verifySessionToken,
   updateAdminCredentials,
-  getStoredAdminCredentials
+  getStoredAdminCredentials,
+  createSessionToken
 } from '@/lib/admin-auth';
 
 export async function POST(req: NextRequest) {
   try {
     const token = req.cookies.get('admin_session')?.value;
-    const isAuthenticated = await verifySessionToken(token);
+    const sessionCheck = await verifySessionToken(token);
 
-    if (!isAuthenticated) {
+    if (!sessionCheck.valid || !sessionCheck.payload) {
       return NextResponse.json(
-        { error: 'Unauthorized: Active administrator session required.' },
+        { error: 'Unauthorized: Valid administrator session required.' },
         { status: 401 }
       );
     }
@@ -36,11 +37,27 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({
+    // Retrieve updated session version to rotate active session
+    const updatedCreds = await getStoredAdminCredentials();
+    const newToken = await createSessionToken(updatedCreds.username, updatedCreds.sessionVersion);
+
+    const response = NextResponse.json({
       success: true,
       message: 'Admin username and password updated successfully in MongoDB Atlas.',
       username: newUsername.trim()
     });
+
+    response.cookies.set({
+      name: 'admin_session',
+      value: newToken,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 15 * 60 // 15 minutes
+    });
+
+    return response;
   } catch (error) {
     console.error('Change credentials error:', error);
     return NextResponse.json(
@@ -53,9 +70,9 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const token = req.cookies.get('admin_session')?.value;
-    const isAuthenticated = await verifySessionToken(token);
+    const sessionCheck = await verifySessionToken(token);
 
-    if (!isAuthenticated) {
+    if (!sessionCheck.valid) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }

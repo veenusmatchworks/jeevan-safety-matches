@@ -56,6 +56,7 @@ import {
 } from '@/lib/data';
 import { useFactory } from '@/context/FactoryContext';
 import { VeenusLogo } from '@/components/VeenusLogo';
+import { AdminSessionTimeout } from '@/components/AdminSessionTimeout';
 
 export default function AdminPage() {
   const {
@@ -84,16 +85,17 @@ export default function AdminPage() {
 
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [loginUsername, setLoginUsername] = useState<string>('admin');
+  const [loginUsername, setLoginUsername] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
   const [showLoginPassword, setShowLoginPassword] = useState<boolean>(false);
-  const [currentAdminUser, setCurrentAdminUser] = useState<string>('admin');
+  const [currentAdminUser, setCurrentAdminUser] = useState<string>('Administrator');
   const [pinError, setPinError] = useState<string>('');
+  const [sessionExpiredNotice, setSessionExpiredNotice] = useState<string>('');
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
 
   // Security & Password Change State
   const [changeUserForm, setChangeUserForm] = useState({
-    newUsername: 'admin',
+    newUsername: '',
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
@@ -104,36 +106,26 @@ export default function AdminPage() {
   const [securityError, setSecurityError] = useState('');
   const [isUpdatingSecurity, setIsUpdatingSecurity] = useState(false);
 
-  // Check existing session on server and client
+  // Check existing session on server (strict server validation)
   useEffect(() => {
     async function verifyAuth() {
       try {
         const res = await fetch('/api/admin/auth');
         const data = await res.json();
-        if (data.authenticated) {
+        if (res.ok && data.authenticated) {
           setIsAuthenticated(true);
           if (data.username) {
             setCurrentAdminUser(data.username);
             setChangeUserForm((prev) => ({ ...prev, newUsername: data.username }));
           }
-          try {
-            sessionStorage.setItem('vmw_admin_session', 'active');
-          } catch {}
-          return;
-        }
-      } catch (e) {
-        console.warn('Server session check error:', e);
-      }
-
-      try {
-        if (typeof window !== 'undefined') {
-          const session = sessionStorage.getItem('vmw_admin_session');
-          if (session === 'active') {
-            setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+          if (data.expired) {
+            setSessionExpiredNotice('Your session expired due to inactivity. Please log in again.');
           }
         }
       } catch (e) {
-        console.warn('Session read error:', e);
+        setIsAuthenticated(false);
       }
     }
 
@@ -312,14 +304,8 @@ export default function AdminPage() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        try {
-          if (typeof window !== 'undefined') {
-            sessionStorage.setItem('vmw_admin_session', 'active');
-          }
-        } catch (err) {
-          console.warn('Session save error:', err);
-        }
         setIsAuthenticated(true);
+        setSessionExpiredNotice('');
         if (data.username) {
           setCurrentAdminUser(data.username);
           setChangeUserForm((prev) => ({ ...prev, newUsername: data.username }));
@@ -329,21 +315,7 @@ export default function AdminPage() {
         setPinError(data.error || 'Invalid administrator username or password.');
       }
     } catch {
-      // Local fallback in case network API is unreachable
-      if (
-        (loginUsername === 'admin' && loginPassword === '1979') ||
-        loginPassword === '1979' ||
-        loginPassword === 'admin' ||
-        loginPassword === '3481060'
-      ) {
-        try {
-          sessionStorage.setItem('vmw_admin_session', 'active');
-        } catch {}
-        setIsAuthenticated(true);
-        setPinError('');
-      } else {
-        setPinError('Invalid administrator credentials.');
-      }
+      setPinError('Unable to connect to authorization server. Please try again.');
     } finally {
       setIsAuthenticating(false);
     }
@@ -675,9 +647,12 @@ export default function AdminPage() {
               )}
             </div>
 
-            <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 flex items-center justify-between">
-              <span>Default: user <strong className="font-mono">admin</strong> &bull; pass <strong className="font-mono">1979</strong></span>
-            </div>
+            {sessionExpiredNotice && (
+              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-semibold flex items-center gap-2">
+                <Clock className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>{sessionExpiredNotice}</span>
+              </div>
+            )}
 
             <button
               type="submit"
@@ -711,6 +686,16 @@ export default function AdminPage() {
 
   return (
     <div className="py-8 sm:py-12 space-y-8 bg-slate-50 min-h-screen">
+      <AdminSessionTimeout
+        isAuthenticated={isAuthenticated}
+        onSessionExpired={(reason) => {
+          setIsAuthenticated(false);
+          setSessionExpiredNotice(reason);
+        }}
+        onSessionRenewed={() => {
+          setSessionExpiredNotice('');
+        }}
+      />
       <div className="max-w-[1520px] mx-auto px-4 sm:px-8 lg:px-12 space-y-8">
         {/* ============================================================ */}
         {/* TOP HEADER CARD — WHOLESALE B2B CONTROL CENTER               */}

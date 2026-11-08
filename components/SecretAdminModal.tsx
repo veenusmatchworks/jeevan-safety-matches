@@ -6,7 +6,7 @@ import { Lock, Unlock, X, ShieldCheck, AlertCircle, KeyRound, RefreshCw, Eye, Ey
 
 export const SecretAdminModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [username, setUsername] = useState('admin');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');

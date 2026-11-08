@@ -1,12 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToCloudinary, isCloudinaryConfigured } from '@/lib/cloudinary';
+import { verifySessionToken } from '@/lib/admin-auth';
 
 export async function POST(req: NextRequest) {
   try {
+    // Strict authentication check: Only authenticated admins can upload
+    const sessionToken = req.cookies.get('admin_session')?.value;
+    const sessionCheck = await verifySessionToken(sessionToken);
+
+    if (!sessionCheck.valid) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Valid administrator session required to upload factory media.' },
+        { status: 401 }
+      );
+    }
+
     if (!isCloudinaryConfigured()) {
       return NextResponse.json(
         {
-          error: 'Cloudinary is not configured. Please add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in your environment settings.'
+          error: 'Cloudinary storage is not configured. Please check environment credentials.'
         },
         { status: 503 }
       );
