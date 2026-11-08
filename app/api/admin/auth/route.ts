@@ -25,7 +25,7 @@ function getClientIp(req: NextRequest): string {
 export async function POST(req: NextRequest) {
   try {
     const ip = getClientIp(req);
-    const rateCheck = checkRateLimit(ip);
+    const rateCheck = await checkRateLimit(ip);
 
     if (!rateCheck.allowed) {
       return NextResponse.json(
@@ -52,8 +52,7 @@ export async function POST(req: NextRequest) {
     const authResult = await verifyAdminCredentials(username, password);
 
     if (!authResult.valid) {
-      const failStatus = recordFailedAttempt(ip);
-      const remaining = 5 - (failStatus.locked ? 5 : 1);
+      const failStatus = await recordFailedAttempt(ip);
       return NextResponse.json(
         {
           error: failStatus.locked
@@ -65,7 +64,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Clear failed attempts upon successful authentication
-    clearRateLimit(ip);
+    await clearRateLimit(ip);
 
     // Create a 15-minute sliding session token
     const token = await createSessionToken(authResult.username, authResult.sessionVersion);

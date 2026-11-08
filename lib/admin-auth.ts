@@ -72,10 +72,33 @@ setInterval(() => {
   }
 }, 60 * 1000);
 
-export function checkRateLimit(identifier: string): { allowed: boolean; remainingAttempts: number; retryAfterSec?: number } {
+export async function checkRateLimit(identifier: string): Promise<{ allowed: boolean; remainingAttempts: number; retryAfterSec?: number }> {
   const now = Date.now();
-  const entry = rateLimitMap.get(identifier);
 
+  try {
+    const { db, isConnected } = await getDatabase();
+    if (isConnected && db) {
+      const col = db.collection('login_attempts');
+      const doc = await col.findOne({ identifier });
+      if (doc) {
+        if (doc.lockedUntil > now) {
+          const retryAfterSec = Math.ceil((doc.lockedUntil - now) / 1000);
+          return { allowed: false, remainingAttempts: 0, retryAfterSec };
+        }
+        if (now - doc.firstAttempt > LOCKOUT_DURATION_MS) {
+          await col.deleteOne({ identifier });
+          return { allowed: true, remainingAttempts: MAX_FAILED_ATTEMPTS };
+        }
+        return {
+          allowed: doc.count < MAX_FAILED_ATTEMPTS,
+          remainingAttempts: Math.max(0, MAX_FAILED_ATTEMPTS - doc.count)
+        };
+      }
+      return { allowed: true, remainingAttempts: MAX_FAILED_ATTEMPTS };
+    }
+  } catch {}
+
+  const entry = rateLimitMap.get(identifier);
   if (!entry) {
     return { allowed: true, remainingAttempts: MAX_FAILED_ATTEMPTS };
   }
@@ -85,7 +108,6 @@ export function checkRateLimit(identifier: string): { allowed: boolean; remainin
     return { allowed: false, remainingAttempts: 0, retryAfterSec };
   }
 
-  // If lockout expired, reset
   if (now - entry.firstAttempt > LOCKOUT_DURATION_MS) {
     rateLimitMap.delete(identifier);
     return { allowed: true, remainingAttempts: MAX_FAILED_ATTEMPTS };
@@ -97,8 +119,29 @@ export function checkRateLimit(identifier: string): { allowed: boolean; remainin
   };
 }
 
-export function recordFailedAttempt(identifier: string): { locked: boolean; retryAfterSec?: number } {
+export async function recordFailedAttempt(identifier: string): Promise<{ locked: boolean; retryAfterSec?: number }> {
   const now = Date.now();
+
+  try {
+    const { db, isConnected } = await getDatabase();
+    if (isConnected && db) {
+      const col = db.collection('login_attempts');
+      const doc = await col.findOne({ identifier });
+      const count = (doc?.count || 0) + 1;
+      const firstAttempt = doc?.firstAttempt || now;
+      const locked = count >= MAX_FAILED_ATTEMPTS;
+      const lockedUntil = locked ? now + LOCKOUT_DURATION_MS : 0;
+
+      await col.updateOne(
+        { identifier },
+        { $set: { count, firstAttempt, lockedUntil, updatedAt: new Date() } },
+        { upsert: true }
+      );
+
+      return { locked, retryAfterSec: locked ? Math.ceil(LOCKOUT_DURATION_MS / 1000) : undefined };
+    }
+  } catch {}
+
   const entry = rateLimitMap.get(identifier) || { count: 0, firstAttempt: now, lockedUntil: 0 };
   entry.count += 1;
 
@@ -112,7 +155,13 @@ export function recordFailedAttempt(identifier: string): { locked: boolean; retr
   return { locked: false };
 }
 
-export function clearRateLimit(identifier: string): void {
+export async function clearRateLimit(identifier: string): Promise<void> {
+  try {
+    const { db, isConnected } = await getDatabase();
+    if (isConnected && db) {
+      await db.collection('login_attempts').deleteOne({ identifier });
+    }
+  } catch {}
   rateLimitMap.delete(identifier);
 }
 
