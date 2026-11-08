@@ -2,22 +2,19 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, Unlock, X, ShieldCheck, AlertCircle, KeyRound, RefreshCw } from 'lucide-react';
+import { Lock, Unlock, X, ShieldCheck, AlertCircle, KeyRound, RefreshCw, Eye, EyeOff } from 'lucide-react';
 
 export const SecretAdminModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [passcode, setPasscode] = useState('');
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isAuthorizing, setIsAuthorizing] = useState(false);
   const router = useRouter();
 
   // Listen for global keyboard shortcut and custom events
   useEffect(() => {
-    // Keyboard Shortcuts:
-    // 1. Ctrl + Alt + A (or Cmd + Option + A on Mac) - Recommended (never conflicts with Chrome tab search)
-    // 2. Ctrl + Shift + A (or Cmd + Shift + A on Mac)
-    // 3. Alt + A
-    // 4. Ctrl + Shift + X (or Cmd + Shift + X)
     const handleKeyDown = (e: KeyboardEvent) => {
       const isCtrlOrCmd = e.ctrlKey || e.metaKey;
       const isKeyA = e.key === 'a' || e.key === 'A';
@@ -34,7 +31,6 @@ export const SecretAdminModal = () => {
       }
     };
 
-    // 2. Custom Event triggered by secret clicks on logo or footer
     const handleOpenSecret = () => {
       setIsOpen(true);
       setError('');
@@ -51,7 +47,10 @@ export const SecretAdminModal = () => {
 
   const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!passcode.trim()) return;
+    if (!password.trim()) {
+      setError('Please enter password.');
+      return;
+    }
 
     setIsAuthorizing(true);
     setError('');
@@ -60,7 +59,10 @@ export const SecretAdminModal = () => {
       const res = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passcode })
+        body: JSON.stringify({
+          username: username.trim(),
+          password: password.trim()
+        })
       });
       const data = await res.json();
 
@@ -71,11 +73,11 @@ export const SecretAdminModal = () => {
           console.warn('Session storage write error:', err);
         }
         setIsOpen(false);
-        setPasscode('');
+        setPassword('');
         setError('');
         router.push(data.redirectUrl);
       } else {
-        setError(data.error || 'Invalid administrator authorization code.');
+        setError(data.error || 'Invalid administrator credentials.');
       }
     } catch {
       setError('Connection error. Please try again.');
@@ -92,7 +94,7 @@ export const SecretAdminModal = () => {
         <button
           onClick={() => {
             setIsOpen(false);
-            setPasscode('');
+            setPassword('');
             setError('');
           }}
           className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
@@ -111,24 +113,48 @@ export const SecretAdminModal = () => {
           </p>
         </div>
 
-        <form onSubmit={handleUnlock} className="space-y-4">
+        <form onSubmit={handleUnlock} className="space-y-3.5">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1 text-center">
-              Enter Secret Passcode
+            <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+              Administrator Username
             </label>
             <input
-              type="password"
-              autoFocus
+              type="text"
               required
               disabled={isAuthorizing}
-              value={passcode}
-              onChange={(e) => setPasscode(e.target.value)}
-              placeholder="••••"
-              className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-center text-lg tracking-widest placeholder:text-slate-500 focus:outline-none focus:border-red-600 transition-colors disabled:opacity-50"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="admin"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-red-600 transition-colors disabled:opacity-50"
             />
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+              Administrator Password
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                autoFocus
+                required
+                disabled={isAuthorizing}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-xs tracking-wider placeholder:text-slate-500 focus:outline-none focus:border-red-600 transition-colors disabled:opacity-50 pr-9"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1"
+              >
+                {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+              </button>
+            </div>
             {error && (
-              <p className="text-xs text-rose-400 font-semibold mt-1.5 flex items-center justify-center gap-1">
-                <AlertCircle className="w-3.5 h-3.5" />
+              <p className="text-xs text-rose-400 font-semibold mt-1.5 flex items-center gap-1">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                 <span>{error}</span>
               </p>
             )}
@@ -137,7 +163,7 @@ export const SecretAdminModal = () => {
           <button
             type="submit"
             disabled={isAuthorizing}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-900/30 transition-all hover:scale-101 flex items-center justify-center gap-2 disabled:opacity-60"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-900/30 transition-all hover:scale-101 flex items-center justify-center gap-2 disabled:opacity-60 mt-2"
           >
             {isAuthorizing ? (
               <>

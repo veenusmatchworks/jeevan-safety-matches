@@ -1,29 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
-  verifyPasscode,
+  verifyAdminCredentials,
   createSessionToken,
   verifySessionToken,
-  getAdminSecretPath
+  getAdminSecretPath,
+  getStoredAdminCredentials
 } from '@/lib/admin-auth';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
-    const passcode = body?.passcode;
+    const username = body?.username;
+    const password = body?.password || body?.passcode;
 
-    if (!verifyPasscode(passcode)) {
+    const authResult = await verifyAdminCredentials(username, password);
+
+    if (!authResult.valid) {
       return NextResponse.json(
-        { error: 'Invalid administrator credentials.' },
+        { error: 'Invalid administrator username or password.' },
         { status: 401 }
       );
     }
 
-    const token = await createSessionToken();
+    const token = await createSessionToken(authResult.username);
     const redirectUrl = getAdminSecretPath();
 
     const response = NextResponse.json({
       success: true,
-      redirectUrl
+      redirectUrl,
+      username: authResult.username
     });
 
     response.cookies.set({
@@ -56,8 +61,11 @@ export async function GET(req: NextRequest) {
     });
   }
 
+  const creds = await getStoredAdminCredentials();
+
   return NextResponse.json({
     authenticated: true,
+    username: creds.username,
     redirectUrl: getAdminSecretPath()
   });
 }

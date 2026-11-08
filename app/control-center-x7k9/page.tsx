@@ -42,7 +42,10 @@ import {
   FileEdit,
   Database,
   Cloud,
-  Upload
+  Upload,
+  KeyRound,
+  User,
+  LogOut
 } from 'lucide-react';
 import {
   MatchProduct,
@@ -81,9 +84,25 @@ export default function AdminPage() {
 
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [pinInput, setPinInput] = useState<string>('');
+  const [loginUsername, setLoginUsername] = useState<string>('admin');
+  const [loginPassword, setLoginPassword] = useState<string>('');
+  const [showLoginPassword, setShowLoginPassword] = useState<boolean>(false);
+  const [currentAdminUser, setCurrentAdminUser] = useState<string>('admin');
   const [pinError, setPinError] = useState<string>('');
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
+
+  // Security & Password Change State
+  const [changeUserForm, setChangeUserForm] = useState({
+    newUsername: 'admin',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [securitySuccess, setSecuritySuccess] = useState('');
+  const [securityError, setSecurityError] = useState('');
+  const [isUpdatingSecurity, setIsUpdatingSecurity] = useState(false);
 
   // Check existing session on server and client
   useEffect(() => {
@@ -93,6 +112,10 @@ export default function AdminPage() {
         const data = await res.json();
         if (data.authenticated) {
           setIsAuthenticated(true);
+          if (data.username) {
+            setCurrentAdminUser(data.username);
+            setChangeUserForm((prev) => ({ ...prev, newUsername: data.username }));
+          }
           try {
             sessionStorage.setItem('vmw_admin_session', 'active');
           } catch {}
@@ -119,7 +142,7 @@ export default function AdminPage() {
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<
-    'about' | 'products' | 'orders' | 'gallery' | 'company' | 'database'
+    'about' | 'products' | 'orders' | 'gallery' | 'company' | 'database' | 'security'
   >('about');
 
   // Dedicated About Page Form State
@@ -266,10 +289,13 @@ export default function AdminPage() {
 
 
 
-  // Authentication Handler with Server Authorization
-  const handlePinSubmit = async (e: React.FormEvent) => {
+  // Authentication Handler (Username & Password)
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!pinInput.trim()) return;
+    if (!loginPassword.trim()) {
+      setPinError('Please enter your administrator password.');
+      return;
+    }
 
     setIsAuthenticating(true);
     setPinError('');
@@ -278,7 +304,10 @@ export default function AdminPage() {
       const res = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passcode: pinInput })
+        body: JSON.stringify({
+          username: loginUsername.trim(),
+          password: loginPassword.trim()
+        })
       });
       const data = await res.json();
 
@@ -291,13 +320,22 @@ export default function AdminPage() {
           console.warn('Session save error:', err);
         }
         setIsAuthenticated(true);
+        if (data.username) {
+          setCurrentAdminUser(data.username);
+          setChangeUserForm((prev) => ({ ...prev, newUsername: data.username }));
+        }
         setPinError('');
       } else {
-        setPinError(data.error || 'Invalid administrator authorization credentials.');
+        setPinError(data.error || 'Invalid administrator username or password.');
       }
     } catch {
       // Local fallback in case network API is unreachable
-      if (pinInput === '1979' || pinInput === 'admin' || pinInput === '3481060') {
+      if (
+        (loginUsername === 'admin' && loginPassword === '1979') ||
+        loginPassword === '1979' ||
+        loginPassword === 'admin' ||
+        loginPassword === '3481060'
+      ) {
         try {
           sessionStorage.setItem('vmw_admin_session', 'active');
         } catch {}
@@ -309,6 +347,73 @@ export default function AdminPage() {
     } finally {
       setIsAuthenticating(false);
     }
+  };
+
+  // Change Admin Username & Password Handler
+  const handleChangeCredentials = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSecurityError('');
+    setSecuritySuccess('');
+
+    if (!changeUserForm.currentPassword) {
+      setSecurityError('Current password is required to confirm identity.');
+      return;
+    }
+    if (!changeUserForm.newUsername || changeUserForm.newUsername.length < 3) {
+      setSecurityError('New username must be at least 3 characters.');
+      return;
+    }
+    if (!changeUserForm.newPassword || changeUserForm.newPassword.length < 4) {
+      setSecurityError('New password must be at least 4 characters.');
+      return;
+    }
+    if (changeUserForm.newPassword !== changeUserForm.confirmPassword) {
+      setSecurityError('New password and confirm password do not match.');
+      return;
+    }
+
+    setIsUpdatingSecurity(true);
+    try {
+      const res = await fetch('/api/admin/change-credentials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentPassword: changeUserForm.currentPassword,
+          newUsername: changeUserForm.newUsername,
+          newPassword: changeUserForm.newPassword
+        })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setSecuritySuccess('Admin username and password updated successfully in MongoDB Atlas!');
+        setCurrentAdminUser(data.username || changeUserForm.newUsername);
+        setChangeUserForm({
+          newUsername: data.username || changeUserForm.newUsername,
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        });
+      } else {
+        setSecurityError(data.error || 'Failed to update credentials.');
+      }
+    } catch {
+      setSecurityError('Connection error. Please try again.');
+    } finally {
+      setIsUpdatingSecurity(false);
+    }
+  };
+
+  // Logout Handler
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch {}
+    try {
+      sessionStorage.removeItem('vmw_admin_session');
+    } catch {}
+    setIsAuthenticated(false);
+    setLoginPassword('');
   };
 
   // --------------------------------------------------------------------------
@@ -521,26 +626,57 @@ export default function AdminPage() {
             </p>
           </div>
 
-          <form onSubmit={handlePinSubmit} className="space-y-4 text-left">
+          <form onSubmit={handleLoginSubmit} className="space-y-4 text-left">
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Administrator Passcode
+                Administrator Username
               </label>
-              <input
-                type="password"
-                value={pinInput}
-                onChange={(e) => setPinInput(e.target.value)}
-                placeholder="••••••••"
-                disabled={isAuthenticating}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-red-700 transition-colors text-center tracking-widest disabled:opacity-50"
-                autoFocus
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  value={loginUsername}
+                  onChange={(e) => setLoginUsername(e.target.value)}
+                  placeholder="admin"
+                  disabled={isAuthenticating}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-red-700 transition-colors disabled:opacity-50"
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Administrator Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showLoginPassword ? 'text' : 'password'}
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  placeholder="••••••••"
+                  disabled={isAuthenticating}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-red-700 transition-colors disabled:opacity-50 pr-10 tracking-wider"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowLoginPassword(!showLoginPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                  aria-label="Toggle password visibility"
+                >
+                  {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+
               {pinError && (
-                <p className="text-xs text-red-600 font-semibold mt-1.5 flex items-center gap-1 justify-center">
-                  <AlertCircle className="w-3.5 h-3.5" />
+                <p className="text-xs text-red-600 font-semibold mt-1.5 flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                   <span>{pinError}</span>
                 </p>
               )}
+            </div>
+
+            <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 flex items-center justify-between">
+              <span>Default: user <strong className="font-mono">admin</strong> &bull; pass <strong className="font-mono">1979</strong></span>
             </div>
 
             <button
@@ -551,12 +687,12 @@ export default function AdminPage() {
               {isAuthenticating ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Authorizing...</span>
+                  <span>Verifying Credentials...</span>
                 </>
               ) : (
                 <>
                   <Unlock className="w-4 h-4" />
-                  <span>Unlock Control Center</span>
+                  <span>Log In to Control Center</span>
                 </>
               )}
             </button>
@@ -594,24 +730,18 @@ export default function AdminPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs">
+              <User className="w-3.5 h-3.5 text-red-700" />
+              <span>User: <strong className="text-slate-900">{currentAdminUser}</strong></span>
+            </div>
+
             <button
-              onClick={async () => {
-                try {
-                  await fetch('/api/admin/logout', { method: 'POST' });
-                } catch {}
-                try {
-                  if (typeof window !== 'undefined') {
-                    sessionStorage.removeItem('vmw_admin_session');
-                  }
-                } catch (e) {}
-                setIsAuthenticated(false);
-                window.location.href = '/';
-              }}
+              onClick={handleLogout}
               className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-1.5"
               title="Lock Admin Portal Immediately"
             >
-              <Lock className="w-3.5 h-3.5 text-amber-400" />
-              <span>Lock Portal</span>
+              <LogOut className="w-3.5 h-3.5 text-amber-400" />
+              <span>Log Out</span>
             </button>
 
             <button
@@ -707,6 +837,18 @@ export default function AdminPage() {
           >
             <Database className="w-4 h-4" />
             <span>MongoDB & Cloudinary</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('security')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+              activeTab === 'security'
+                ? 'bg-red-700 text-white shadow-md shadow-red-900/20'
+                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+            }`}
+          >
+            <KeyRound className="w-4 h-4" />
+            <span>Change User & Password</span>
           </button>
         </div>
 
@@ -2035,6 +2177,194 @@ export default function AdminPage() {
                       }}
                     />
                   </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TAB 7: ADMIN SECURITY & PASSWORD MANAGEMENT                  */}
+        {/* ============================================================ */}
+        {activeTab === 'security' && (
+          <div className="space-y-6 max-w-4xl">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-red-800 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+                  Access &amp; Security Controls
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+                  Change Administrator Username &amp; Password
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Update your login credentials. Changes are encrypted and saved permanently to your connected MongoDB Atlas database.
+                </p>
+              </div>
+
+              <div className="px-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs flex items-center gap-2 self-start md:self-auto shrink-0">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>Active User: <strong className="text-slate-900 font-mono">{currentAdminUser}</strong></span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Form Card (2 cols) */}
+              <div className="lg:col-span-2 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
+                <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+                  <KeyRound className="w-5 h-5 text-red-700" />
+                  <h3 className="font-bold text-slate-900 text-base">Update Credentials Form</h3>
+                </div>
+
+                {securitySuccess && (
+                  <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2.5 animate-in fade-in">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{securitySuccess}</span>
+                  </div>
+                )}
+
+                {securityError && (
+                  <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2.5 animate-in fade-in">
+                    <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                    <span>{securityError}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleChangeCredentials} className="space-y-4 text-xs">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">
+                      New Administrator Username *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={changeUserForm.newUsername}
+                      onChange={(e) => setChangeUserForm({ ...changeUserForm, newUsername: e.target.value })}
+                      placeholder="e.g. admin or jeevanadmin"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:bg-white focus:outline-none focus:border-red-700 font-medium"
+                    />
+                    <p className="text-[10px] text-slate-400 mt-1">Minimum 3 characters. Case-insensitive.</p>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">
+                      Current Password (To Authorize Change) *
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showCurrentPass ? 'text' : 'password'}
+                        required
+                        value={changeUserForm.currentPassword}
+                        onChange={(e) => setChangeUserForm({ ...changeUserForm, currentPassword: e.target.value })}
+                        placeholder="Enter your current password"
+                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:bg-white focus:outline-none focus:border-red-700 pr-10 tracking-wider"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowCurrentPass(!showCurrentPass)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                      >
+                        {showCurrentPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">
+                        New Password *
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showNewPass ? 'text' : 'password'}
+                          required
+                          value={changeUserForm.newPassword}
+                          onChange={(e) => setChangeUserForm({ ...changeUserForm, newPassword: e.target.value })}
+                          placeholder="••••••••"
+                          className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:bg-white focus:outline-none focus:border-red-700 pr-10 tracking-wider"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPass(!showNewPass)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                        >
+                          {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                      <p className="text-[10px] text-slate-400 mt-1">Minimum 4 characters</p>
+                    </div>
+
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">
+                        Confirm New Password *
+                      </label>
+                      <input
+                        type={showNewPass ? 'text' : 'password'}
+                        required
+                        value={changeUserForm.confirmPassword}
+                        onChange={(e) => setChangeUserForm({ ...changeUserForm, confirmPassword: e.target.value })}
+                        placeholder="••••••••"
+                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:bg-white focus:outline-none focus:border-red-700 tracking-wider"
+                      />
+                      <p className="text-[10px] text-slate-400 mt-1">Re-enter exactly to verify</p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isUpdatingSecurity}
+                    className="w-full py-3.5 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-red-900/20 transition-all hover:scale-101 flex items-center justify-center gap-2 disabled:opacity-60"
+                  >
+                    {isUpdatingSecurity ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        <span>Updating in MongoDB Atlas...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Lock className="w-4 h-4" />
+                        <span>Save New Username &amp; Password</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+
+              {/* Security Status Card (1 col) */}
+              <div className="space-y-4">
+                <div className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-4 text-xs">
+                  <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                    <h4 className="font-bold text-slate-900">Security Architecture</h4>
+                  </div>
+
+                  <ul className="space-y-2.5 text-slate-600 text-[11px] leading-relaxed">
+                    <li className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                      <span><strong>SHA-256 with Salt:</strong> Passwords are never stored in plain text.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                      <span><strong>MongoDB Atlas Storage:</strong> Persists across deployments &amp; server restarts.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                      <span><strong>Encrypted Cookies:</strong> HttpOnly secure HMAC authentication cookies.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-3 text-xs">
+                  <h4 className="font-bold text-slate-900">End Session</h4>
+                  <p className="text-[11px] text-slate-500 leading-relaxed">
+                    Log out of the administrator control center on this device.
+                  </p>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4 text-red-600" />
+                    <span>Log Out Now</span>
+                  </button>
                 </div>
               </div>
             </div>
